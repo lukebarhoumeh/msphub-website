@@ -3,9 +3,11 @@ import { ArrowRight } from "lucide-react";
 import { CheckList, CtaBand, Steps } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PairsWithHubX } from "@/components/marketing/pairs-with-hubx";
+import { JsonLd } from "@/components/seo/json-ld";
 import { ButtonLink } from "@/components/ui/button";
 import { GlassCard } from "@/components/ui/card";
 import { Container, Glow, Section } from "@/components/ui/section";
+import { serviceSchema } from "@/lib/schema";
 import { SectionHeading } from "@/components/ui/typography";
 import { professional } from "@/content/services";
 
@@ -95,6 +97,14 @@ export default function ProfessionalServicesPage() {
           secondary={[{ label: "Contact sales", href: "/contact" }]}
         />
       </Section>
+      <JsonLd
+        data={serviceSchema({
+          name: "Professional services",
+          description: metadata.description!,
+          path: "/services/professional",
+          serviceType: "Microsoft 365, Azure, security and identity, and data platform professional services",
+        })}
+      />
     </>
   );
 }

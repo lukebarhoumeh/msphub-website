@@ -11,9 +11,9 @@ Source for the new [msphub.com](https://msphub.com) — the marketing site for *
 
 - [Next.js](https://nextjs.org) 16 (App Router, TypeScript, Turbopack, Cache Components)
 - [Tailwind CSS](https://tailwindcss.com) v4 (CSS-first config in `src/app/globals.css`)
-- `zod` (form validation, shared client/server), `lucide-react` (icons)
+- `zod` + `react-hook-form` (form validation, one schema shared by client and server), `lucide-react` (icons)
 - ESLint 9 (`eslint-config-next`)
-- Hosted on [Vercel](https://vercel.com); forms email via [Resend](https://resend.com) (HTTP API, no SDK)
+- Hosted on [Vercel](https://vercel.com). Integrations, each optional and env-gated: Pipedrive (CRM leads, REST), [Resend](https://resend.com) (email, HTTP API), Cloudflare Turnstile, Microsoft Bookings, GA4 + Microsoft Clarity, Vercel Blob or Azure Blob Storage (invoice uploads)
 
 ## Run locally
 
@@ -36,23 +36,30 @@ npm run lint     # eslint
 
 ```
 src/app/                  Routes (App Router), root layout, global CSS, metadata files
-  api/lead/route.ts       The one form endpoint (all four conversion flows)
+  api/lead/route.ts       The one form endpoint: honeypot → rate limit → zod → Turnstile → Pipedrive + Resend
+  api/upload/route.ts     Secure invoice upload (PDF/XLSX/XLS/CSV ≤ 10 MB) into private blob storage
+  api/geo/route.ts        Visitor country (Vercel edge header) for the analytics consent decision
   gone/route.ts           410 Gone for old theme-demo URLs (wired via rewrites)
-  opengraph-image.png     Site-wide OG image (from the MSP Hub logo kit)
-  sitemap.ts, robots.ts   SEO files; robots disallows everything until indexing is enabled
+  opengraph-image.png     Site-wide OG image (from the MSP Hub logo kit); routes add opengraph-image.tsx (generated)
+  sitemap.ts, robots.ts   SEO files; robots allows indexing only on production msphub.com
 src/components/
+  analytics/              Analytics (GA4 + Clarity loader with consent notice), ConsentSettingsButton
   brand/                  MspHubLogo (single asset path), HubXLogo / HubXLockup / HubXPoweredBy (text lockup only)
-  layout/                 Header (sticky glass, mobile menu), Footer, social icons
+  layout/                 Header (sticky glass, mobile menu), Footer, social icons, review-build integration status strip
+  seo/                    JsonLd (schema.org script tag)
   ui/                     Button, Section/Container/Glow, typography (dark/light tone), cards, NeedsConfirm
-  marketing/              Page hero, BrowserFrame (real HubX captures), stats, credentials, logo cloud, FAQ, CTA band
+  marketing/              Page hero, BrowserFrame (real HubX captures), stats, credentials, logo cloud, FAQ, CTA band, BookingsEmbed
   hubx/                   HubX section: ScreenshotCarousel (tabbed, keyboard + swipe, no autoplay), ModuleExplorer (WAI-ARIA tabs),
                           FeatureGrid (the 12 capabilities), HubAiConversation (read-only demo), HubxSubnav, FaqSection (+ FAQPage
-                          schema), Breadcrumbs (+ BreadcrumbList), ModuleCard, home sections, track() analytics shim
-  forms/                  LeadForm (client) + field primitives
+                          schema), Breadcrumbs (+ BreadcrumbList), ModuleCard, home sections, track() (re-export of lib/analytics)
+  forms/                  LeadForm (react-hook-form + zod + Turnstile + honeypot), FieldRenderer, Turnstile, field primitives
 src/content/              Typed content: site facts + timeline + leadership, stats, credentials, confirmations registry,
                           HubX (hubx.ts page copy, hubx-modules.ts, hubx-features.ts, hubai-demo.ts, hubx-faq.ts,
-                          hubx-security.ts, hubx-whats-new.ts), services, partners, ecosystem (text chips), screens manifest
-src/lib/                  site.ts (URL/indexing), lead.ts (zod schemas + mailto builder), cn.ts
+                          hubx-security.ts, hubx-whats-new.ts), services, partners, ecosystem (text chips), screens manifest,
+                          forms (labels, options, messages), consent copy, OG image copy
+src/lib/                  site.ts (URL/indexing rule), lead.ts (kinds registry: schemas + fields), env.ts, pipedrive.ts, email.ts,
+                          turnstile.ts, rate-limit.ts, storage/ (Vercel Blob + Azure adapters, signed refs), analytics.ts,
+                          consent.ts, metadata.ts, schema.ts (JSON-LD builders), og.tsx (OG renderer), cn.ts
 public/brand/             Brand assets served as-is (/brand/...): msphub/ (logo kit SVGs + badge), svg/ + png/ (HubX kit)
 public/favicon/           PWA icons (192/512) referenced by public/site.webmanifest
 public/hubx/              Real HubX screenshots (anonymized, demo data) + manifest README
@@ -68,28 +75,48 @@ docs/brand/               HubX-Logo-Guidelines.pdf (the brand kit rules)
 
 Everything on `/hubx` and below is traceable to the verified module inventory in the private handoff (§6, product walk-through of Nov 2, 2026): nine modules (`src/content/hubx-modules.ts`), the twelve spotlighted capabilities (`src/content/hubx-features.ts`, each linking to its module page), the read-only HubAI demo conversation with fictional data (`src/content/hubai-demo.ts`), the FAQ with FAQPage schema (`src/content/hubx-faq.ts`), the security page (`src/content/hubx-security.ts`), and the early-access release notes (`src/content/hubx-whats-new.ts`). Screenshots come from `public/hubx/` through `src/content/screens.ts`; `ScreenshotCarousel` only accepts captures of one theme (type-checked), and the single dark capture appears on dark bands only. Administration is documented on `/hubx/security` rather than a feature page. The `track()` shim in `src/components/hubx/track.ts` emits `screenshot_view` and `hubx_login_click` as a `msphub:track` DOM event and to `gtag` when present; the analytics loader (Phase 5) subscribes to it, and nothing breaks without one.
 
-Legacy WordPress URLs 301 to their new homes and the old theme-demo URLs (`/team/*`, `/case-studies/*`, `/projects/*`, `/careers/*`, …) return **410 Gone**; both maps live in `next.config.ts` and take effect once msphub.com points at this deployment.
+Legacy WordPress URLs redirect permanently (308) to their new homes — company, services, Marketplace → HubX, partners, `/news`, `/news/page/N`, `/blog` → `/insights`, and the legal pages — and the old theme-demo URLs (`/team/*`, `/case-studies/*`, `/projects/*`, `/careers/*`, …) return **410 Gone**; both maps live in `next.config.ts` and take effect once msphub.com points at this deployment. `sitemap.xml` lists the indexable routes from `src/app/sitemap.ts`; `robots.txt` disallows everything except on the production msphub.com deployment (see `NEXT_PUBLIC_SITE_URL` below).
 
 ## Forms and lead delivery
 
-Four conversion flows share one Route Handler, `POST /api/lead`: **demo** (`/demo`), **service inquiry** (`/services#inquiry`), **Microsoft 365 quote** (`/microsoft-365-quote`), and **general contact** (`/contact`, with `?topic=partnership` preselecting the partner topic). The handler validates with zod (schemas in `src/lib/lead.ts`, shared with the client), drops honeypot submissions, rate-limits per IP (10 per 10 minutes, in memory), then emails sales via Resend.
+Every form is `<LeadForm kind="…" />` (`src/components/forms/lead-form.tsx`: react-hook-form + zod + Cloudflare Turnstile + honeypot). A **kind** is one entry in the registry in `src/lib/lead.ts` — label, zod schema, field definitions (copy in `src/content/forms.ts`) — so the client and `POST /api/lead` validate identically. Kinds today: **demo** (`/demo`), **service** (`/services#inquiry`), **quote** (`/microsoft-365-quote`, with qualification, current provider, renewal date, licenses, and an optional uploaded invoice), **contact** (`/contact`, `?topic=partnership` preselects the partner topic). Adding a form = one registry entry + its content module + a `PIPEDRIVE_LEAD_LABEL_<KIND>` variable. `LeadForm` renders `children` inside the form (and inside react-hook-form's `FormProvider`) for kind-specific controls such as an invoice upload; `useLeadForm()` exposes the kind and status.
 
-- With `RESEND_API_KEY` set, the lead is emailed to `sales@msphub.com` (override with `LEAD_TO_EMAIL`) with the submitter as reply-to; non-production deployments prefix the subject with `[PREVIEW]`.
-- Without it (or if Resend fails), the API answers `503 not_configured` / `502 delivery_failed` and the form **fails gracefully**: the user's input stays on screen with a visible notice and a prefilled `mailto:sales@msphub.com` button carrying the same fields.
-- Successful submissions redirect to `/thank-you?flow=<flow>` (noindex), the conversion endpoint for analytics.
+`POST /api/lead` runs: JSON body → honeypot (`website` filled → pretend success) → per-IP rate limit (10 per 10 minutes, in memory, 429) → zod validation for the posted kind (400 `invalid` + `fieldErrors`) → Turnstile `siteverify` (400 `captcha_failed`; fails closed when `TURNSTILE_SECRET_KEY` is set, passes through when it is not) → optional invoice reference → signed deal-desk link → **Pipedrive** (Organization + Person deduplicated, Lead labelled per kind, Note with the field table and invoice link) → **email to sales@msphub.com via Resend** (`[PREVIEW]`-prefixed off production, with the Pipedrive lead URL). Pipedrive and email degrade independently: one failing still delivers; neither configured → 503 `not_configured`; both failing → 502 `delivery_failed`. On every failure the form keeps the visitor's input on screen with a visible notice and a prefilled `mailto:sales@msphub.com`. Success → `/thank-you?flow=<kind>` (noindex) and the kind's analytics event.
+
+**Invoice upload** (`POST /api/upload`, used by the licensing forms): `multipart/form-data` with `file` (PDF, XLSX, XLS, or CSV, ≤ 10 MB, checked by extension *and* magic bytes) and `kind`. Success: `200 { ok: true, file: { id, name, size, type } }`; `id` is an opaque HMAC-signed reference, never a URL. Failures: 400 `invalid_file`, 415 `unsupported_type`, 413 `too_large`, 429 `rate_limited`, 503 `not_configured` (no storage variables — the state the POC ships in; the UI shows "secure upload not available" and the form still submits), 500 `upload_failed`. Files land in **private** storage under a random key (`src/lib/storage/`: Vercel Blob with `access: "private"` or Azure Blob Storage, chosen by env); the lead handler turns `invoiceId` into a signed link that expires after `UPLOAD_LINK_TTL_HOURS` (default 72). Nothing is ever public and no virus scanning is performed (open attachments with the usual care). Vercel Functions cap request bodies at 4.5 MB, so on Vercel the platform answers 413 before this handler for larger files.
+
+**Bookings** (`/demo`): `BookingsEmbed` renders the Microsoft Bookings page in a lazy, sandboxed iframe with an "Open in Microsoft Bookings" link when `NEXT_PUBLIC_BOOKINGS_URL` is set; without it the request form is the path (review builds show the asset marker).
+
+**Analytics and consent**: `<Analytics />` (root layout) loads GA4 and Microsoft Clarity only after the first interaction or browser idle, and only when their ids are set. Visitors in the US get analytics without a notice; everyone else (and anyone whose country cannot be read, e.g. local dev) sees a minimal notice: GA4 starts with Consent Mode `analytics_storage: denied` (no cookies) and Clarity waits until "Accept analytics". The decision lives in localStorage; `ConsentSettingsButton` reopens the notice. Events (`src/lib/analytics.ts` → `track()`): `demo_request`, `quote_request`, `service_inquiry`, `contact_message`, `invoice_upload`, `partner_apply`, `hubx_login_click` (any link to the HubX login host), `screenshot_view` (call `track` from the carousel). Without ids: no scripts, no cookies, no notice.
+
+**SEO**: `pageMetadata()` (`src/lib/metadata.ts`) builds title, description, canonical, Open Graph, and Twitter fields per route; each route can add a generated `opengraph-image.tsx` (copy in `src/content/og.ts`, renderer in `src/lib/og.tsx`, static at build). JSON-LD via `<JsonLd />` with builders in `src/lib/schema.ts`: `Organization` + `WebSite` (layout), `Service` (service pages), `SoftwareApplication` (HubX), `FAQPage`, `BreadcrumbList`, `ContactPage`.
+
+**Review builds**: with `NEXT_PUBLIC_SHOW_TODOS=true` a strip above the footer lists which integrations the deployment has configured (presence only, never values).
 
 ### Environment variables
 
-| Variable | Where | Purpose |
-| --- | --- | --- |
-| `RESEND_API_KEY` | Preview + Production | Enables email delivery of form submissions. Create at resend.com → API Keys. Without it, forms fall back to mailto. |
-| `LEAD_TO_EMAIL` | Optional | Recipient override. Default `sales@msphub.com`. |
-| `LEAD_FROM_EMAIL` | Optional | Verified sender, e.g. `MSP Hub Website <web@send.msphub.com>`. Default is Resend's `onboarding@resend.dev`, which only delivers to the Resend account owner's address, so set this (and verify the domain in Resend) before real traffic. |
-| `NEXT_PUBLIC_SITE_URL` | Production | Canonical origin for metadata, sitemap, and structured data (e.g. `https://msphub.com`). Falls back to the Vercel production URL. |
-| `NEXT_PUBLIC_ALLOW_INDEXING` | Production (msphub.com) only | Set to `true` at launch. Until then every response carries `X-Robots-Tag: noindex, nofollow`, pages carry `<meta name="robots">`, and `robots.txt` disallows everything. |
-| `NEXT_PUBLIC_SHOW_TODOS` | Preview only (`true`) | Shows the review chips (Confirm / Decision / Asset) rendered by `NeedsConfirm`. Unset in production, where every marker renders its production-safe fallback. |
+None are set for the POC: every integration ships with its honest fallback. This is the complete go-live list. Set them in Vercel → Project → Settings → Environment Variables (scoped to Preview / Production), then redeploy — values are read at build time.
 
-Set them in Vercel → Project → Settings → Environment Variables (scoped to Preview / Production), then redeploy.
+| Variable | Where | Purpose and fallback |
+| --- | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Production (`https://msphub.com`) | Canonical origin for metadata, sitemap, and structured data. Falls back to the Vercel production URL. **Indexing is allowed only when the Vercel environment is `production` and this is msphub.com**; otherwise every response carries `X-Robots-Tag: noindex, nofollow`, pages carry `<meta name="robots">`, and `robots.txt` disallows everything (`src/lib/site.ts`). |
+| `NEXT_PUBLIC_SHOW_TODOS` | Preview only (`true`) | Shows the review chips rendered by `NeedsConfirm` and the integration status strip. Unset in production. |
+| `PIPEDRIVE_API_TOKEN` | Preview (sandbox or a "Website test" label) + Production | Creates Organization + Person + Lead + Note per submission. Pipedrive → Personal preferences → API. Without it, leads are email-only (and the email says so). |
+| `PIPEDRIVE_COMPANY_DOMAIN` | With the token | The `<domain>` in `https://<domain>.pipedrive.com`; enables lead links in the email. Falls back to `api.pipedrive.com`. |
+| `PIPEDRIVE_LEAD_LABEL_DEMO`, `…_SERVICE`, `…_QUOTE`, `…_CONTACT`, `…_SWITCH`, `…_PARTNER` | With the token | Lead label UUIDs so each kind lands labelled (create the labels in Pipedrive → Leads Inbox → Labels; the id is in the API response or the label URL). Missing label → the lead is created unlabelled and a warning is logged. |
+| `PIPEDRIVE_OWNER_ID` | Optional | Numeric user id that owns new leads. Default: the token's user. |
+| `RESEND_API_KEY` | Preview + Production | Email copy of every lead to sales. resend.com → API Keys. Without it (and without Pipedrive), forms fall back to mailto. |
+| `LEAD_FROM_EMAIL` | With the key | Verified sender, e.g. `MSP Hub Website <web@send.msphub.com>` (verify the domain in Resend: DNS records). Default is Resend's `onboarding@resend.dev`, which only delivers to the Resend account owner. |
+| `LEAD_TO_EMAIL` | Optional | Recipient override. Default `sales@msphub.com`. |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Preview + Production | Cloudflare Turnstile widget on every form (Cloudflare dashboard → Turnstile → add widget for `msphub.com` and `*.vercel.app`, managed mode). Without it the form shows "Spam protection isn't configured on this deployment" and still submits. |
+| `TURNSTILE_SECRET_KEY` | Preview + Production | Server-side verification. Set together with the site key; when set, submissions without a valid token are rejected (fail closed). Unset → pass-through. |
+| `NEXT_PUBLIC_BOOKINGS_URL` | Preview + Production | Microsoft Bookings page URL for the `/demo` embed ("HubX demo — 30 min"; Bookings → booking page → embed/share URL). Unset → request form only. `BOOKINGS_URL` is accepted as an alias. |
+| `NEXT_PUBLIC_GA4_ID` | Production (+ Preview if wanted) | GA4 measurement id (`G-…`). Unset → GA4 never loads. |
+| `NEXT_PUBLIC_CLARITY_ID` | Production | Microsoft Clarity project id. Unset → Clarity never loads. With neither analytics id set, no consent notice is shown. |
+| `BLOB_READ_WRITE_TOKEN` | Preview + Production (one storage provider) | Vercel Blob store token (Vercel → Storage → Blob → connect to the project; private blobs). Enables `/api/upload`. |
+| `AZURE_STORAGE_CONNECTION_STRING` + `AZURE_STORAGE_CONTAINER` | Alternative storage provider | Azure Blob Storage connection string with an account key (the SDK signs SAS links locally) and the private container name (default `msphub-invoices`, created on first upload). Used only when `BLOB_READ_WRITE_TOKEN` is absent. |
+| `UPLOAD_LINK_TTL_HOURS` | Optional | Lifetime of the signed invoice link in the deal-desk email and CRM note. Default 72, max 720. |
+| `VERCEL_ENV`, `VERCEL_PROJECT_PRODUCTION_URL` | Automatic (Vercel) | Environment detection (`[PREVIEW]` subject and lead-title prefix off production, indexing rule) and the fallback canonical origin. |
 
 ## Brand assets
 
@@ -173,7 +200,7 @@ The project is deployed on Vercel from this repository (team **MSP Hub**, projec
 
 ### Go-live on msphub.com (later, dev team)
 
-Add `msphub.com` and `www.msphub.com` to the Vercel project's Domains, point DNS at Vercel, set `NEXT_PUBLIC_SITE_URL=https://msphub.com`, `NEXT_PUBLIC_ALLOW_INDEXING=true`, `RESEND_API_KEY` and `LEAD_FROM_EMAIL` on Production, and redeploy. The redirect and 410 maps in `next.config.ts` then handle the old URLs. A full cutover runbook ships with the handoff package.
+Add `msphub.com` and `www.msphub.com` to the Vercel project's Domains, point DNS at Vercel, set `NEXT_PUBLIC_SITE_URL=https://msphub.com` on Production (this is what switches indexing on), add the integration variables from the table above (at minimum `RESEND_API_KEY` + `LEAD_FROM_EMAIL` or `PIPEDRIVE_API_TOKEN` + labels, and the Turnstile pair), and redeploy. The redirect and 410 maps in `next.config.ts` then handle the old URLs. A full cutover runbook ships with the handoff package.
 
 ## Contributing
 

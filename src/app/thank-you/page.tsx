@@ -5,14 +5,14 @@ import { ButtonLink } from "@/components/ui/button";
 import { Container, Glow, Section } from "@/components/ui/section";
 import { Display, Eyebrow, Lead } from "@/components/ui/typography";
 import { site } from "@/content/site";
-import { flowLabels, leadFlows, type LeadFlow } from "@/lib/lead";
+import { isLeadKind, leadKinds, type LeadKind } from "@/lib/lead";
 
 export const metadata: Metadata = {
   title: "Thanks — we have your request",
   robots: { index: false, follow: false },
 };
 
-const nextSteps: Record<LeadFlow, { body: string; links: { label: string; href: string }[] }> = {
+const nextSteps: Partial<Record<LeadKind, { body: string; links: { label: string; href: string }[] }>> = {
   demo: {
     body: "We confirm a demo slot within one business day. In the meantime, see what the portal covers.",
     links: [
@@ -46,11 +46,11 @@ const nextSteps: Record<LeadFlow, { body: string; links: { label: string; href: 
 async function ThankYouBody({ searchParams }: { searchParams: PageProps<"/thank-you">["searchParams"] }) {
   const params = await searchParams;
   const raw = typeof params.flow === "string" ? params.flow : "contact";
-  const flow: LeadFlow = (leadFlows as readonly string[]).includes(raw) ? (raw as LeadFlow) : "contact";
-  const step = nextSteps[flow];
+  const kind: LeadKind = isLeadKind(raw) ? raw : "contact";
+  const step = nextSteps[kind] ?? nextSteps.contact!;
   return (
     <>
-      <Eyebrow className="before:hidden">{flowLabels[flow]} received</Eyebrow>
+      <Eyebrow className="before:hidden">{leadKinds[kind].label} received</Eyebrow>
       <Display as="h1" size="xl" className="mt-5">
         Thanks. We&apos;re on it.
       </Display>

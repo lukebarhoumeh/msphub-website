@@ -1,25 +1,41 @@
 import type { NextConfig } from "next";
 import { allowIndexing } from "./src/lib/site";
 
-/** 301s from the old WordPress URLs (website plan, section 3). Active once msphub.com points here. */
+/**
+ * Permanent redirects from the old WordPress msphub.com (architecture note
+ * §4). They answer 308 and take effect for real traffic once msphub.com
+ * points at this deployment. Route moves inside this site (`/microsoft-365-quote`
+ * → `/licensing/quote`, `/privacy|/terms|/cookies` → `/legal/*`,
+ * `/thank-you?flow=` → `/thank-you/[form]`) are added with the routes that
+ * replace them; the legal and `/support` entries below move with them.
+ */
 const legacyRedirects: { source: string; destination: string }[] = [
+  // Company and contact
   { source: "/about-us-managed-service-provider", destination: "/about" },
-  { source: "/professional-and-managed-services", destination: "/services" },
-  { source: "/partner", destination: "/partners" },
+  { source: "/brand-resource-center", destination: "/about" },
   { source: "/contact-us", destination: "/contact" },
   { source: "/contact-us-2", destination: "/contact" },
   { source: "/support", destination: "/contact" },
+  // Services
+  { source: "/professional-and-managed-services", destination: "/services" },
+  { source: "/solutions/:path*", destination: "/services" },
+  { source: "/managed-services/:path*", destination: "/services/managed" },
+  { source: "/data-and-analytics", destination: "/services/professional" },
+  { source: "/ai-copilot", destination: "/services/development" },
+  // Platform (the Marketplace became HubX)
   { source: "/marketplace", destination: "/hubx" },
   { source: "/help-center", destination: "/hubx" },
   { source: "/ready-is-now-msp-hub", destination: "/hubx" },
-  { source: "/brand-resource-center", destination: "/about" },
+  // Partners
+  { source: "/partner", destination: "/partners" },
+  // News & Insights blog (the archive migrates to /insights; migrated posts keep their slugs there)
+  { source: "/news", destination: "/insights" },
+  { source: "/news/page/:n", destination: "/insights" },
+  { source: "/blog", destination: "/insights" },
+  // Legal
   { source: "/privacy-policy", destination: "/privacy" },
   { source: "/terms-and-conditions", destination: "/terms" },
   { source: "/cookie-policy", destination: "/cookies" },
-  { source: "/ai-copilot", destination: "/services/development" },
-  { source: "/data-and-analytics", destination: "/services/professional" },
-  { source: "/managed-services/:path*", destination: "/services/managed" },
-  { source: "/solutions/:path*", destination: "/services" },
 ];
 
 /** Old theme-demo content: answered with 410 Gone via `app/gone/route.ts`. */

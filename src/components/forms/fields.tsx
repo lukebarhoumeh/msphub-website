@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentProps } from "react";
 import { cn } from "@/lib/cn";
 
 const control =
@@ -35,15 +35,15 @@ export function Field({ label, htmlFor, hint, error, optional, children, classNa
   );
 }
 
-export function Input({ className, ...rest }: ComponentPropsWithoutRef<"input">) {
+export function Input({ className, ...rest }: ComponentProps<"input">) {
   return <input className={cn(control, className)} {...rest} />;
 }
 
-export function Textarea({ className, ...rest }: ComponentPropsWithoutRef<"textarea">) {
+export function Textarea({ className, ...rest }: ComponentProps<"textarea">) {
   return <textarea className={cn(control, "min-h-[120px] resize-y", className)} {...rest} />;
 }
 
-export function Select({ className, children, ...rest }: ComponentPropsWithoutRef<"select">) {
+export function Select({ className, children, ...rest }: ComponentProps<"select">) {
   return (
     <select className={cn(control, "appearance-none bg-[url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.6)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 9 6 6 6-6'/></svg>\")] bg-[length:16px] bg-[position:right_14px_center] bg-no-repeat pr-10 [&>option]:bg-ink", className)} {...rest}>
       {children}
@@ -51,7 +51,7 @@ export function Select({ className, children, ...rest }: ComponentPropsWithoutRe
   );
 }
 
-type ChoiceProps = ComponentPropsWithoutRef<"input"> & { label: string; description?: string };
+type ChoiceProps = ComponentProps<"input"> & { label: string; description?: string };
 
 /** Checkbox or radio rendered as a selectable glass tile. */
 export function Choice({ label, description, className, type = "checkbox", ...rest }: ChoiceProps) {

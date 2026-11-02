@@ -2,7 +2,16 @@ import type { MetadataRoute } from "next";
 import { featureModules } from "@/content/hubx-modules";
 import { siteUrl } from "@/lib/site";
 
-const routes: { path: string; priority: number; changeFrequency: "weekly" | "monthly" | "yearly" }[] = [
+type ChangeFrequency = NonNullable<MetadataRoute.Sitemap[number]["changeFrequency"]>;
+
+export type SitemapRoute = { path: string; priority: number; changeFrequency: ChangeFrequency };
+
+/**
+ * Indexable routes. Add a line when a page ships; keep noindex pages
+ * (`/thank-you`, `/api/*`) out. `lastModified` is omitted on purpose: a
+ * build timestamp would claim every page changed on every deploy.
+ */
+export const sitemapRoutes: SitemapRoute[] = [
   { path: "/", priority: 1, changeFrequency: "weekly" },
   { path: "/hubx", priority: 0.9, changeFrequency: "weekly" },
   { path: "/hubx/features", priority: 0.8, changeFrequency: "monthly" },
@@ -24,8 +33,8 @@ const routes: { path: string; priority: number; changeFrequency: "weekly" | "mon
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return routes.map((r) => ({
-    url: `${siteUrl}${r.path}`,
+  return sitemapRoutes.map((r) => ({
+    url: `${siteUrl}${r.path === "/" ? "" : r.path}`,
     changeFrequency: r.changeFrequency,
     priority: r.priority,
   }));

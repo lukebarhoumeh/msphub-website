@@ -59,7 +59,7 @@ export default function QuotePage() {
                 Request a quote
               </Display>
               <Lead className="mb-7 text-base">Approximate numbers are fine; we refine them with you.</Lead>
-              <LeadForm flow="quote" />
+              <LeadForm kind="quote" />
             </div>
           </div>
         </Container>

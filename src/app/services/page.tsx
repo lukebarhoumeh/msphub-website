@@ -143,7 +143,7 @@ export default function ServicesPage() {
                 <li>Pairs with HubX for licensing</li>
               </ul>
             </div>
-            <LeadForm flow="service" />
+            <LeadForm kind="service" />
           </div>
         </Container>
       </Section>

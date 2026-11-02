@@ -3,9 +3,11 @@ import { ArrowRight, Activity, Cloud, Database, Headset, Laptop, MonitorSmartpho
 import { CtaBand, Steps, SupportModel } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PairsWithHubX } from "@/components/marketing/pairs-with-hubx";
+import { JsonLd } from "@/components/seo/json-ld";
 import { ButtonLink } from "@/components/ui/button";
 import { FeatureCard } from "@/components/ui/card";
 import { Container, Glow, Section } from "@/components/ui/section";
+import { serviceSchema } from "@/lib/schema";
 import { Display, Eyebrow, Lead, SectionHeading } from "@/components/ui/typography";
 import { managed } from "@/content/services";
 
@@ -83,6 +85,14 @@ export default function ManagedServicesPage() {
           secondary={[{ label: "Contact sales", href: "/contact" }]}
         />
       </Section>
+      <JsonLd
+        data={serviceSchema({
+          name: "Managed services",
+          description: metadata.description!,
+          path: "/services/managed",
+          serviceType: "Managed services for Microsoft 365, Azure, and database environments",
+        })}
+      />
     </>
   );
 }

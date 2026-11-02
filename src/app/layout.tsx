@@ -1,8 +1,13 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import { bodyFont, headingFont, monoFont } from "./fonts";
+import { Analytics } from "@/components/analytics/analytics";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { IntegrationStatusStrip } from "@/components/layout/integration-status";
+import { JsonLd } from "@/components/seo/json-ld";
 import { site } from "@/content/site";
+import { organizationSchema, webSiteSchema } from "@/lib/schema";
 import { allowIndexing, siteUrl } from "@/lib/site";
 import "./globals.css";
 
@@ -25,18 +30,6 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: site.name,
-  legalName: site.legalName,
-  url: siteUrl,
-  logo: `${siteUrl}/favicon/icon-512.png`,
-  email: site.salesEmail,
-  sameAs: Object.values(site.social),
-  contactPoint: [{ "@type": "ContactPoint", contactType: "sales", email: site.salesEmail }],
-};
-
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${bodyFont.variable} ${headingFont.variable} ${monoFont.variable} h-full antialiased`}>
@@ -51,11 +44,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="main" className="flex-1">
           {children}
         </main>
+        <IntegrationStatusStrip />
         <Footer />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
+        <JsonLd data={[organizationSchema(), webSiteSchema()]} />
+        {/* Own boundary: the loader reads the pathname, which partially prerendered routes resolve at request time. */}
+        <Suspense fallback={null}>
+          <Analytics />
+        </Suspense>
       </body>
     </html>
   );

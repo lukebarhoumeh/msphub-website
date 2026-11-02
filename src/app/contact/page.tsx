@@ -55,7 +55,7 @@ async function ContactForm({ searchParams }: { searchParams: PageProps<"/contact
   const params = await searchParams;
   const requested = typeof params.topic === "string" ? params.topic : undefined;
   const topic = requested && validTopics.has(requested) ? requested : undefined;
-  return <LeadForm flow="contact" defaultTopic={topic} />;
+  return <LeadForm kind="contact" defaultValues={topic ? { topic } : undefined} />;
 }
 
 export default function ContactPage({ searchParams }: PageProps<"/contact">) {
@@ -140,7 +140,7 @@ export default function ContactPage({ searchParams }: PageProps<"/contact">) {
               </dl>
             </div>
             <div className="glass glass-lg p-7 sm:p-10">
-              <Suspense fallback={<LeadForm flow="contact" />}>
+              <Suspense fallback={<LeadForm kind="contact" />}>
                 <ContactForm searchParams={searchParams} />
               </Suspense>
             </div>
