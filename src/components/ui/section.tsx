@@ -24,7 +24,7 @@ type GlowProps = {
   drift?: boolean;
 };
 
-/** A soft radial light source placed absolutely inside a relative parent. */
+/** A soft radial light source placed absolutely inside a relative parent (dark sections only). */
 export function Glow({ tone, className, drift }: GlowProps) {
   return (
     <div
@@ -39,18 +39,23 @@ export function Glow({ tone, className, drift }: GlowProps) {
   );
 }
 
+export type SectionTone = "dark" | "light";
+
 type SectionProps = ComponentPropsWithoutRef<"section"> & {
   tight?: boolean;
+  /** Light sections use the HubX canvas so light-theme screenshots sit naturally (handoff §7.2). */
+  tone?: SectionTone;
   /** Background decoration (glows, hex pattern) rendered behind the content. */
   decor?: React.ReactNode;
 };
 
-export function Section({ className, tight, decor, children, ...rest }: SectionProps) {
+export function Section({ className, tight, tone = "dark", decor, children, ...rest }: SectionProps) {
   return (
     <section
       className={cn(
         "relative",
         tight ? "py-12 sm:py-16" : "py-16 sm:py-20 lg:py-28",
+        tone === "light" && "bg-canvas text-charcoal",
         className,
       )}
       {...rest}

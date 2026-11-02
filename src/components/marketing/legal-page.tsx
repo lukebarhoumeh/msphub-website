@@ -35,7 +35,7 @@ export function LegalPage({ title, currentUrl, summary }: LegalPageProps) {
             {link}
           </NeedsConfirmBlock>
         </div>
-        <p className="mt-10 text-sm text-white/55">
+        <p className="mt-10 text-sm text-white/65">
           Questions about this policy:{" "}
           <a href={`mailto:${site.salesEmail}`} className="font-medium text-white underline-offset-4 hover:underline">
             {site.salesEmail}

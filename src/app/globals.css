@@ -1,12 +1,14 @@
 @import "tailwindcss";
 
 /*
- * Design tokens.
+ * Design tokens (handoff §7.1).
  *
- * `brand-*` values are the exact colors from the HubX brand kit
- * (docs/brand/HubX-Logo-Guidelines.pdf, section 03). The remaining surface
- * colors come from the approved website plan (section 7).
- * Usage: `bg-brand-orange`, `text-brand-charcoal`, `bg-ink`, ...
+ * One orange site-wide (#F97316, the HubX kit value); charcoal for type on
+ * light sections; the HubX light canvas for light sections; the dark ground
+ * for hero, footer, and dark bands; MSP Hub brand navy for company/legal
+ * contexts. The print orange (#E88B2C) is intentionally absent: two oranges
+ * never share a page.
+ * Usage: `bg-brand-orange`, `text-charcoal`, `bg-canvas`, `bg-ink`, `bg-navy`.
  */
 @theme {
   --color-brand-orange: #f97316;
@@ -16,6 +18,9 @@
 
   --color-orange-hover: #fb8a3c;
   --color-orange-deep: #ea6a0f;
+  --color-charcoal: #424242;
+  --color-canvas: #eeeeee;
+  --color-navy: #1a2949;
   --color-ink: #0a0d14;
   --color-ink-2: #0d121c;
   --color-navy-900: #0f1a33;
@@ -23,12 +28,26 @@
   --color-success: #22c55e;
   --color-error: #f87171;
 
-  --radius-glass: 20px;
-  --radius-glass-lg: 24px;
+  /* 12 px cards, 16 px large panels, 999 px pills (handoff §7.1). */
+  --radius-card: 12px;
+  --radius-panel: 16px;
   --shadow-glass: 0 20px 60px rgba(0, 0, 0, 0.45);
+  --shadow-card-light: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.06);
 
+  /* Motion (handoff §7.3): entrance fades ≤ 300 ms, stagger ≤ 60 ms; no parallax. */
+  --animate-fade-up: fade-up 300ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
   --animate-glow-drift: glow-drift 20s ease-in-out infinite alternate;
 
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   @keyframes glow-drift {
     from {
       transform: translate3d(0, 0, 0) scale(1);
@@ -40,23 +59,25 @@
 }
 
 /*
- * Font tokens. The faces are loaded with next/font in `src/app/fonts.ts`, which
- * sets the `--font-body` and `--font-heading` variables on <html>.
- * Usage: `font-sans` (body copy, default) and `font-display` (headlines).
+ * Font tokens. The faces are loaded with next/font in `src/app/fonts.ts`,
+ * which sets `--font-body`, `--font-heading`, and `--font-code` on <html>.
+ * Usage: `font-sans` (body, default), `font-display` (headlines), `font-mono`
+ * (SKUs, ids, eyebrows).
  */
 @theme inline {
   --font-sans:
     var(--font-body), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     sans-serif;
   --font-display: var(--font-heading), ui-serif, Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-code), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-/* Frosted glass surface: 5% white fill, hairline border, inner top highlight. */
+/* Frosted glass surface for dark sections: 5% white fill, hairline border, inner top highlight. */
 @utility glass {
   position: relative;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-glass);
+  border-radius: var(--radius-card);
   box-shadow: var(--shadow-glass);
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
@@ -82,10 +103,19 @@
 }
 
 @utility glass-lg {
-  border-radius: var(--radius-glass-lg);
+  border-radius: var(--radius-panel);
 }
 
-/* Hex-grid line pattern (deck + old-site motif), masked to fade at the edges. */
+/* White card for light `canvas` sections (mirrors HubX's cards: subtle border, minimal shadow). */
+@utility card-light {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card-light);
+}
+
+/* Hex-grid line pattern (deck + old-site motif; echoes the X mark's open diamond), masked to fade at the edges. */
 @utility bg-hex {
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='84' height='48.5' viewBox='0 0 84 48.5'><g fill='none' stroke='%23ffffff' stroke-opacity='0.07' stroke-width='1'><polygon points='70,24.25 56,48.5 28,48.5 14,24.25 28,0 56,0'/><path d='M0 24.25H14M70 24.25H84'/></g></svg>");
   background-size: 126px 72.75px;
@@ -97,7 +127,24 @@
   mask-image: radial-gradient(ellipse 70% 60% at 60% 30%, #000 20%, transparent 75%);
 }
 
-/* Placeholder marker for content Luke still has to supply. */
+/* Staggered entrance: `motion-safe:animate-fade-up` plus `stagger-N` (N × 60 ms). */
+@utility stagger-1 {
+  animation-delay: 60ms;
+}
+@utility stagger-2 {
+  animation-delay: 120ms;
+}
+@utility stagger-3 {
+  animation-delay: 180ms;
+}
+@utility stagger-4 {
+  animation-delay: 240ms;
+}
+@utility stagger-5 {
+  animation-delay: 300ms;
+}
+
+/* Review marker for content Luke still has to confirm (hidden in production). */
 @utility needs-tag {
   display: inline-flex;
   align-items: center;
@@ -108,6 +155,7 @@
   border: 1px dashed rgba(251, 191, 36, 0.7);
   background: rgba(251, 191, 36, 0.1);
   color: #fcd34d;
+  font-family: var(--font-mono);
   font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -132,6 +180,7 @@ body {
   background: rgba(249, 115, 22, 0.35);
 }
 
+/* Visible focus everywhere (WCAG 2.2 AA): 2 px orange ring with offset. */
 :focus-visible {
   outline: 2px solid var(--color-brand-orange);
   outline-offset: 3px;
@@ -155,6 +204,7 @@ body {
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
   }
 }

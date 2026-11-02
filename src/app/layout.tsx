@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { bodyFont, headingFont } from "./fonts";
+import { bodyFont, headingFont, monoFont } from "./fonts";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { site } from "@/content/site";
@@ -39,7 +39,7 @@ const organizationJsonLd = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${bodyFont.variable} ${headingFont.variable} h-full antialiased`}>
+    <html lang="en" className={`${bodyFont.variable} ${headingFont.variable} ${monoFont.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <a
           href="#main"

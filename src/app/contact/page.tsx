@@ -95,7 +95,7 @@ export default function ContactPage({ searchParams }: PageProps<"/contact">) {
 
               <dl className="mt-8 grid gap-5 text-[15px]">
                 <div>
-                  <dt className="text-xs tracking-[0.12em] text-white/45 uppercase">Sales</dt>
+                  <dt className="text-xs tracking-[0.12em] text-white/60 uppercase">Sales</dt>
                   <dd className="mt-1">
                     <a href={`mailto:${site.salesEmail}`} className="font-medium text-white hover:underline">
                       {site.salesEmail}
@@ -103,7 +103,7 @@ export default function ContactPage({ searchParams }: PageProps<"/contact">) {
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-xs tracking-[0.12em] text-white/45 uppercase">Phone</dt>
+                  <dt className="text-xs tracking-[0.12em] text-white/60 uppercase">Phone</dt>
                   <dd className="mt-1 text-white/70">
                     <NeedsConfirm
                       id="phone"
@@ -116,7 +116,7 @@ export default function ContactPage({ searchParams }: PageProps<"/contact">) {
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-xs tracking-[0.12em] text-white/45 uppercase">Hours</dt>
+                  <dt className="text-xs tracking-[0.12em] text-white/60 uppercase">Hours</dt>
                   <dd className="mt-1 text-white/70">
                     <NeedsConfirm id="supportHours" fallback={site.supportHours}>
                       {site.supportHoursProposed}
@@ -125,11 +125,11 @@ export default function ContactPage({ searchParams }: PageProps<"/contact">) {
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-xs tracking-[0.12em] text-white/45 uppercase">Headquarters</dt>
+                  <dt className="text-xs tracking-[0.12em] text-white/60 uppercase">Headquarters</dt>
                   <dd className="mt-1 text-white/70">{site.hq.city}</dd>
                 </div>
                 <div>
-                  <dt className="text-xs tracking-[0.12em] text-white/45 uppercase">Already a customer?</dt>
+                  <dt className="text-xs tracking-[0.12em] text-white/60 uppercase">Already a customer?</dt>
                   <dd className="mt-1 text-white/70">
                     <a href={site.hubxLoginUrl} rel="noopener" className="font-medium text-white hover:underline">
                       Log in to HubX

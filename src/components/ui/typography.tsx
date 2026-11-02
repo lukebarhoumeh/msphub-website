@@ -6,12 +6,12 @@ export type Tone = "dark" | "light";
 
 type EyebrowProps = ComponentPropsWithoutRef<"span"> & { tone?: Tone };
 
-/** Small uppercase label with a short orange rule, the deck motif. Orange text only on dark grounds. */
+/** Mono, tracked, uppercase label with a short orange rule (handoff §7.2). Orange text only on dark grounds. */
 export function Eyebrow({ className, children, tone = "dark", ...rest }: EyebrowProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2.5 text-[12.5px] font-medium tracking-[0.14em] uppercase before:h-0.5 before:w-5 before:rounded before:bg-brand-orange",
+        "inline-flex items-center gap-2.5 font-mono text-[12px] font-medium tracking-[0.14em] uppercase before:h-0.5 before:w-5 before:rounded before:bg-brand-orange",
         tone === "dark" ? "text-brand-orange" : "text-brand-charcoal",
         className,
       )}

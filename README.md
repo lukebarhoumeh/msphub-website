@@ -126,22 +126,27 @@ Pick the HubX version by background, per the guidelines:
 
 Rules that apply to every page: keep clear space of half the logo height on all sides, never add glows/shadows/gradients to the logo, never recolor or retype it, and write the name as `HubX`. Full text in `docs/brand/HubX-Logo-Guidelines.pdf`. The site's favicon is the MSP Hub mark (brand rule above); the HubX X mark stays reserved for HubX-specific surfaces.
 
-## Design tokens
+## Design system
 
-Defined in `src/app/globals.css` with Tailwind v4 `@theme`, so they are available as utilities (`bg-brand-orange`, `text-brand-charcoal`, `bg-ink`, `font-display`, ...). Custom utilities: `glass` / `glass-soft` / `glass-lg` (frosted panels), `bg-hex` (hex-grid pattern), `needs-tag`.
+Tokens live in `src/app/globals.css` (Tailwind v4 `@theme`) and follow the handoff §7: one orange, charcoal type on the HubX light canvas, the dark ground for hero/footer/dark bands, MSP Hub navy for company contexts, 12 px cards and 999 px pills, entrance fades ≤ 300 ms with ≤ 60 ms stagger, no parallax, no loader.
 
-| Token | Value | Source |
+| Token | Value | Use |
 | --- | --- | --- |
-| `brand-orange` | `#F97316` | Brand kit — the X, accents, primary buttons (ink text on orange). Too low-contrast for small text on light backgrounds. |
-| `brand-charcoal` | `#424242` | Brand kit — "Hub" wordmark, one-color uses |
-| `brand-white` | `#FFFFFF` | Brand kit |
-| `brand-canvas` | `#EEEEEE` | Brand kit — the portal's light canvas |
-| `orange-hover` / `orange-deep` | `#FB8A3C` / `#EA6A0F` | Plan — UI hover/pressed only, never on logo artwork |
-| `ink` / `ink-2` | `#0A0D14` / `#0D121C` | Plan — page and footer background |
-| `navy-900` / `navy-700` | `#0F1A33` / `#132142` | Plan — section glows |
-| `success` / `error` | `#22C55E` / `#F87171` | Plan — form states |
+| `brand-orange` | `#F97316` | The single accent site-wide: buttons (ink text), eyebrow rules, active states, the X. Never small orange text on white. |
+| `charcoal` / `brand-charcoal` | `#424242` | Type on light sections; the HubX bracket colour |
+| `canvas` / `brand-canvas` | `#EEEEEE` | Light section background (matches the HubX portal canvas) |
+| `ink` / `ink-2` | `#0A0D14` / `#0D121C` | Dark ground: hero, dark bands, footer |
+| `navy` | `#1A2949` | MSP Hub brand navy for company/legal contexts |
+| `navy-900` / `navy-700` | `#0F1A33` / `#132142` | Glows on dark sections |
+| `orange-hover` / `orange-deep` | `#FB8A3C` / `#EA6A0F` | UI hover/pressed only, never on logo artwork |
+| `success` / `error` | `#22C55E` / `#F87171` | Deltas and form states |
+| `--radius-card` / `--radius-panel` | 12 px / 16 px | Cards (`glass`, `card-light`) and large panels (`glass-lg`) |
 
-**Fonts.** The brand kit contains no typefaces; Luke approved the plan's proposal on Nov 2 2026: **Inter** for body copy (`font-sans`) and **Source Serif 4** for headlines (`font-display`). Both are self-hosted from `public/brand/fonts` (Google Fonts latin subsets, SIL Open Font License, license files alongside). To change either family, edit `src/app/fonts.ts` only — Tailwind reads the faces through the `--font-body` / `--font-heading` variables it sets.
+Rhythm: dark hero → light `canvas` sections for product proof (real light-theme screenshots sit naturally) → dark bands for "Why MSP Hub" and the final CTA. `Section tone="light"`, `SectionHeading tone="light"`, `GlassCard tone="light"` and `Chip tone="light"` switch a block to the light palette; `KpiTile` mirrors the HubX tile for the track-record stats; `Timeline`, `AudienceTabs` (WAI-ARIA tabs), `BrowserFrame`, `CredentialBadges`, `LogoCloud`, `Faq`, and `CtaBand` are the shared marketing blocks. Eyebrows are mono, tracked, uppercase; headings serif; body sans. Motion utilities: `motion-safe:animate-fade-up` with `stagger-1…5`; `prefers-reduced-motion` disables every animation and transition, `prefers-reduced-transparency` flattens the glass.
+
+**Fonts.** **Source Serif 4** for headlines (`font-display`), **Inter** for body copy (`font-sans`), **JetBrains Mono** for SKUs, ids, and eyebrows (`font-mono`). All three are self-hosted from `public/brand/fonts` (Google Fonts latin subsets, SIL Open Font License, license files alongside) and loaded in `src/app/fonts.ts` — the one place to swap a family.
+
+**Accessibility.** WCAG 2.2 AA targets: 4.5:1 for text (muted text is white/60 or charcoal/80 or stronger), visible 2 px orange focus ring, 44 px touch targets (buttons `h-11`+), skip link, semantic landmarks, labelled form fields with `aria-describedby` errors. axe-core runs clean on every page the design system owns.
 
 ## Review markers (`NeedsConfirm`)
 

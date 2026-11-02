@@ -114,10 +114,10 @@ export default function ServicesPage() {
         </Container>
       </Section>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
+      <Section tone="light">
         <Container>
-          <SectionHeading eyebrow="Support" title="Business hours for licensing and billing. Around the clock for managed environments." />
-          <SupportModel />
+          <SectionHeading tone="light" eyebrow="Support" title="Business hours for licensing and billing. Around the clock for managed environments." />
+          <SupportModel tone="light" />
         </Container>
       </Section>
 

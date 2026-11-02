@@ -41,7 +41,7 @@ export function BrowserFrame({ screen, priority, sizes = "(min-width: 1024px) 50
           <div
             className={cn(
               "mx-auto inline-flex h-6 items-center gap-2 rounded-full border px-3 font-mono text-[11px]",
-              dark ? "border-white/12 bg-white/6 text-white/50" : "border-black/8 bg-white text-black/50",
+              dark ? "border-white/12 bg-white/6 text-white/65" : "border-black/8 bg-white text-black/65",
             )}
           >
             <span aria-hidden className="size-2.5 rounded-[3px] border-[1.5px] border-current" />
@@ -58,7 +58,7 @@ export function BrowserFrame({ screen, priority, sizes = "(min-width: 1024px) 50
         />
       </div>
       {caption ? (
-        <figcaption className={cn("mt-3 text-center text-xs", dark ? "text-white/45" : "text-brand-charcoal/60")}>
+        <figcaption className={cn("mt-3 text-center text-xs", dark ? "text-white/60" : "text-charcoal/80")}>
           HubX — live product, demo data. {screen.caption}.
         </figcaption>
       ) : null}

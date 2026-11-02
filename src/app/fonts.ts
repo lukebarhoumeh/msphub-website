@@ -1,13 +1,10 @@
 import localFont from "next/font/local";
 
 /**
- * Site typography.
- *
- * The HubX brand kit ships logos and colors only, so these families are the
- * proposal from the website plan (section 7) and are not yet approved by
- * MSP Hub. To swap a family, change the file and weight range below; Tailwind
- * reads the faces through the `--font-body` / `--font-heading` variables in
- * `globals.css`, so nothing else needs to change.
+ * Site typography (handoff §7.1): serif headings (Georgia-compatible),
+ * Inter-class sans for body, JetBrains Mono for SKUs, ids, and eyebrows.
+ * Swap a family here only; Tailwind reads the faces through the
+ * `--font-body` / `--font-heading` / `--font-code` variables in `globals.css`.
  *
  * Files are self-hosted from `public/brand/fonts` (Google Fonts latin subsets,
  * SIL Open Font License; see the LICENSE-* files next to them).
@@ -25,4 +22,13 @@ export const headingFont = localFont({
   display: "swap",
   variable: "--font-heading",
   adjustFontFallback: "Times New Roman",
+});
+
+export const monoFont = localFont({
+  src: "../../public/brand/fonts/jetbrains-mono-latin-wght.woff2",
+  weight: "400 600",
+  display: "swap",
+  variable: "--font-code",
+  adjustFontFallback: false,
+  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
 });

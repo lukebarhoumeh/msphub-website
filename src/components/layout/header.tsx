@@ -66,7 +66,7 @@ export function Header() {
                           className="block rounded-xl px-3.5 py-3 transition hover:bg-white/8"
                         >
                           <span className="block text-[15px] font-medium text-white">{s.label}</span>
-                          <span className="block text-[13px] text-white/55">{s.description}</span>
+                          <span className="block text-[13px] text-white/65">{s.description}</span>
                         </Link>
                       </li>
                     ))}

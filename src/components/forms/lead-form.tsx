@@ -166,7 +166,7 @@ export function LeadForm({ flow, submitLabel, className, defaultTopic }: LeadFor
           {submitLabel ?? defaultSubmit[flow]}
           {!submitting ? <ArrowRight className="size-4" aria-hidden /> : null}
         </Button>
-        <p className="text-[13px] text-white/45">
+        <p className="text-[13px] text-white/65">
           Goes to {site.salesEmail}. No newsletters, no sharing your details.
         </p>
       </div>
@@ -284,7 +284,7 @@ function QuoteFields({ errors, invalid }: FieldsProps) {
       </div>
       <fieldset>
         <legend className="mb-2 text-sm font-medium text-white/85">
-          Current or planned licenses <span className="font-normal text-white/45">(select all that apply)</span>
+          Current or planned licenses <span className="font-normal text-white/65">(select all that apply)</span>
         </legend>
         <div className="flex flex-wrap gap-2">
           {licenseOptions.map((l) => (

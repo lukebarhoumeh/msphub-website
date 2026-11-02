@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
-import { CredentialBadges, CtaBand, StatBand, SupportModel, Testimonials } from "@/components/marketing/blocks";
+import { CredentialBadges, CtaBand, StatBand, SupportModel, Testimonials, Timeline } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
 import { GlassCard } from "@/components/ui/card";
@@ -66,17 +66,13 @@ export default function AboutPage() {
       <Section className="pt-0 sm:pt-0 lg:pt-0">
         <Container>
           <SectionHeading eyebrow="History" title="From an MSP's own tool to HubX." />
-          <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {timeline.map((t) => (
-              <li key={t.title} className="glass p-7">
-                <p className="text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">
-                  {"confirm" in t ? <NeedsConfirm id={t.confirm} fallback={t.when} /> : t.when}
-                </p>
-                <h3 className="mt-3 text-lg font-semibold text-white">{t.title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-white/70">{t.body}</p>
-              </li>
-            ))}
-          </ol>
+          <Timeline
+            items={timeline.map((t) => ({
+              when: "confirm" in t ? <NeedsConfirm id={t.confirm} fallback={t.when} /> : t.when,
+              title: t.title,
+              body: t.body,
+            }))}
+          />
         </Container>
       </Section>
 
@@ -110,7 +106,7 @@ export default function AboutPage() {
                 </li>
               ))}
             </ul>
-            <p className="mt-3 text-xs text-white/45">
+            <p className="mt-3 text-xs text-white/60">
               <NeedsConfirm id="teamPhotos" fallback={null}>
                 Real photography or none; no stock people.
               </NeedsConfirm>
@@ -133,7 +129,7 @@ export default function AboutPage() {
                   fallback={`Teams across ${site.deliveryRegions.join(", ")} keep migrations and managed operations moving across time zones.`}
                 />
               </p>
-              <p className="mt-3 text-sm text-white/55">
+              <p className="mt-3 text-sm text-white/65">
                 <NeedsConfirm id="officePresentation" fallback={null}>
                   Full address shown in the footer and legal pages only.
                 </NeedsConfirm>

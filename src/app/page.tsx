@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowRight, Building2, Globe2, Layers, Users } from "lucide-react";
 import { HubXLockup, HubXPoweredBy } from "@/components/brand/hubx-logo";
+import { AudienceTabs } from "@/components/marketing/audience-tabs";
 import { BrowserFrame } from "@/components/marketing/browser-frame";
 import {
   CredentialBadges,
@@ -16,6 +17,7 @@ import { Chip, FeatureCard, GlassCard, IconTile } from "@/components/ui/card";
 import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container, Glow, Section } from "@/components/ui/section";
 import { Display, Eyebrow, Lead, SectionHeading } from "@/components/ui/typography";
+import { audiences } from "@/content/audiences";
 import { branches, serviceBranches } from "@/content/branches";
 import { vendors } from "@/content/ecosystem";
 import { hubxCapabilities } from "@/content/hubx";
@@ -71,15 +73,15 @@ export default function HomePage() {
         <Container>
           <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
             <div>
-              <Eyebrow>Microsoft CSP direct-bill partner · Services · Development</Eyebrow>
-              <Display as="h1" size="xl" className="mt-5">
+              <Eyebrow className="motion-safe:animate-fade-up">Microsoft CSP direct-bill partner · Services · Development</Eyebrow>
+              <Display as="h1" size="xl" className="mt-5 motion-safe:animate-fade-up stagger-1">
                 Your single technology partner for <span className="text-brand-orange">everything Microsoft.</span>
               </Display>
-              <Lead className="mt-6">
+              <Lead className="mt-6 motion-safe:animate-fade-up stagger-2">
                 Licensing, cloud, security, AI, and managed operations — bought and run through one partner and one
                 team. MSP Hub delivers the services; HubX, our portal, puts your Microsoft estate in one place.
               </Lead>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-8 flex flex-wrap gap-3 motion-safe:animate-fade-up stagger-3">
                 <ButtonLink href="/demo">
                   Schedule a HubX demo
                   <ArrowRight className="size-4" aria-hidden />
@@ -99,7 +101,9 @@ export default function HomePage() {
                 </Chip>
               </div>
             </div>
-            <BrowserFrame screen={screens.dashboardsDark} priority sizes="(min-width: 1024px) 45vw, 100vw" />
+            <div className="motion-safe:animate-fade-up stagger-2">
+              <BrowserFrame screen={screens.dashboardsDark} priority sizes="(min-width: 1024px) 45vw, 100vw" />
+            </div>
           </div>
         </Container>
       </Section>
@@ -112,7 +116,7 @@ export default function HomePage() {
       </Section>
 
       {/* Product proof (light section: the real product is light-theme by default) */}
-      <Section className="bg-brand-canvas text-brand-charcoal">
+      <Section tone="light">
         <Container>
           <SectionHeading
             tone="light"
@@ -121,6 +125,18 @@ export default function HomePage() {
             lead="Every customer, subscription, license, invoice, and margin in one portal. These are real HubX screens with demo data."
           />
           <BrowserFrame screen={screens.homeOverview} sizes="(min-width: 1024px) 1100px, 100vw" />
+        </Container>
+      </Section>
+
+      {/* Who we serve */}
+      <Section id="who-we-serve">
+        <Container>
+          <SectionHeading
+            eyebrow="Who we serve"
+            title="Three audiences, one partner."
+            lead="MSPs and VARs reselling Microsoft, businesses buying direct, direct-bill CSPs running HubX on their own tenant, and the advisors who bring them in."
+          />
+          <AudienceTabs audiences={audiences} />
         </Container>
       </Section>
 
@@ -264,11 +280,11 @@ export default function HomePage() {
         <Container>
           <div className="grid gap-4 lg:grid-cols-2">
             <GlassCard>
-              <p className="mb-4 text-xs tracking-[0.12em] text-white/45 uppercase">Credentials</p>
+              <p className="mb-4 text-xs tracking-[0.12em] text-white/60 uppercase">Credentials</p>
               <CredentialBadges variant="chips" />
             </GlassCard>
             <GlassCard>
-              <p className="mb-4 text-xs tracking-[0.12em] text-white/45 uppercase">Vendor ecosystem</p>
+              <p className="mb-4 text-xs tracking-[0.12em] text-white/60 uppercase">Vendor ecosystem</p>
               <LogoCloud items={vendors} confirm="vendorLogos" />
             </GlassCard>
           </div>
@@ -294,8 +310,8 @@ export default function HomePage() {
             <span className="mx-2 text-white/30">·</span>
             <NeedsConfirm id="phone" fallback={<a href={site.salesPhoneHref} className="font-medium text-white underline-offset-4 hover:underline">{site.salesPhone}</a>} />
           </p>
-          <p className="mt-3 text-xs text-white/45">
-            <HubXPoweredBy logoClassName="h-4 w-auto" className="text-xs text-white/45" />
+          <p className="mt-3 text-xs text-white/60">
+            <HubXPoweredBy logoClassName="h-4 w-auto" className="text-xs text-white/60" />
           </p>
         </CtaBand>
       </Section>

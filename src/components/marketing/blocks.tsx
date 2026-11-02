@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Fragment } from "react";
 import { ArrowRight, Quote } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { Chip, GlassCard } from "@/components/ui/card";
@@ -13,36 +14,102 @@ import { site, testimonials } from "@/content/site";
 import { stats } from "@/content/stats";
 import { cn } from "@/lib/cn";
 
-/** Locked statistics; unconfirmed ones stay hidden in production (`publish: false`). */
-export function StatBand({ className }: { className?: string }) {
+type KpiTileProps = {
+  label: string;
+  value: string;
+  suffix?: string;
+  /** Short qualifier under the number (HubX shows "total" lines here). */
+  note?: React.ReactNode;
+  /** Delta badge, e.g. "+15%". Only when a real figure exists. */
+  delta?: string;
+  /** Real series only; decorative sparkline, never invented. */
+  sparkline?: number[];
+  tone?: "dark" | "light";
+  className?: string;
+};
+
+/** Mirrors the HubX KPI tile (label / number / delta / note) so the site and the product rhyme (handoff §7.2). */
+export function KpiTile({ label, value, suffix, note, delta, sparkline, tone = "dark", className }: KpiTileProps) {
+  const dark = tone === "dark";
   return (
-    <dl className={cn("grid gap-4 sm:grid-cols-2 lg:grid-cols-4", className)}>
+    <div className={cn(dark ? "glass" : "card-light", "relative overflow-hidden p-6", className)}>
+      <p className={cn("text-xs font-medium tracking-[0.06em] uppercase", dark ? "text-white/60" : "text-charcoal/70")}>{label}</p>
+      <p className="mt-2 flex items-baseline gap-2">
+        <span className={cn("text-[2.25rem] leading-none font-semibold tracking-[-0.02em] tabular-nums", dark ? "text-white" : "text-charcoal")}>
+          {value}
+          {suffix ? <span className="text-brand-orange">{suffix}</span> : null}
+        </span>
+        {delta ? (
+          <span className="rounded-md bg-success/15 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-success">{delta}</span>
+        ) : null}
+      </p>
+      {note ? <p className={cn("mt-2 text-[13px]", dark ? "text-white/65" : "text-charcoal/75")}>{note}</p> : null}
+      {sparkline && sparkline.length > 1 ? <Sparkline values={sparkline} /> : null}
+    </div>
+  );
+}
+
+function Sparkline({ values }: { values: number[] }) {
+  const w = 120;
+  const h = 32;
+  const max = Math.max(...values);
+  const min = Math.min(...values);
+  const pts = values
+    .map((v, i) => `${(i / (values.length - 1)) * w},${h - ((v - min) / (max - min || 1)) * (h - 4) - 2}`)
+    .join(" ");
+  return (
+    <svg aria-hidden viewBox={`0 0 ${w} ${h}`} className="pointer-events-none absolute right-4 bottom-4 h-8 w-[120px] opacity-70">
+      <polyline points={pts} fill="none" stroke="#F97316" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** Locked statistics as KPI tiles; unconfirmed ones stay hidden in production (`publish: false`). */
+export function StatBand({ className, tone = "dark" }: { className?: string; tone?: "dark" | "light" }) {
+  return (
+    <ul className={cn("grid gap-4 sm:grid-cols-2 lg:grid-cols-4", className)}>
       {stats.map((s) => {
         const tile = (
-          <div className="glass h-full p-7 before:hidden after:absolute after:top-0 after:left-7 after:h-0.5 after:w-7 after:rounded-b after:bg-brand-orange">
-            <dd className="font-display text-[clamp(2.5rem,4vw,3.5rem)] leading-none tracking-[-0.02em] text-white tabular-nums">
-              {s.value}
-              {s.suffix ? <sup className="ml-0.5 align-top text-[0.45em] text-brand-orange">{s.suffix}</sup> : null}
-            </dd>
-            <dt className="mt-2.5 text-[15px] text-white/70">
-              {s.label}
-              {s.confirm ? (
-                <>
-                  {" "}
-                  <NeedsConfirm id={s.confirm} fallback={null} />
-                </>
-              ) : null}
-            </dt>
-          </div>
+          <li className="h-full list-none">
+            <KpiTile
+              tone={tone}
+              label={s.label}
+              value={s.value}
+              suffix={s.suffix}
+              className="h-full"
+              note={s.confirm ? <NeedsConfirm id={s.confirm} fallback={null} /> : undefined}
+            />
+          </li>
         );
-        if (s.publish) return <div key={s.id}>{tile}</div>;
+        if (s.publish) return <Fragment key={s.id}>{tile}</Fragment>;
         return (
           <NeedsConfirm key={s.id} id={s.confirm ?? "servicesHeadcount"} fallback={null}>
             {tile}
           </NeedsConfirm>
         );
       })}
-    </dl>
+    </ul>
+  );
+}
+
+type TimelineItem = { when: React.ReactNode; title: string; body: string };
+
+/** Dated milestones: vertical on small screens, a horizontal rail from lg up. */
+export function Timeline({ items, className }: { items: TimelineItem[]; className?: string }) {
+  return (
+    <ol className={cn("relative grid gap-6 lg:grid-cols-4 lg:gap-4", className)}>
+      <span aria-hidden className="absolute top-0 bottom-0 left-[11px] w-px bg-white/12 lg:top-[11px] lg:right-0 lg:bottom-auto lg:left-0 lg:h-px lg:w-auto" />
+      {items.map((t, i) => (
+        <li key={t.title} className={cn("relative pl-9 lg:pt-9 lg:pl-0", "motion-safe:animate-fade-up", `stagger-${Math.min(i + 1, 5)}`)}>
+          <span aria-hidden className="absolute top-1 left-0 grid size-6 place-items-center rounded-full border border-brand-orange/50 bg-ink lg:top-0 lg:left-0">
+            <span className="size-2 rotate-45 rounded-[2px] bg-brand-orange" />
+          </span>
+          <p className="font-mono text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">{t.when}</p>
+          <h3 className="mt-2 text-lg font-semibold text-white">{t.title}</h3>
+          <p className="mt-1.5 text-[15px] leading-relaxed text-white/70">{t.body}</p>
+        </li>
+      ))}
+    </ol>
   );
 }
 
@@ -57,7 +124,7 @@ export function TrustStrip({ className }: { className?: string }) {
   return (
     <div className={cn("glass glass-soft grid gap-6 px-7 py-6 lg:grid-cols-[1.3fr_1fr] lg:items-start [&>*]:min-w-0", className)}>
       <div>
-        <p className="mb-3 text-xs tracking-[0.12em] text-white/45 uppercase">MSP Hub at a glance</p>
+        <p className="mb-3 text-xs tracking-[0.12em] text-white/60 uppercase">MSP Hub at a glance</p>
         <div className="flex flex-wrap gap-2.5">
           {items.map((item) => (
             <Chip key={item.label} wrap className="font-semibold text-white">
@@ -67,7 +134,7 @@ export function TrustStrip({ className }: { className?: string }) {
         </div>
       </div>
       <div className="lg:text-right">
-        <p className="mb-3 text-xs tracking-[0.12em] text-white/45 uppercase">Credentials</p>
+        <p className="mb-3 text-xs tracking-[0.12em] text-white/60 uppercase">Credentials</p>
         <CredentialBadges variant="chips" className="lg:justify-end" />
       </div>
     </div>
@@ -142,7 +209,7 @@ export function LogoCloud({ items, className, confirm }: LogoCloudProps) {
         ))}
       </ul>
       {confirm ? (
-        <p className="mt-3 text-xs text-white/45">
+        <p className="mt-3 text-xs text-white/60">
           <NeedsConfirm id={confirm} fallback={null}>
             Names shown as text until logo files and written permission are in hand.
           </NeedsConfirm>
@@ -284,25 +351,29 @@ export function CheckList({ items, className }: { items: readonly string[]; clas
 }
 
 /** Support model statement (handoff §3 #1): 24/7 is managed-services monitoring only. */
-export function SupportModel({ className }: { className?: string }) {
+export function SupportModel({ className, tone = "dark" }: { className?: string; tone?: "dark" | "light" }) {
+  const dark = tone === "dark";
+  const card = dark ? "glass p-6" : "card-light p-6";
+  const term = cn("font-mono text-xs font-semibold tracking-[0.12em] uppercase", dark ? "text-brand-orange" : "text-charcoal");
+  const body = cn("mt-2 text-[15px]", dark ? "text-white/75" : "text-charcoal/85");
   return (
     <dl className={cn("grid gap-4 sm:grid-cols-3", className)}>
-      <div className="glass p-6">
-        <dt className="text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">Licensing & billing support</dt>
-        <dd className="mt-2 text-[15px] text-white/75">
+      <div className={card}>
+        <dt className={term}>Licensing & billing support</dt>
+        <dd className={body}>
           <NeedsConfirm id="supportHours" fallback={site.supportHours}>
             {site.supportHoursProposed}
           </NeedsConfirm>
           , through the HubX Service Desk and {site.salesEmail}.
         </dd>
       </div>
-      <div className="glass p-6">
-        <dt className="text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">Microsoft escalation</dt>
-        <dd className="mt-2 text-[15px] text-white/75">Direct escalation to Microsoft Premier support as a CSP direct-bill partner.</dd>
+      <div className={card}>
+        <dt className={term}>Microsoft escalation</dt>
+        <dd className={body}>Direct escalation to Microsoft Premier support as a CSP direct-bill partner.</dd>
       </div>
-      <div className="glass p-6">
-        <dt className="text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">24/7</dt>
-        <dd className="mt-2 text-[15px] text-white/75">Monitoring and incident management for environments under MSP Hub managed services.</dd>
+      <div className={card}>
+        <dt className={term}>24/7</dt>
+        <dd className={body}>Monitoring and incident management for environments under MSP Hub managed services.</dd>
       </div>
     </dl>
   );

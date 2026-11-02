@@ -2,7 +2,7 @@ import type { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/cn";
 
 const control =
-  "w-full rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-[15px] text-white placeholder:text-white/35 transition focus:border-brand-orange/60 focus:bg-white/8 focus:outline-none aria-invalid:border-error/70";
+  "w-full rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-[15px] text-white placeholder:text-white/50 transition focus:border-brand-orange/60 focus:bg-white/8 focus:outline-none aria-invalid:border-error/70";
 
 type FieldProps = {
   label: string;
@@ -19,7 +19,7 @@ export function Field({ label, htmlFor, hint, error, optional, children, classNa
     <div className={cn("flex flex-col gap-1.5", className)}>
       <label htmlFor={htmlFor} className="text-sm font-medium text-white/85">
         {label}
-        {optional ? <span className="ml-1.5 font-normal text-white/45">(optional)</span> : null}
+        {optional ? <span className="ml-1.5 font-normal text-white/65">(optional)</span> : null}
       </label>
       {children}
       {error ? (
@@ -27,7 +27,7 @@ export function Field({ label, htmlFor, hint, error, optional, children, classNa
           {error}
         </p>
       ) : hint ? (
-        <p id={`${htmlFor}-hint`} className="text-[13px] text-white/45">
+        <p id={`${htmlFor}-hint`} className="text-[13px] text-white/65">
           {hint}
         </p>
       ) : null}
