@@ -144,6 +144,14 @@
   animation-delay: 300ms;
 }
 
+/* Horizontal tab strips scroll without a visible scrollbar (keyboard and swipe still work). */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* Review marker for content Luke still has to confirm (hidden in production). */
 @utility needs-tag {
   display: inline-flex;

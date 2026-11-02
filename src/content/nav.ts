@@ -36,6 +36,9 @@ export const footerColumns: { heading: string; links: NavLink[] }[] = [
     heading: "HubX",
     links: [
       { label: "Overview", href: "/hubx" },
+      { label: "Features", href: "/hubx/features" },
+      { label: "Security", href: "/hubx/security" },
+      { label: "What's new", href: "/hubx/whats-new" },
       { label: "Schedule a demo", href: "/demo" },
       { label: "Microsoft 365 quote", href: "/microsoft-365-quote" },
       { label: "Log in to HubX", href: "https://hubx.msphub.com" },

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowRight, Building2, Globe2, Layers, Users } from "lucide-react";
 import { HubXLockup, HubXPoweredBy } from "@/components/brand/hubx-logo";
+import { HomeHubxSpotlight, HomeProductProof } from "@/components/hubx/home-sections";
 import { AudienceTabs } from "@/components/marketing/audience-tabs";
 import { BrowserFrame } from "@/components/marketing/browser-frame";
 import {
@@ -21,7 +22,6 @@ import { audiences } from "@/content/audiences";
 import { branches, serviceBranches } from "@/content/branches";
 import { enrolledSolutionAreas } from "@/content/credentials";
 import { vendors } from "@/content/ecosystem";
-import { hubxCapabilities } from "@/content/hubx";
 import { screens } from "@/content/screens";
 import { site } from "@/content/site";
 
@@ -117,17 +117,7 @@ export default function HomePage() {
       </Section>
 
       {/* Product proof (light section: the real product is light-theme by default) */}
-      <Section tone="light">
-        <Container>
-          <SectionHeading
-            tone="light"
-            eyebrow="HubX, powered by MSP Hub"
-            title="The live product, not a mock-up."
-            lead="Every customer, subscription, license, invoice, and margin in one portal. These are real HubX screens with demo data."
-          />
-          <BrowserFrame screen={screens.homeOverview} sizes="(min-width: 1024px) 1100px, 100vw" />
-        </Container>
-      </Section>
+      <HomeProductProof />
 
       {/* Who we serve */}
       <Section id="who-we-serve">
@@ -199,49 +189,8 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* HubX spotlight */}
-      <Section
-        className="pt-0 sm:pt-0 lg:pt-0"
-        decor={<Glow tone="orange" className="top-0 right-[-200px] h-[700px] w-[700px] opacity-70" />}
-      >
-        <Container>
-          <div className="glass glass-lg overflow-hidden p-7 sm:p-10 lg:p-14">
-            <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
-              <div>
-                <HubXLockup logoClassName="h-12 w-auto sm:h-14" />
-                <Eyebrow className="mt-7">The Microsoft portal</Eyebrow>
-                <Display className="mt-3.5">See every license. Control every dollar.</Display>
-                <Lead className="mt-4">
-                  HubX puts procurement, visibility, and margin in one place, so IT, finance, and purchasing stop
-                  reconciling spreadsheets and start making data-driven decisions.
-                </Lead>
-                <p className="mt-5 text-[15px] text-white/70">
-                  For MSPs and VARs, every customer tenant in one console at Tier-1 direct pricing. Your customers see
-                  your brand on invoices and get their own portal access.{" "}
-                  <NeedsConfirm id="whiteLabel" fallback={null} />
-                </p>
-                <div className="mt-7 flex flex-wrap gap-3">
-                  <ButtonLink href="/demo">Schedule a demo</ButtonLink>
-                  <ButtonLink href="/microsoft-365-quote" variant="glass">
-                    Get a licensing quote
-                  </ButtonLink>
-                </div>
-              </div>
-              <ul className="grid gap-3 sm:grid-cols-2">
-                {hubxCapabilities.map((c, i) => (
-                  <li key={c.title} className="rounded-2xl border border-white/12 bg-white/4 p-5">
-                    <span className="text-xs font-semibold tracking-[0.08em] text-brand-orange">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <h3 className="mt-2 font-semibold text-white">{c.title}</h3>
-                    <p className="mt-1.5 text-sm leading-relaxed text-white/70">{c.body}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </Container>
-      </Section>
+      {/* HubX spotlight: the twelve real capabilities (handoff §6.3) */}
+      <HomeHubxSpotlight />
 
       {/* Why MSP Hub */}
       <Section className="pt-0 sm:pt-0 lg:pt-0">

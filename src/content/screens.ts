@@ -26,6 +26,8 @@ export type Screen = {
   theme: ScreenTheme;
   alt: string;
   caption: string;
+  /** Short tab label for carousels and thumbnails. */
+  short: string;
   /** HubX route the capture shows, for the frame's URL chip. */
   path: string;
 };
@@ -35,6 +37,7 @@ export const screens = {
     id: "homeOverview",
     image: s01,
     theme: "light",
+    short: "Overview",
     alt: "HubX home: performance overview with customers, subscriptions, licenses, revenue and margin tiles",
     caption: "Home: performance overview with KPI tiles, top customers, and top products",
     path: "/",
@@ -43,6 +46,7 @@ export const screens = {
     id: "forecastOrders",
     image: s02,
     theme: "light",
+    short: "Forecast",
     alt: "HubX forecast performance and recent customer orders",
     caption: "Forecast performance with a selectable basis, and recent orders by type",
     path: "/",
@@ -51,6 +55,7 @@ export const screens = {
     id: "homeWidgets",
     image: s03,
     theme: "light",
+    short: "Widgets",
     alt: "HubX home widgets: latest invoice, upcoming expirations, service desk, audit logs",
     caption: "Latest invoice, upcoming expirations, Service Desk, and audit log",
     path: "/",
@@ -59,6 +64,7 @@ export const screens = {
     id: "customers",
     image: s04,
     theme: "light",
+    short: "Customers",
     alt: "HubX customer list with revenue, margin and forecast insights",
     caption: "Customers: revenue, margin, and forecast insights with GDAP and transfer tabs",
     path: "/customers",
@@ -67,6 +73,7 @@ export const screens = {
     id: "customerProducts",
     image: s05,
     theme: "light",
+    short: "Products",
     alt: "HubX customer products: subscription details per SKU",
     caption: "Customer products: term, billing, expiration, and renewal per SKU",
     path: "/customers/products",
@@ -75,6 +82,7 @@ export const screens = {
     id: "catalogFilters",
     image: s06,
     theme: "light",
+    short: "Filters",
     alt: "HubX product catalog filters",
     caption: "Catalog filters: publisher, product type, category, qualification, term",
     path: "/marketplace/catalog",
@@ -83,6 +91,7 @@ export const screens = {
     id: "catalog",
     image: s07,
     theme: "light",
+    short: "Catalog",
     alt: "HubX catalog listing with product families and offers",
     caption: "Catalog: 7,600+ SKUs with family → offer drill-down",
     path: "/marketplace/catalog",
@@ -91,6 +100,7 @@ export const screens = {
     id: "quotations",
     image: s08,
     theme: "light",
+    short: "Quotations",
     alt: "HubX quotations pipeline and quotation list",
     caption: "Quotations: pipeline KPIs and the quotation list",
     path: "/quotations",
@@ -99,6 +109,7 @@ export const screens = {
     id: "reports",
     image: s09,
     theme: "light",
+    short: "Reports",
     alt: "HubX reports library",
     caption: "Reports: eleven reports with scheduled email delivery",
     path: "/reports",
@@ -107,6 +118,7 @@ export const screens = {
     id: "dashboards",
     image: s10,
     theme: "light",
+    short: "Dashboards",
     alt: "HubX custom dashboard with revenue, margin and license charts",
     caption: "Dashboards: revenue, margin, subscriptions, and license charts",
     path: "/dashboards",
@@ -115,6 +127,7 @@ export const screens = {
     id: "hubai",
     image: s11,
     theme: "light",
+    short: "Prompts",
     alt: "HubAI assistant with suggested questions",
     caption: "HubAI with suggested prompts",
     path: "/",
@@ -123,6 +136,7 @@ export const screens = {
     id: "hubaiAnswer",
     image: s12,
     theme: "light",
+    short: "Answer",
     alt: "HubAI answering a question with a table of top products",
     caption: "HubAI answering with a ranked table in about five seconds",
     path: "/",
@@ -131,6 +145,7 @@ export const screens = {
     id: "dashboardsDark",
     image: s13,
     theme: "dark",
+    short: "Dark mode",
     alt: "HubX dashboards in dark mode",
     caption: "Dashboards in dark mode",
     path: "/dashboards",
@@ -138,3 +153,6 @@ export const screens = {
 } as const satisfies Record<string, Screen>;
 
 export type ScreenId = keyof typeof screens;
+
+/** Ids of the light-theme captures, so content that feeds light sections cannot reference the dark one. */
+export type LightScreenId = { [K in ScreenId]: (typeof screens)[K]["theme"] extends "light" ? K : never }[ScreenId];

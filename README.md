@@ -45,9 +45,13 @@ src/components/
   layout/                 Header (sticky glass, mobile menu), Footer, social icons
   ui/                     Button, Section/Container/Glow, typography (dark/light tone), cards, NeedsConfirm
   marketing/              Page hero, BrowserFrame (real HubX captures), stats, credentials, logo cloud, FAQ, CTA band
+  hubx/                   HubX section: ScreenshotCarousel (tabbed, keyboard + swipe, no autoplay), ModuleExplorer (WAI-ARIA tabs),
+                          FeatureGrid (the 12 capabilities), HubAiConversation (read-only demo), HubxSubnav, FaqSection (+ FAQPage
+                          schema), Breadcrumbs (+ BreadcrumbList), ModuleCard, home sections, track() analytics shim
   forms/                  LeadForm (client) + field primitives
 src/content/              Typed content: site facts + timeline + leadership, stats, credentials, confirmations registry,
-                          HubX (audiences, capabilities, HubAI demo), services, partners, ecosystem (text chips), screens manifest
+                          HubX (hubx.ts page copy, hubx-modules.ts, hubx-features.ts, hubai-demo.ts, hubx-faq.ts,
+                          hubx-security.ts, hubx-whats-new.ts), services, partners, ecosystem (text chips), screens manifest
 src/lib/                  site.ts (URL/indexing), lead.ts (zod schemas + mailto builder), cn.ts
 public/brand/             Brand assets served as-is (/brand/...): msphub/ (logo kit SVGs + badge), svg/ + png/ (HubX kit)
 public/favicon/           PWA icons (192/512) referenced by public/site.webmanifest
@@ -58,7 +62,11 @@ docs/brand/               HubX-Logo-Guidelines.pdf (the brand kit rules)
 
 ## Sitemap
 
-`/` · `/hubx` · `/services` · `/services/professional` · `/services/managed` · `/services/development` · `/partners` · `/about` · `/contact` · `/demo` · `/microsoft-365-quote` · `/thank-you` · `/privacy` · `/terms` · `/cookies` · 404.
+`/` · `/hubx` · `/hubx/features` · `/hubx/features/[module]` (home, customers, catalog, quotations, billing, dashboards-reports, service-desk, hubai) · `/hubx/security` · `/hubx/whats-new` · `/services` · `/services/professional` · `/services/managed` · `/services/development` · `/partners` · `/about` · `/contact` · `/demo` · `/microsoft-365-quote` · `/thank-you` · `/privacy` · `/terms` · `/cookies` · 404.
+
+### HubX pages
+
+Everything on `/hubx` and below is traceable to the verified module inventory in the private handoff (§6, product walk-through of Nov 2, 2026): nine modules (`src/content/hubx-modules.ts`), the twelve spotlighted capabilities (`src/content/hubx-features.ts`, each linking to its module page), the read-only HubAI demo conversation with fictional data (`src/content/hubai-demo.ts`), the FAQ with FAQPage schema (`src/content/hubx-faq.ts`), the security page (`src/content/hubx-security.ts`), and the early-access release notes (`src/content/hubx-whats-new.ts`). Screenshots come from `public/hubx/` through `src/content/screens.ts`; `ScreenshotCarousel` only accepts captures of one theme (type-checked), and the single dark capture appears on dark bands only. Administration is documented on `/hubx/security` rather than a feature page. The `track()` shim in `src/components/hubx/track.ts` emits `screenshot_view` and `hubx_login_click` as a `msphub:track` DOM event and to `gtag` when present; the analytics loader (Phase 5) subscribes to it, and nothing breaks without one.
 
 Legacy WordPress URLs 301 to their new homes and the old theme-demo URLs (`/team/*`, `/case-studies/*`, `/projects/*`, `/careers/*`, …) return **410 Gone**; both maps live in `next.config.ts` and take effect once msphub.com points at this deployment.
 

@@ -1,55 +1,119 @@
-import {
-  BarChart3,
-  Bot,
-  FileText,
-  LayoutGrid,
-  Receipt,
-  ShoppingCart,
-  type LucideIcon,
-} from "lucide-react";
-
 /** HubX positioning (handoff §1.1). */
 export const hubxTagline = "The command center for MSP scale.";
 export const hubxLockup = "HubX, powered by MSP Hub";
 
-export type Capability = { icon: LucideIcon; title: string; body: string };
+/** Secondary navigation across the HubX pages. */
+export const hubxNav = [
+  { label: "Overview", href: "/hubx" },
+  { label: "Features", href: "/hubx/features" },
+  { label: "Security", href: "/hubx/security" },
+  { label: "What's new", href: "/hubx/whats-new" },
+] as const;
 
-/**
- * Interim capability tiles, drawn from the verified feature inventory
- * (handoff §6.3). Phase 2 expands these into the full 12-tile FeatureGrid.
- */
-export const hubxCapabilities: Capability[] = [
-  {
-    icon: Receipt,
-    title: "Margin on every invoice",
-    body: "Partner cost, customer price, and gross margin per customer on the invoice statement, with what changed since last period.",
+/** /hubx page copy (handoff §5.2). Section order follows the spec. */
+export const hubxPage = {
+  hero: {
+    eyebrow: `The Microsoft portal · ${hubxLockup}`,
+    title: "The Microsoft portal for licensing, procurement, and spend.",
+    lead: "See every license, cost, renewal, and invoice in one place. Buy, provision, and manage directly at Tier-1 pricing. Ask HubAI instead of digging through portals. Built for MSPs managing many customers, and for businesses managing their own.",
+    primary: { label: "Schedule a demo", href: "/demo" },
+    secondary: { label: "Log in to HubX" },
+    chips: ["Microsoft 365 · Azure · Copilot · Dynamics", "Tier-1 direct pricing", "For MSPs, businesses, and direct-bill CSPs"],
   },
-  {
-    icon: BarChart3,
-    title: "Forecast you choose the basis of",
-    body: "Contracted run-rate or trailing twelve-month growth, for the next 3, 6, or 12 months, revenue and gross margin.",
+  audiences: { eyebrow: "Who it's for", title: "One portal. Three ways to run Microsoft." },
+  tour: {
+    eyebrow: "Inside HubX",
+    title: "The live product, with demo data.",
+    lead: "Real HubX screens, light theme as the product ships it. Customers, catalog, quotations, dashboards, reports, and HubAI, captured in November 2026.",
+    screens: ["homeOverview", "customers", "customerProducts", "catalog", "quotations", "dashboards", "reports"],
+    labels: ["Home", "Customers", "Products", "Catalog", "Quotations", "Dashboards", "Reports"],
   },
-  {
-    icon: FileText,
-    title: "Quote → approve → cart → order",
-    body: "Build quotes from the catalog, send them for customer approval, and convert approved quotes to orders, with terms and conditions attached.",
+  modules: {
+    eyebrow: "Modules",
+    title: "Nine modules. One estate.",
+    lead: "Every module below is in the product today. Pick one to see what it does and what it looks like.",
   },
-  {
-    icon: ShoppingCart,
-    title: "Customer-context catalog",
-    body: "7,600+ SKUs filtered to what each customer may buy — commercial, nonprofit, or education — by term and billing frequency.",
+  features: {
+    eyebrow: "Capabilities",
+    title: "Twelve things HubX does that the rest of the stack doesn't.",
+    lead: "Ranked by how often partners ask for them. Each one links to the module that does it.",
   },
-  {
-    icon: LayoutGrid,
-    title: "Transfers and GDAP, in-app",
-    body: "Partner-to-partner transfers and Granular Delegated Admin Privileges tracked in HubX: coverage, expiries, pending approvals.",
+  steps: {
+    eyebrow: "How it works",
+    lead: "Existing subscriptions move by partner-to-partner transfer and the customer accepts the reseller relationship from a link, so timing depends on acceptance and the open transfer window.",
   },
-  {
-    icon: Bot,
-    title: "HubAI",
-    body: "Ask your estate a question in plain language and get a table back in seconds, scoped to the billing subscription you select.",
+  hubai: {
+    eyebrow: "HubAI",
+    title: "Ask your estate a question. Get a table in seconds.",
+    lead: "HubAI answers questions about customers, products, orders, subscriptions, and HubX workflows from your own data, scoped to the billing subscription you select. Read-only today.",
+    screens: ["hubai", "hubaiAnswer"],
+    labels: ["Prompts", "Answer"],
   },
-];
+  trust: { eyebrow: "Integrations & trust", title: "API-first, built on Microsoft Partner Center." },
+  licensing: { eyebrow: "Microsoft licensing", title: "Tier-1 direct pricing on 7,600+ SKUs." },
+  faq: { eyebrow: "Questions", title: "Frequently asked" },
+  cta: {
+    eyebrow: "See it live",
+    title: "See HubX in 30 minutes.",
+    lead: "A live walkthrough of the portal with your tenant scenario, your licensing questions, and clear next steps. No obligation.",
+  },
+} as const;
+
+/** /hubx/features index copy. */
+export const hubxFeaturesPage = {
+  hero: {
+    eyebrow: `Features · ${hubxLockup}`,
+    title: "Everything HubX does, module by module.",
+    lead: "Nine modules, verified from the live product in November 2026. Each page shows the real screens with demo data, what you can do there, and the capabilities partners ask about most.",
+  },
+  modules: {
+    eyebrow: "Modules",
+    title: "Nine modules. One estate.",
+    lead: "Pick a module to see the screens, the capabilities, and where it lives in hubx.msphub.com.",
+  },
+  features: hubxPage.features,
+  cta: {
+    eyebrow: "See it live",
+    title: "See HubX in 30 minutes.",
+    lead: "A live walkthrough of the modules above with your tenant scenario and your licensing questions. No obligation.",
+  },
+} as const;
+
+/** Shared copy for the per-module pages under /hubx/features. */
+export const hubxFeatureTemplate = {
+  screens: { eyebrow: "In the product", title: "Real screens, demo data." },
+  capabilities: { eyebrow: "What you can do", title: "Everything this module does today." },
+  spotlight: { eyebrow: "Why it matters", title: "The capabilities partners ask about." },
+  related: { eyebrow: "Keep exploring", title: "Next module" },
+  cta: {
+    eyebrow: "See it live",
+    title: "See it in your own scenario.",
+    lead: "A 30-minute walkthrough of HubX with your tenants, your customers, and your questions. No obligation.",
+  },
+} as const;
+
+/** Home page HubX sections (handoff §5.1 items 2 and 6). */
+export const hubxHome = {
+  proof: {
+    eyebrow: hubxLockup,
+    title: "The live product, not a mock-up.",
+    lead: "Every customer, subscription, license, invoice, and margin in one portal. These are real HubX screens with demo data.",
+    screens: ["homeOverview", "customers", "catalog", "quotations", "dashboards"],
+    labels: ["Home", "Customers", "Catalog", "Quotations", "Dashboards"],
+    links: [
+      { label: "Explore HubX", href: "/hubx" },
+      { label: "All features", href: "/hubx/features" },
+    ],
+  },
+  spotlight: {
+    eyebrow: "The Microsoft portal",
+    title: "See every license. Control every dollar.",
+    lead: "HubX puts procurement, visibility, and margin in one place, so IT, finance, and purchasing stop reconciling spreadsheets and start making data-driven decisions.",
+    body: "For MSPs and VARs, every customer tenant in one console at Tier-1 direct pricing. Your customers see your brand on invoices and get their own portal access.",
+    primary: { label: "Schedule a demo", href: "/demo" },
+    secondary: { label: "Explore HubX", href: "/hubx" },
+  },
+} as const;
 
 /** Three audiences plus the channel (handoff §1.3, §2 #3). */
 export const hubxAudiences = [
@@ -114,60 +178,6 @@ export const hubxSteps = [
   },
 ];
 
-/** HubAI as it ships today (handoff §2 #5): read-only question answering. */
-export const hubAiFeatures = [
-  {
-    title: "Ask in plain language",
-    body: "Questions about customers, products, orders, subscriptions, and HubX workflows, scoped to the billing subscription you select.",
-  },
-  {
-    title: "Answers in about five seconds",
-    body: "Tables or text you can copy, with edit, retry, and feedback controls on every answer.",
-  },
-  {
-    title: "Suggested prompts",
-    body: "“List all my active customers”, “Licenses expiring in the next 30 days”, “Top products sold last month”.",
-  },
-  {
-    title: "Read-only by design",
-    body: "HubAI reads your HubX data; it does not place orders or change subscriptions.",
-  },
-];
-
-export type HubAiTurn =
-  | { role: "user"; text: string }
-  | { role: "ai"; intro: string; columns: string[]; rows: string[][] };
-
-/** Read-only demo conversation with fictional demo data (handoff §5.2). */
-export const hubAiDemo: HubAiTurn[] = [
-  { role: "user", text: "Which licenses expire in the next 30 days?" },
-  {
-    role: "ai",
-    intro: "Four subscriptions expire in the next 30 days.",
-    columns: ["Subscription", "Customer", "Expires", "Term", "Renewal", "Qty"],
-    rows: [
-      ["Microsoft 365 E3", "Customer A", "Nov 14", "Annual", "Auto-renew off", "420"],
-      ["Business Premium", "Customer D", "Nov 20", "Annual", "Auto-renew on", "85"],
-      ["Teams Phone Standard", "Customer F", "Nov 26", "Monthly", "Auto-renew on", "40"],
-      ["Defender for Business", "Customer K", "Dec 1", "Annual", "Auto-renew off", "120"],
-    ],
-  },
-  { role: "user", text: "Top products sold last month?" },
-  {
-    role: "ai",
-    intro: "Top products by units sold last month.",
-    columns: ["Product", "Units", "Customers"],
-    rows: [
-      ["Microsoft 365 E3", "1,240", "18"],
-      ["Microsoft 365 Business Premium", "860", "27"],
-      ["Copilot for Microsoft 365", "310", "9"],
-      ["Defender for Endpoint P2", "275", "6"],
-    ],
-  },
-];
-
-export const hubAiFooter = "HubAI answers from your own HubX data, scoped to the billing subscription you select.";
-
 /** Observed integrations and trust facts (handoff §2 #6). */
 export const hubxIntegrations = [
   "Native Microsoft Partner Center integration: provisioning, GDAP, partner-to-partner transfers, Microsoft Customer Agreement status",
@@ -176,11 +186,12 @@ export const hubxIntegrations = [
   "Service Desk ticketing shared across customer, partner, and MSP Hub",
 ];
 
+/** Microsoft licensing families sold through HubX (handoff §5.2 chips + additions). */
 export const licensingCatalog = [
   "Microsoft 365 E3",
   "Microsoft 365 E5",
   "Business Premium",
-  "Copilot for Microsoft 365",
+  "Microsoft 365 Copilot",
   "Defender",
   "Purview",
   "Intune & Entra ID",
