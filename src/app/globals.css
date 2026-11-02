@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens.
+ *
+ * `brand-*` values are the exact colors from the HubX brand kit
+ * (docs/brand/HubX-Logo-Guidelines.pdf, section 03). The remaining surface
+ * colors come from the website plan and may change once the design direction
+ * is approved. Usage: `bg-brand-orange`, `text-brand-charcoal`, `bg-ink`, ...
+ */
+@theme {
+  --color-brand-orange: #f97316;
+  --color-brand-charcoal: #424242;
+  --color-brand-white: #ffffff;
+  --color-brand-canvas: #eeeeee;
+
+  --color-ink: #0a0d14;
+  --color-navy-900: #0f1a33;
+  --color-navy-700: #132142;
+}
+
+/*
+ * Font tokens. The faces are loaded with next/font in `src/app/fonts.ts`, which
+ * sets the `--font-body` and `--font-heading` variables on <html>.
+ * Usage: `font-sans` (body copy, default) and `font-display` (headlines).
+ */
+@theme inline {
+  --font-sans:
+    var(--font-body), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-display: var(--font-heading), ui-serif, Georgia, "Times New Roman", serif;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-brand-white);
+  font-family: var(--font-sans);
+}
