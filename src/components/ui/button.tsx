@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/cn";
 
-type Variant = "primary" | "glass" | "ghost";
+type Variant = "primary" | "glass" | "ghost" | "outline";
 type Size = "md" | "sm" | "lg";
 
 const base =
@@ -14,6 +14,8 @@ const variants: Record<Variant, string> = {
   glass:
     "border border-white/20 bg-white/8 text-white backdrop-blur-md hover:bg-white/12",
   ghost: "text-white/70 hover:text-white hover:translate-y-0",
+  /** Secondary button for light `canvas` sections. */
+  outline: "border border-black/15 bg-white text-charcoal hover:bg-canvas",
 };
 
 const sizes: Record<Size, string> = {

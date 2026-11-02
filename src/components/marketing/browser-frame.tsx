@@ -100,7 +100,7 @@ export function BrowserFrame({
         </div>
       </div>
       {caption ? (
-        <figcaption className={cn("mt-3 text-center text-xs", dark ? "text-white/60" : "text-charcoal/80")}>
+        <figcaption className="mt-3 text-center text-xs text-current opacity-85">
           HubX — live product, demo data. {screen.caption}.
           {viewport === "scroll" ? <span className="hidden lg:inline"> Scroll inside the window to see the full page.</span> : null}
         </figcaption>

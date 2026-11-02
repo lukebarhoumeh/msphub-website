@@ -172,7 +172,7 @@ export default function LicensingPage() {
           />
           <BrowserFrame screen={screens.customerProducts} sizes="(min-width: 1024px) 1100px, 100vw" viewport="scroll" />
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <ButtonLink href="/hubx" variant="glass" className="border-black/15 bg-white text-charcoal hover:bg-white/80">
+            <ButtonLink href="/hubx" variant="outline">
               Explore HubX
             </ButtonLink>
           </div>

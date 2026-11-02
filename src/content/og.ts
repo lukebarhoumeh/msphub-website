@@ -112,4 +112,9 @@ export const ogCopy = {
     title: "Insights from the MSP Hub team.",
     alt: "MSP Hub news and Microsoft licensing insights",
   },
+  partnerApply: {
+    eyebrow: "Partners",
+    title: "Apply to partner with MSP Hub.",
+    alt: "Apply to the MSP Hub partner programs: reseller, agent, platform",
+  },
 } as const satisfies Record<string, OgCopy>;

@@ -57,7 +57,7 @@ export default function ProfessionalServicesPage() {
               <div key={practice.name}>
                 <h3 className="mb-4 flex items-center gap-3 text-sm font-semibold tracking-[0.12em] text-brand-orange uppercase">
                   {practice.name}
-                  <span className="text-white/35">{practice.tiles.length} capabilities</span>
+                  <span className="text-white/60">{practice.tiles.length} capabilities</span>
                 </h3>
                 <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {practice.tiles.map(([title, body]) => (

@@ -13,6 +13,9 @@ import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 import { siteUrl } from "@/lib/site";
 
+/** Fully static: an unknown param renders the 404 with its status instead of streaming a 200 shell first. */
+export const ensureStatic = "navigation";
+
 export function generateStaticParams() {
   return postSlugs.map((slug) => ({ slug }));
 }
