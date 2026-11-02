@@ -38,18 +38,18 @@ npm run lint     # eslint
 src/app/                  Routes (App Router), root layout, global CSS, metadata files
   api/lead/route.ts       The one form endpoint (all four conversion flows)
   gone/route.ts           410 Gone for old theme-demo URLs (wired via rewrites)
-  opengraph-image.tsx     Site-wide OG image (MSP Hub wordmark)
+  opengraph-image.png     Site-wide OG image (from the MSP Hub logo kit)
   sitemap.ts, robots.ts   SEO files; robots disallows everything until indexing is enabled
 src/components/
-  brand/                  MspHubLogo (single logo asset), HubXLogo / HubXPoweredBy
+  brand/                  MspHubLogo + MspHubPoweredByBadge (single asset paths), HubXLogo / HubXWithBadge / HubXPoweredBy
   layout/                 Header (sticky glass, mobile menu), Footer, social icons
   ui/                     Button, Section/Container/Glow, typography, cards, Needs tag
   marketing/              Page hero, portal mock-up, stats, logos, testimonials, FAQ, CTA band
   forms/                  LeadForm (client) + field primitives
 src/content/              Typed content: site config, nav, branches, HubX, services, proof, needs registry
 src/lib/                  site.ts (URL/indexing), lead.ts (zod schemas + mailto builder), cn.ts
-src/assets/fonts/         TTF used only to render the OG image
-public/brand/             Brand assets served as-is (/brand/...)
+public/brand/             Brand assets served as-is (/brand/...): msphub/ (logo kit SVGs + badge), svg/ + png/ (HubX kit)
+public/favicon/           PWA icons (192/512) referenced by public/site.webmanifest
 public/proof/             Vendor logos and award image carried over from msphub.com
 docs/brand/               HubX-Logo-Guidelines.pdf (the brand kit rules)
 ```
@@ -84,8 +84,30 @@ Set them in Vercel → Project → Settings → Environment Variables (scoped to
 
 **Brand rule (Luke, Nov 2 2026): the site is branded MSP Hub, not HubX.** The `<title>`, site name in metadata, header logo, hero headline, favicon/app icon, footer, and Open Graph image all use MSP Hub. HubX appears only where the Microsoft side is introduced (the HubX spotlight on the home page, `/hubx`, `/demo`, and the Microsoft 365 quote flow), is always written "HubX, powered by MSP Hub", and carries the HubX logo there. Present HubX as the new flagship product under MSP Hub, never as the company.
 
-- `public/brand/msphub/msphub-name-logo.png` — the MSP Hub wordmark supplied by Luke (white on transparent; dark backgrounds only). It is referenced from exactly one place, `src/components/brand/msp-hub-logo.tsx`, so the new logo concepts in progress can be swapped in by replacing that file and its intrinsic size — nothing else changes (the OG image reads the same constant).
-- `public/brand/msphub/msp-hub-icon.svg` — the MSP Hub hex mark from the current msphub.com, used for the favicon and app icon until master files arrive.
+### MSP Hub logo (concept "Core", kit v1.0, Nov 2 2026)
+
+An orange core held by two brackets beside the `MSP Hub` wordmark; all SVGs are outlined artwork. The lockup is referenced from exactly one place, `src/components/brand/msp-hub-logo.tsx` (`MSP_HUB_LOGO` and `MSP_HUB_POWERED_BY_BADGE`), so a future change is a one-file swap.
+
+| Asset | Where it is used |
+| --- | --- |
+| `public/brand/msphub/svg/msphub-logo-horizontal-reversed.svg` | Header (28 px tall on mobile, 32 px on desktop) and footer. `msphub-logo-stacked-reversed.svg` is available for narrow columns. |
+| `public/brand/msphub/badge/msphub-powered-by-reversed.svg` | "Powered by MSP Hub" badge beside every HubX logo (home spotlight and branch card, `/hubx`, `/demo`, the "Pairs with HubX" callouts) via `HubXWithBadge`. |
+| `src/app/icon.svg`, `src/app/favicon.ico`, `src/app/apple-icon.png` | Favicon set from the kit, wired through the Next.js metadata file conventions. `icon.svg` switches the brackets from charcoal to white with the browser colour scheme; `favicon.ico` is the one-colour orange mark for browsers without SVG favicons. |
+| `public/favicon/icon-192.png`, `icon-512.png`, `public/site.webmanifest` | PWA icons with `"purpose": "any maskable"`; the manifest is linked from the root metadata. `icon-512.png` is also the Organization logo in JSON-LD. |
+| `src/app/opengraph-image.png` (+ `.alt.txt`) | The kit's 1200 × 630 `og/og-image.png`, served as the site-wide `og:image`. |
+| `public/brand/msphub/svg/` (all colour versions, `with-tm/`), `badge/msphub-powered-by-positive.svg` | The rest of the kit for the dev team: positive versions for light grounds, white knockout, charcoal and orange one-colour, lockups with ™ for legal and print. |
+
+Rules from the MSP Hub guidelines that bind the site:
+
+- Pick the version by background: reversed on dark (the whole site), positive on white/light, all-white on orange or photos with a dark overlay.
+- Clear space: half the mark's height on every side of a lockup, measured from the mark (a 32 px header logo needs 16 px); the mark alone gets a quarter of its height.
+- Minimum sizes on screen: horizontal lockup 24 px tall (about 140 px wide), header 28–32 px; stacked lockup 48 px; mark alone 16 px — below the lockup minimums switch to the mark. Badge 24 px minimum.
+- Beside a HubX logo: align both on the same vertical centre, separate them with a 1 px rule or clear space of one mark height, and set the badge at 0.75–1× the HubX logo's height (`HubXWithBadge` does this). The open diamond inside the HubX X is the MSP Hub core; never nest one mark in the other or recolour either.
+- Never stretch, rotate, crop, add shadows/glows/gradients/glass effects to the artwork (glass panels sit behind the logo, not on it), recolour, put the core on an orange field, or retype "MSP Hub" as a logo. Write `MSP Hub` in text, never `MSPHub` or `MSP HUB`.
+- Colours are shared with the HubX kit: Brand Orange `#F97316`, Charcoal `#424242`, White.
+
+### HubX brand kit
+
 - `public/brand/svg`, `public/brand/png` — the unmodified HubX brand kit, used under the kit's rules below.
 
 Pick the HubX version by background, per the guidelines:
@@ -96,12 +118,10 @@ Pick the HubX version by background, per the guidelines:
 | `hubx-logo-reversed` | Charcoal, black, dark mode — **the site's default** |
 | `hubx-logo-white` | Orange, photos, other colored fields |
 | `hubx-logo-charcoal` | One-color / grayscale uses |
-| `hubx-mark-*` | Favicon, avatars, tight UI (never the full logo below 24 px) |
+| `hubx-mark-*` | Avatars and tight UI for HubX itself (never the full logo below 24 px) |
 | `hubx-app-icon` | App stores, home screens, integrations |
 
-Rules that apply to every page: keep clear space of half the logo height on all sides, never add glows/shadows/gradients to the logo, never recolor or retype it, and write the name as `HubX`. Full text in `docs/brand/HubX-Logo-Guidelines.pdf`.
-
-Favicon (`src/app/icon.svg`, `favicon.ico`) and Apple touch icon (`src/app/apple-icon.png`) are the MSP Hub hex mark (site brand rule above). The HubX X mark stays reserved for HubX-specific surfaces.
+Rules that apply to every page: keep clear space of half the logo height on all sides, never add glows/shadows/gradients to the logo, never recolor or retype it, and write the name as `HubX`. Full text in `docs/brand/HubX-Logo-Guidelines.pdf`. The site's favicon is the MSP Hub mark (brand rule above); the HubX X mark stays reserved for HubX-specific surfaces.
 
 ## Design tokens
 

@@ -39,7 +39,7 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/60 backdrop-blur-xl backdrop-saturate-150">
       <Container className="flex h-[68px] items-center justify-between gap-6 lg:h-[76px]">
         <Link href="/" aria-label="MSP Hub home" className="flex shrink-0 items-center py-3">
-          <MspHubLogo priority className="h-5 w-auto sm:h-6 lg:h-7" />
+          <MspHubLogo priority className="h-7 w-auto lg:h-8" />
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">

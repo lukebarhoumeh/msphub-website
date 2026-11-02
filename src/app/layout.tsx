@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { bodyFont, headingFont } from "./fonts";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
-import { MSP_HUB_LOGO } from "@/components/brand/msp-hub-logo";
 import { site } from "@/content/site";
 import { allowIndexing, siteUrl } from "@/lib/site";
 import "./globals.css";
@@ -17,6 +16,7 @@ export const metadata: Metadata = {
   description: site.description,
   openGraph: { siteName: site.name, type: "website", locale: "en_US" },
   twitter: { card: "summary_large_image" },
+  manifest: "/site.webmanifest",
   robots: allowIndexing ? undefined : { index: false, follow: false },
 };
 
@@ -31,7 +31,7 @@ const organizationJsonLd = {
   name: site.name,
   legalName: site.legalName,
   url: siteUrl,
-  logo: `${siteUrl}${MSP_HUB_LOGO.src}`,
+  logo: `${siteUrl}/favicon/icon-512.png`,
   email: site.salesEmail,
   sameAs: Object.values(site.social),
   contactPoint: [{ "@type": "ContactPoint", contactType: "sales", email: site.salesEmail }],

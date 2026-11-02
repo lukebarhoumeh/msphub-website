@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ArrowRight, Building2, Globe2, Layers, Users } from "lucide-react";
-import { HubXLogo, HubXPoweredBy } from "@/components/brand/hubx-logo";
+import { HubXPoweredBy, HubXWithBadge } from "@/components/brand/hubx-logo";
 import {
   AwardCard,
   CtaBand,
@@ -106,7 +106,7 @@ export default function HomePage() {
                   7 <small className="ml-2 text-xs font-medium text-success">auto-scheduled</small>
                 </p>
               </div>
-              <div className="glass absolute -bottom-6 left-2 hidden min-w-[190px] rounded-2xl px-4 py-3.5 xl:block">
+              <div className="glass absolute bottom-16 -left-6 hidden min-w-[190px] rounded-2xl px-4 py-3.5 xl:block">
                 <p className="text-[11.5px] tracking-[0.08em] text-white/45 uppercase">Licenses managed</p>
                 <p className="mt-0.5 text-xl font-semibold tabular-nums">
                   12,480 <small className="ml-2 text-xs font-medium text-success">+3.2%</small>
@@ -141,7 +141,7 @@ export default function HomePage() {
                 <span className="inline-flex h-7.5 items-center rounded-full border border-brand-orange/30 bg-brand-orange/12 px-3 text-xs font-semibold tracking-[0.06em] text-brand-orange uppercase">
                   Flagship · the Microsoft portal
                 </span>
-                <HubXLogo className="mt-5 mb-4 h-10 w-auto" />
+                <HubXWithBadge hubxClassName="h-10 w-auto" badgeClassName="h-8 w-auto" className="mt-5 mb-4" />
                 <h3 className="text-2xl font-semibold tracking-tight text-white">{hubx.short}</h3>
                 <p className="mt-3 text-[15px] leading-relaxed text-white/70">{hubx.description}</p>
                 <p className="mt-4">
@@ -219,8 +219,8 @@ export default function HomePage() {
           <div className="glass glass-lg overflow-hidden p-7 sm:p-10 lg:p-14">
             <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
               <div>
-                <HubXLogo className="h-12 w-auto sm:h-14" />
-                <p className="mt-3 text-sm text-white/70">HubX, powered by MSP Hub</p>
+                <HubXWithBadge />
+                <p className="mt-4 text-sm text-white/70">HubX, powered by MSP Hub</p>
                 <Eyebrow className="mt-7">The Microsoft portal</Eyebrow>
                 <Display className="mt-3.5">See every license. Control every dollar.</Display>
                 <Lead className="mt-4">

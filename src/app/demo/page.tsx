@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { CalendarDays } from "lucide-react";
-import { HubXLogo } from "@/components/brand/hubx-logo";
+import { HubXWithBadge } from "@/components/brand/hubx-logo";
 import { LeadForm } from "@/components/forms/lead-form";
 import { CheckList, Testimonial, TrustStrip } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
@@ -25,7 +25,7 @@ export default function DemoPage() {
         title="See HubX in 30 minutes."
         lead="A live walkthrough of the Microsoft portal with your tenant scenario, your licensing questions, and clear next steps. No obligation."
       >
-        <HubXLogo className="h-9 w-auto" />
+        <HubXWithBadge hubxClassName="h-9 w-auto" badgeClassName="h-7 w-auto" />
       </PageHero>
 
       <Section className="pt-0 sm:pt-0 lg:pt-0">

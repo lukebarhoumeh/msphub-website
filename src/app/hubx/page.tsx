@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ArrowRight, Cable, ShieldCheck, Headset } from "lucide-react";
-import { HubXLogo } from "@/components/brand/hubx-logo";
+import { HubXWithBadge } from "@/components/brand/hubx-logo";
 import { CheckList, CtaBand, Faq, Steps, Testimonial } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PortalFrame } from "@/components/marketing/portal-frame";
@@ -110,7 +110,7 @@ export default function HubXPage() {
 
       <Section tight className="pt-0 sm:pt-0">
         <Container className="flex flex-col items-center gap-5 text-center">
-          <HubXLogo className="h-12 w-auto sm:h-14" />
+          <HubXWithBadge className="justify-center" />
           <p className="text-sm text-white/70">HubX, powered by MSP Hub. Delivered by MSP Hub&apos;s services team.</p>
           <div className="flex flex-wrap justify-center gap-2">
             <Chip>Microsoft 365 · Azure · Copilot · Dynamics</Chip>

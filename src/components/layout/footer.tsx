@@ -21,7 +21,7 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
           <div className="md:col-span-2 lg:col-span-1">
             <Link href="/" aria-label="MSP Hub home" className="inline-flex">
-              <MspHubLogo className="h-6 w-auto" />
+              <MspHubLogo className="h-8 w-auto" />
             </Link>
             <p className="mt-4 max-w-[34ch] text-sm leading-relaxed text-white/70">{site.tagline}</p>
             <p className="mt-3 flex flex-wrap items-center gap-2 text-xs text-white/45">
