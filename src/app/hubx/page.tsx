@@ -201,7 +201,7 @@ export default function HubXPage() {
               </div>
             </div>
             <div className="flex flex-col items-start gap-3">
-              <ButtonLink href="/microsoft-365-quote">Get a licensing quote</ButtonLink>
+              <ButtonLink href="/licensing/quote">Get a licensing quote</ButtonLink>
               <ButtonLink href="/contact" variant="glass">
                 Talk to licensing
               </ButtonLink>

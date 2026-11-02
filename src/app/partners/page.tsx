@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { ArrowRight, Briefcase, Handshake, Layers, Megaphone } from "lucide-react";
 import { CheckList, CtaBand, LogoCloud, Steps } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
@@ -9,13 +8,13 @@ import { Container, Glow, Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/typography";
 import { alliances, vendors } from "@/content/ecosystem";
 import { partnerEconomics, partnerEnablement, partnerPrograms, partnerSteps } from "@/content/partners";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Partners — reseller, agent, and platform programs",
-  description:
-    "Three ways to partner with MSP Hub: resell Microsoft at Tier-1 direct pricing through HubX, refer opportunities as an agent, or run HubX on your own Partner Center tenant as a direct-bill CSP.",
-  alternates: { canonical: "/partners" },
-};
+  description: "Three ways to partner with MSP Hub: resell Microsoft at Tier-1 direct pricing through HubX, refer opportunities as an agent, or run HubX on your own Partner Center tenant as a direct-bill CSP.",
+  path: "/partners",
+});
 
 const why = [
   {
@@ -40,6 +39,9 @@ const why = [
   },
 ];
 
+/** Literal class names so Tailwind's scanner emits every stagger step. */
+const stagger = ["stagger-1", "stagger-2", "stagger-3", "stagger-4", "stagger-5"];
+
 export default function PartnersPage() {
   return (
     <>
@@ -48,8 +50,8 @@ export default function PartnersPage() {
         title="Grow with MSP Hub."
         lead="For MSPs, VARs, agents, and direct-bill CSPs who want Tier-1 Microsoft pricing, a services team behind them, and a platform their customers can see themselves in."
       >
-        <ButtonLink href="/contact?topic=partnership#contact-form">
-          Become a partner
+        <ButtonLink href="/partners/apply">
+          Apply to partner
           <ArrowRight className="size-4" aria-hidden />
         </ButtonLink>
         <ButtonLink href="/demo" variant="glass">
@@ -61,8 +63,8 @@ export default function PartnersPage() {
         <Container>
           <SectionHeading eyebrow="Why partner" title="Licensing is the tip of the spear. Services make you sticky." />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {why.map((w) => (
-              <FeatureCard key={w.title} icon={w.icon} title={w.title}>
+            {why.map((w, i) => (
+              <FeatureCard key={w.title} icon={w.icon} title={w.title} className={`motion-safe:animate-fade-up ${stagger[i]}`}>
                 {w.body}
               </FeatureCard>
             ))}
@@ -70,32 +72,42 @@ export default function PartnersPage() {
         </Container>
       </Section>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
+      <Section tone="light">
         <Container>
           <SectionHeading
+            tone="light"
             eyebrow="Three programs"
             title="Resell, refer, or run the platform."
-            lead={<NeedsConfirm id="partnerTiers" fallback="One program, with pricing by volume. No tiers to climb." />}
+            lead={<NeedsConfirm id="partnerTiers" fallback="One program per path, with pricing by volume. No tiers to climb." />}
           />
           <div className="grid gap-4 lg:grid-cols-3">
             {partnerPrograms.map((p) => (
-              <GlassCard key={p.id} className="p-8">
-                <p className="text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">{p.who}</p>
-                <h3 className="mt-3 font-display text-[1.625rem] leading-tight tracking-[-0.01em] text-white">{p.name}</h3>
-                <CheckList items={p.gets} className="mt-5" />
+              <GlassCard key={p.id} tone="light" className="flex flex-col p-8">
+                <p className="font-mono text-xs font-semibold tracking-[0.12em] text-charcoal uppercase">{p.who}</p>
+                <h3 className="mt-3 font-display text-[1.625rem] leading-tight tracking-[-0.01em] text-charcoal">{p.name}</h3>
+                <CheckList items={p.gets} tone="light" className="mt-5 flex-1" />
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <ButtonLink href={p.href} size="sm">
+                    About the program
+                    <ArrowRight className="size-4" aria-hidden />
+                  </ButtonLink>
+                  <ButtonLink href={`/partners/apply?program=${p.id}`} variant="glass" size="sm" className="border-black/15 bg-white text-charcoal hover:bg-white/80">
+                    Apply
+                  </ButtonLink>
+                </div>
               </GlassCard>
             ))}
           </div>
-          <p className="mt-6 max-w-[80ch] text-[15px] text-white/70">{partnerEconomics}</p>
+          <p className="mt-6 max-w-[80ch] text-[15px] text-charcoal/85">{partnerEconomics}</p>
         </Container>
       </Section>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
+      <Section>
         <Container>
           <SectionHeading eyebrow="How it works" title="Apply, onboard, transact." lead="The same path for every program. Deal registration is a form to the partner team." />
           <Steps steps={partnerSteps} />
           <GlassCard className="mt-4">
-            <p className="text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">Enablement</p>
+            <p className="font-mono text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">Enablement</p>
             <CheckList items={partnerEnablement} className="mt-4 sm:grid-cols-2" />
           </GlassCard>
         </Container>
@@ -123,7 +135,7 @@ export default function PartnersPage() {
         <CtaBand
           title="Become a partner."
           lead="Tell us about your customers and the Microsoft workloads you sell. We set up a call with the partner team."
-          primary={{ label: "Become a partner", href: "/contact?topic=partnership#contact-form" }}
+          primary={{ label: "Apply to partner", href: "/partners/apply" }}
           secondary={[{ label: "Schedule a HubX demo", href: "/demo" }]}
         />
       </Section>

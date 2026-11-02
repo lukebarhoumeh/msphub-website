@@ -13,7 +13,7 @@ import { site } from "@/content/site";
 export const metadata: Metadata = {
   title: "Contact MSP Hub",
   description:
-    "Schedule a HubX demo, start a service inquiry, request a Microsoft 365 quote, or send a general message. Every form reaches sales@msphub.com.",
+    "Schedule a HubX demo, start a service inquiry, request a licensing quote, or send a general message. Every form reaches sales@msphub.com.",
   alternates: { canonical: "/contact" },
 };
 
@@ -34,9 +34,9 @@ const paths = [
   },
   {
     icon: FileText,
-    title: "Microsoft 365 quote",
+    title: "Licensing quote",
     body: "Tier-1 direct pricing on Microsoft 365, Azure, and Copilot.",
-    href: "/microsoft-365-quote",
+    href: "/licensing/quote",
     cta: "Request a quote",
   },
   {

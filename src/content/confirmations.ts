@@ -174,6 +174,16 @@ export const confirmations = {
     label: "Website orange",
     detail: "Standardize on #F97316 (HubX kit) and retire the print orange #E88B2C on the web.",
   },
+  eaCspGuide: {
+    kind: "asset",
+    label: "EA → CSP customer guide",
+    detail: "The Microsoft Learn–cited guide has not been supplied; /licensing/ea-to-csp carries interim copy from the handoff until it arrives.",
+  },
+  insightsSource: {
+    kind: "asset",
+    label: "WordPress export for Insights",
+    detail: "Posts are rebuilt from facts in the handoff, not the original msphub.com text; replace with the originals when the export lands.",
+  },
 } as const satisfies Record<string, Confirmation>;
 
 export type ConfirmId = keyof typeof confirmations;

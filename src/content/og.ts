@@ -66,4 +66,50 @@ export const ogCopy = {
     title: "Tier-1 direct pricing on Microsoft 365, Azure, and Copilot.",
     alt: "Request a Microsoft licensing quote from MSP Hub",
   },
+  licensing: {
+    eyebrow: "Microsoft licensing · CSP direct-bill partner",
+    title: "Microsoft licensing, bought direct.",
+    alt: "Microsoft licensing from MSP Hub, a CSP direct-bill partner",
+  },
+  switch: {
+    eyebrow: "Switch to MSP Hub",
+    title: "Send us your current invoice. Nothing gets re-bought.",
+    alt: "Switch your Microsoft licensing to MSP Hub by partner-to-partner transfer",
+  },
+  eaToCsp: {
+    eyebrow: "Enterprise Agreement to CSP",
+    title: "From an Enterprise Agreement to CSP, without a reset.",
+    alt: "Moving an Enterprise Agreement to Microsoft CSP with MSP Hub",
+  },
+  beyondMicrosoft: {
+    eyebrow: "Beyond Microsoft",
+    title: "One partner, one invoice.",
+    alt: "Procurement beyond Microsoft through MSP Hub",
+  },
+  reseller: {
+    eyebrow: "Reseller partner program",
+    title: "Resell Microsoft at Tier-1 direct pricing through HubX.",
+    alt: "MSP Hub reseller partner program for MSPs and VARs",
+  },
+  agents: {
+    eyebrow: "Agent and referral partner program",
+    title: "Bring the opportunity. MSP Hub sells and delivers.",
+    alt: "MSP Hub agent and referral partner program",
+  },
+  platform: {
+    eyebrow: "Platform partner program",
+    title: "Run HubX on your own Partner Center tenant.",
+    alt: "HubX for direct-bill CSPs",
+    product: true,
+  },
+  support: {
+    eyebrow: "Support",
+    title: "Support that matches the service.",
+    alt: "MSP Hub support: HubX Service Desk, business-hours licensing support, Microsoft escalation",
+  },
+  insights: {
+    eyebrow: "News & Insights",
+    title: "Insights from the MSP Hub team.",
+    alt: "MSP Hub news and Microsoft licensing insights",
+  },
 } as const satisfies Record<string, OgCopy>;

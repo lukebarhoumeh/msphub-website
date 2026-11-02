@@ -281,14 +281,15 @@ export function Testimonials({ className }: { className?: string }) {
 
 type Step = { title: string; body: string };
 
-export function Steps({ steps, className }: { steps: Step[]; className?: string }) {
+export function Steps({ steps, className, tone = "dark" }: { steps: Step[]; className?: string; tone?: "dark" | "light" }) {
+  const dark = tone === "dark";
   return (
     <ol className={cn("grid gap-4 md:grid-cols-3", className)}>
       {steps.map((step, i) => (
-        <li key={step.title} className="glass p-7">
+        <li key={step.title} className={cn(dark ? "glass" : "card-light", "p-7")}>
           <span className="font-display text-[2.75rem] leading-none text-brand-orange">{i + 1}</span>
-          <h3 className="mt-4 text-lg font-semibold text-white">{step.title}</h3>
-          <p className="mt-2 text-[15px] leading-relaxed text-white/70">{step.body}</p>
+          <h3 className={cn("mt-4 text-lg font-semibold", dark ? "text-white" : "text-charcoal")}>{step.title}</h3>
+          <p className={cn("mt-2 text-[15px] leading-relaxed", dark ? "text-white/70" : "text-charcoal/80")}>{step.body}</p>
         </li>
       ))}
     </ol>
@@ -297,17 +298,23 @@ export function Steps({ steps, className }: { steps: Step[]; className?: string 
 
 export type FaqItem = { q: string; a: React.ReactNode; /** Plain-text answer for FAQPage schema. */ schemaText?: string };
 
-export function Faq({ items, className }: { items: FaqItem[]; className?: string }) {
+export function Faq({ items, className, tone = "dark" }: { items: FaqItem[]; className?: string; tone?: "dark" | "light" }) {
+  const dark = tone === "dark";
   return (
     <div className={cn("mx-auto grid max-w-[860px] gap-2.5", className)}>
       {items.map((item, i) => (
-        <details key={item.q} className="glass glass-soft group px-6" open={i === 0}>
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-semibold text-white [&::-webkit-details-marker]:hidden">
+        <details key={item.q} className={cn(dark ? "glass glass-soft" : "card-light", "group px-6")} open={i === 0}>
+          <summary
+            className={cn(
+              "flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-semibold [&::-webkit-details-marker]:hidden",
+              dark ? "text-white" : "text-charcoal",
+            )}
+          >
             {item.q}
             <span aria-hidden className="text-2xl leading-none text-brand-orange group-open:hidden">+</span>
             <span aria-hidden className="hidden text-2xl leading-none text-brand-orange group-open:inline">–</span>
           </summary>
-          <div className="max-w-[70ch] pb-5 text-[15px] leading-relaxed text-white/70">{item.a}</div>
+          <div className={cn("max-w-[70ch] pb-5 text-[15px] leading-relaxed", dark ? "text-white/70" : "text-charcoal/80")}>{item.a}</div>
         </details>
       ))}
     </div>
@@ -365,11 +372,11 @@ export function TextLink({ href, children, className }: { href: string; children
 }
 
 /** Checkmark bullet list used on audience and capability cards. */
-export function CheckList({ items, className }: { items: readonly string[]; className?: string }) {
+export function CheckList({ items, className, tone = "dark" }: { items: readonly string[]; className?: string; tone?: "dark" | "light" }) {
   return (
     <ul className={cn("grid gap-2.5", className)}>
       {items.map((item) => (
-        <li key={item} className="flex items-start gap-3 text-[15px] text-white/75">
+        <li key={item} className={cn("flex items-start gap-3 text-[15px]", tone === "dark" ? "text-white/75" : "text-charcoal/85")}>
           <span
             aria-hidden
             className="mt-[3px] grid size-[18px] shrink-0 place-items-center rounded-full border border-brand-orange/45 bg-brand-orange/15"

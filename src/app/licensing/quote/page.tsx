@@ -1,32 +1,33 @@
-import type { Metadata } from "next";
 import { HubXPoweredBy } from "@/components/brand/hubx-logo";
 import { LeadForm } from "@/components/forms/lead-form";
+import { InvoiceUpload } from "@/components/licensing/invoice-upload";
 import { CheckList, TrustStrip } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Chip, GlassCard } from "@/components/ui/card";
 import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container, Section } from "@/components/ui/section";
 import { Display, Eyebrow, Lead } from "@/components/ui/typography";
-import { licensingCatalog } from "@/content/hubx";
+import { licenseOptions } from "@/content/forms";
+import { quotePage } from "@/content/licensing";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Licensing quote — Tier-1 direct pricing on Microsoft 365, Azure, and Copilot",
   description:
-    "Request Tier-1 direct pricing on Microsoft 365, Azure, Copilot, and the rest of the Microsoft catalog from MSP Hub. Licenses are managed in HubX, powered by MSP Hub.",
-  alternates: { canonical: "/microsoft-365-quote" },
-};
+    "Request Tier-1 direct pricing on Microsoft 365, Azure, Copilot, and the rest of the Microsoft catalog from MSP Hub, a CSP direct-bill partner. Attach your current invoice for a line-by-line comparison.",
+  path: "/licensing/quote",
+  socialTitle: "Request a Microsoft licensing quote",
+});
 
 export default function QuotePage() {
   return (
     <>
-      <PageHero
-        eyebrow="Microsoft licensing"
-        title="Tier-1 direct pricing on Microsoft 365, Azure, and Copilot."
-        lead="Tell us what you run and what renews when. A licensing specialist replies with pricing, the right plan mix, and any savings we can see."
-      >
+      <PageHero eyebrow={quotePage.eyebrow} title={quotePage.title} lead={quotePage.lead}>
         <div className="flex flex-wrap gap-2">
-          {licensingCatalog.map((sku) => (
-            <Chip key={sku}>{sku}</Chip>
+          {licenseOptions.map((sku) => (
+            <Chip key={sku} mono>
+              {sku}
+            </Chip>
           ))}
         </div>
       </PageHero>
@@ -37,20 +38,19 @@ export default function QuotePage() {
             <div className="space-y-6">
               <GlassCard>
                 <Eyebrow>Why buy through MSP Hub</Eyebrow>
-                <CheckList
-                  className="mt-4"
-                  items={[
-                    "Microsoft CSP direct-bill partner: no distributor layer in the price",
-                    "Existing subscriptions transfer; nothing is re-bought",
-                    "Every license managed, renewed, and optimized in HubX",
-                    "Migration and managed services from the same team",
-                  ]}
-                />
+                <CheckList className="mt-4" items={quotePage.why} />
                 <p className="mt-5">
                   <HubXPoweredBy logoClassName="h-5 w-auto" />
                 </p>
               </GlassCard>
-              <p className="text-sm text-white/55">
+              <GlassCard>
+                <Eyebrow>Already buying Microsoft?</Eyebrow>
+                <p className="mt-3 text-[15px] leading-relaxed text-white/70">
+                  Attach your current invoice and the deal desk returns a line-by-line comparison and a transfer plan. Existing subscriptions
+                  move by partner-to-partner transfer; nothing is re-bought.
+                </p>
+              </GlassCard>
+              <p className="text-sm text-white/70">
                 <NeedsConfirm id="quoteResponse" fallback="Response within one business day." />
               </p>
             </div>
@@ -59,7 +59,9 @@ export default function QuotePage() {
                 Request a quote
               </Display>
               <Lead className="mb-7 text-base">Approximate numbers are fine; we refine them with you.</Lead>
-              <LeadForm kind="quote" />
+              <LeadForm kind="quote">
+                <InvoiceUpload kind="quote" />
+              </LeadForm>
             </div>
           </div>
         </Container>

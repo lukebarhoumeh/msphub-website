@@ -14,6 +14,8 @@ import {
   timelineOptions,
   topicOptions,
 } from "@/content/forms";
+import { partnerForm, switchForm } from "@/content/lead-kinds";
+import { partnerRegionOptions, partnerSizeOptions, programOptions } from "@/content/partners";
 
 /*
  * Lead kinds registry.
@@ -149,6 +151,38 @@ export const leadKinds = {
     }),
     fields: [...baseFields, ...contactForm.fields],
   },
+  switch: {
+    ...switchForm,
+    analyticsEvent: "invoice_upload",
+    schema: z.object({
+      ...base,
+      ...invoiceFields,
+      company: required(),
+      phone: optionalText(40),
+      currentProvider: z.enum(values(providerOptions), { error: "Tell us who you buy from today." }),
+      seats: optionalText(40),
+      renewalDate: optionalText(10),
+      servicesInterest: z.boolean().optional(),
+      notes: optionalText(4000),
+    }),
+    fields: [...baseFields, ...switchForm.fields],
+  },
+  partner: {
+    ...partnerForm,
+    analyticsEvent: "partner_apply",
+    schema: z.object({
+      ...base,
+      company: required(),
+      companyWebsite: optionalText(),
+      program: z.enum(values(programOptions), { error: "Pick the program that fits." }),
+      role: optionalText(),
+      customers: z.enum(values(partnerSizeOptions), { error: "Pick a range." }),
+      region: z.enum(values(partnerRegionOptions), { error: "Pick a region." }),
+      workloads: optionalText(),
+      notes: optionalText(4000),
+    }),
+    fields: [...baseFields, ...partnerForm.fields],
+  },
 } satisfies Record<string, LeadKindDef>;
 
 export type LeadKind = keyof typeof leadKinds;
@@ -186,9 +220,9 @@ export function parseLead(input: unknown): LeadParseResult {
   return { ok: true, lead: { kind: body.kind, ...parsed.data } as LeadInput };
 }
 
-/** Where a successful submission lands. */
+/** Where a successful submission lands: the per-kind confirmation page. */
 export function thankYouPath(kind: LeadKind): string {
-  return `/thank-you?flow=${kind}`;
+  return `/thank-you/${kind}`;
 }
 
 function formatValue(field: Exclude<FieldDef, { type: "row" }>, raw: unknown): string {

@@ -87,7 +87,7 @@ export default function HomePage() {
                   Schedule a HubX demo
                   <ArrowRight className="size-4" aria-hidden />
                 </ButtonLink>
-                <ButtonLink href="/microsoft-365-quote" variant="glass">
+                <ButtonLink href="/licensing/quote" variant="glass">
                   Get a licensing quote
                 </ButtonLink>
               </div>
@@ -251,7 +251,7 @@ export default function HomePage() {
           lead="One practice or the whole stack. We'll map your estate, surface the gaps, and show exactly where MSP Hub fits. No obligation."
           primary={{ label: "Schedule a HubX demo", href: "/demo" }}
           secondary={[
-            { label: "Get a licensing quote", href: "/microsoft-365-quote" },
+            { label: "Get a licensing quote", href: "/licensing/quote" },
             { label: "Service inquiry", href: "/services#inquiry" },
           ]}
         >

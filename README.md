@@ -12,6 +12,7 @@ Source for the new [msphub.com](https://msphub.com) — the marketing site for *
 - [Next.js](https://nextjs.org) 16 (App Router, TypeScript, Turbopack, Cache Components)
 - [Tailwind CSS](https://tailwindcss.com) v4 (CSS-first config in `src/app/globals.css`)
 - `zod` + `react-hook-form` (form validation, one schema shared by client and server), `lucide-react` (icons)
+- `@next/mdx` with `remark-frontmatter` + `remark-mdx-frontmatter` + `remark-gfm` for long-form content (`/insights`, `/legal`)
 - ESLint 9 (`eslint-config-next`)
 - Hosted on [Vercel](https://vercel.com). Integrations, each optional and env-gated: Pipedrive (CRM leads, REST), [Resend](https://resend.com) (email, HTTP API), Cloudflare Turnstile, Microsoft Bookings, GA4 + Microsoft Clarity, Vercel Blob or Azure Blob Storage (invoice uploads)
 
@@ -36,27 +37,39 @@ npm run lint     # eslint
 
 ```
 src/app/                  Routes (App Router), root layout, global CSS, metadata files
-  api/lead/route.ts       The one form endpoint: honeypot → rate limit → zod → Turnstile → Pipedrive + Resend
+  api/lead/route.ts       The one form endpoint (six lead kinds): honeypot → rate limit → zod → Turnstile → Pipedrive + Resend
   api/upload/route.ts     Secure invoice upload (PDF/XLSX/XLS/CSV ≤ 10 MB) into private blob storage
   api/geo/route.ts        Visitor country (Vercel edge header) for the analytics consent decision
+  licensing/              Licensing hub, switch (invoice upload), ea-to-csp, beyond-microsoft, quote
+  partners/               Partner hub, reseller / agents / platform program pages, apply form
+  support/, insights/     Support paths & hours; MDX blog (index + [slug])
+  legal/[document]/       Terms, Privacy, Cookies from src/content/legal/*.mdx
+  thank-you/[form]/       Per-form confirmation pages (demo, service, quote, contact, switch, partner)
   gone/route.ts           410 Gone for old theme-demo URLs (wired via rewrites)
   opengraph-image.png     Site-wide OG image (from the MSP Hub logo kit); routes add opengraph-image.tsx (generated)
   sitemap.ts, robots.ts   SEO files; robots allows indexing only on production msphub.com
+src/mdx-components.tsx    Element styles for MDX bodies (charcoal prose on the light canvas)
 src/components/
   analytics/              Analytics (GA4 + Clarity loader with consent notice), ConsentSettingsButton
   brand/                  MspHubLogo (single asset path), HubXLogo / HubXLockup / HubXPoweredBy (text lockup only)
-  layout/                 Header (sticky glass, mobile menu), Footer, social icons, review-build integration status strip
+  layout/                 Header (sticky glass, mobile menu), Footer (four columns per the handoff), social icons, review-build integration status strip
   seo/                    JsonLd (schema.org script tag)
   ui/                     Button, Section/Container/Glow, typography (dark/light tone), cards, NeedsConfirm
-  marketing/              Page hero, BrowserFrame (real HubX captures), stats, credentials, logo cloud, FAQ, CTA band, BookingsEmbed
+  marketing/              Page hero, BrowserFrame (real HubX captures), stats, credentials, logo cloud, FAQ (+ FaqSection with schema), CTA band, BookingsEmbed
   hubx/                   HubX section: ScreenshotCarousel (tabbed, keyboard + swipe, no autoplay), ModuleExplorer (WAI-ARIA tabs),
                           FeatureGrid (the 12 capabilities), HubAiConversation (read-only demo), HubxSubnav, FaqSection (+ FAQPage
                           schema), Breadcrumbs (+ BreadcrumbList), ModuleCard, home sections, track() (re-export of lib/analytics)
   forms/                  LeadForm (react-hook-form + zod + Turnstile + honeypot), FieldRenderer, Turnstile, field primitives
+  licensing/              InvoiceUpload (secure upload client for the switch and quote forms)
+  partners/               Program page layout
+  insights/               PostCard
 src/content/              Typed content: site facts + timeline + leadership, stats, credentials, confirmations registry,
                           HubX (hubx.ts page copy, hubx-modules.ts, hubx-features.ts, hubai-demo.ts, hubx-faq.ts,
-                          hubx-security.ts, hubx-whats-new.ts), services, partners, ecosystem (text chips), screens manifest,
+                          hubx-security.ts, hubx-whats-new.ts), services, licensing, partners, support, thank-you,
+                          lead-kinds (switch/partner field definitions), ecosystem (text chips), screens manifest, nav,
                           forms (labels, options, messages), consent copy, OG image copy
+  insights/*.mdx          Blog posts with YAML frontmatter; registered in insights/index.ts
+  legal/*.mdx             Terms, Privacy, Cookies; registered in legal/index.ts
 src/lib/                  site.ts (URL/indexing rule), lead.ts (kinds registry: schemas + fields), env.ts, pipedrive.ts, email.ts,
                           turnstile.ts, rate-limit.ts, storage/ (Vercel Blob + Azure adapters, signed refs), analytics.ts,
                           consent.ts, metadata.ts, schema.ts (JSON-LD builders), og.tsx (OG renderer), cn.ts
@@ -69,21 +82,21 @@ docs/brand/               HubX-Logo-Guidelines.pdf (the brand kit rules)
 
 ## Sitemap
 
-`/` · `/hubx` · `/hubx/features` · `/hubx/features/[module]` (home, customers, catalog, quotations, billing, dashboards-reports, service-desk, hubai) · `/hubx/security` · `/hubx/whats-new` · `/services` · `/services/professional` · `/services/managed` · `/services/development` · `/partners` · `/about` · `/contact` · `/demo` · `/microsoft-365-quote` · `/thank-you` · `/privacy` · `/terms` · `/cookies` · 404.
+`/` · `/hubx` · `/hubx/features` · `/hubx/features/[module]` (home, customers, catalog, quotations, billing, dashboards-reports, service-desk, hubai) · `/hubx/security` · `/hubx/whats-new` · `/services` · `/services/professional` · `/services/managed` · `/services/development` · `/licensing` · `/licensing/switch` · `/licensing/ea-to-csp` · `/licensing/beyond-microsoft` · `/licensing/quote` · `/partners` · `/partners/reseller` · `/partners/agents` · `/partners/platform` · `/partners/apply` · `/support` · `/insights` · `/insights/[slug]` · `/about` · `/contact` · `/demo` · `/legal/terms` · `/legal/privacy` · `/legal/cookies` · `/thank-you/[form]` (noindex) · 404.
 
 ### HubX pages
 
 Everything on `/hubx` and below is traceable to the verified module inventory in the private handoff (§6, product walk-through of Nov 2, 2026): nine modules (`src/content/hubx-modules.ts`), the twelve spotlighted capabilities (`src/content/hubx-features.ts`, each linking to its module page), the read-only HubAI demo conversation with fictional data (`src/content/hubai-demo.ts`), the FAQ with FAQPage schema (`src/content/hubx-faq.ts`), the security page (`src/content/hubx-security.ts`), and the early-access release notes (`src/content/hubx-whats-new.ts`). Screenshots come from `public/hubx/` through `src/content/screens.ts`; `ScreenshotCarousel` only accepts captures of one theme (type-checked), and the single dark capture appears on dark bands only. Administration is documented on `/hubx/security` rather than a feature page. The `track()` shim in `src/components/hubx/track.ts` emits `screenshot_view` and `hubx_login_click` as a `msphub:track` DOM event and to `gtag` when present; the analytics loader (Phase 5) subscribes to it, and nothing breaks without one.
 
-Legacy WordPress URLs redirect permanently (308) to their new homes — company, services, Marketplace → HubX, partners, `/news`, `/news/page/N`, `/blog` → `/insights`, and the legal pages — and the old theme-demo URLs (`/team/*`, `/case-studies/*`, `/projects/*`, `/careers/*`, …) return **410 Gone**; both maps live in `next.config.ts` and take effect once msphub.com points at this deployment. `sitemap.xml` lists the indexable routes from `src/app/sitemap.ts`; `robots.txt` disallows everything except on the production msphub.com deployment (see `NEXT_PUBLIC_SITE_URL` below).
+Route moves inside this site redirect permanently (308): `/microsoft-365-quote` → `/licensing/quote`; `/privacy`, `/terms`, `/cookies` → `/legal/*`; `/thank-you?flow=<kind>` → `/thank-you/<kind>` (bare `/thank-you` → `/thank-you/contact`). Legacy WordPress URLs redirect permanently (308) to their new homes — company, services, Marketplace → HubX, partners, `/news`, `/news/page/N`, `/blog` → `/insights`, and the legal pages — and the old theme-demo URLs (`/team/*`, `/case-studies/*`, `/projects/*`, `/careers/*`, …) return **410 Gone**; both maps live in `next.config.ts` and take effect once msphub.com points at this deployment. `sitemap.xml` lists the indexable routes from `src/app/sitemap.ts`; `robots.txt` disallows everything except on the production msphub.com deployment (see `NEXT_PUBLIC_SITE_URL` below).
 
 ## Forms and lead delivery
 
-Every form is `<LeadForm kind="…" />` (`src/components/forms/lead-form.tsx`: react-hook-form + zod + Cloudflare Turnstile + honeypot). A **kind** is one entry in the registry in `src/lib/lead.ts` — label, zod schema, field definitions (copy in `src/content/forms.ts`) — so the client and `POST /api/lead` validate identically. Kinds today: **demo** (`/demo`), **service** (`/services#inquiry`), **quote** (`/microsoft-365-quote`, with qualification, current provider, renewal date, licenses, and an optional uploaded invoice), **contact** (`/contact`, `?topic=partnership` preselects the partner topic). Adding a form = one registry entry + its content module + a `PIPEDRIVE_LEAD_LABEL_<KIND>` variable. `LeadForm` renders `children` inside the form (and inside react-hook-form's `FormProvider`) for kind-specific controls such as an invoice upload; `useLeadForm()` exposes the kind and status.
+Every form is `<LeadForm kind="…" />` (`src/components/forms/lead-form.tsx`: react-hook-form + zod + Cloudflare Turnstile + honeypot). A **kind** is one entry in the registry in `src/lib/lead.ts` — label, zod schema, field definitions (copy in `src/content/forms.ts`) — so the client and `POST /api/lead` validate identically. Kinds today: **demo** (`/demo`), **service** (`/services#inquiry`), **quote** (`/licensing/quote`, with qualification, current provider, renewal date, licenses, and an optional uploaded invoice), **contact** (`/contact`, `?topic=partnership` preselects the partner topic), **switch** (`/licensing/switch`, the invoice-comparison request; field definitions in `src/content/lead-kinds.ts`), and **partner** (`/partners/apply`, `?program=` preselects the program). Adding a form = one registry entry + its content module + a `PIPEDRIVE_LEAD_LABEL_<KIND>` variable. `LeadForm` renders `children` inside the form (and inside react-hook-form's `FormProvider`) for kind-specific controls such as an invoice upload; `useLeadForm()` exposes the kind and status.
 
-`POST /api/lead` runs: JSON body → honeypot (`website` filled → pretend success) → per-IP rate limit (10 per 10 minutes, in memory, 429) → zod validation for the posted kind (400 `invalid` + `fieldErrors`) → Turnstile `siteverify` (400 `captcha_failed`; fails closed when `TURNSTILE_SECRET_KEY` is set, passes through when it is not) → optional invoice reference → signed deal-desk link → **Pipedrive** (Organization + Person deduplicated, Lead labelled per kind, Note with the field table and invoice link) → **email to sales@msphub.com via Resend** (`[PREVIEW]`-prefixed off production, with the Pipedrive lead URL). Pipedrive and email degrade independently: one failing still delivers; neither configured → 503 `not_configured`; both failing → 502 `delivery_failed`. On every failure the form keeps the visitor's input on screen with a visible notice and a prefilled `mailto:sales@msphub.com`. Success → `/thank-you?flow=<kind>` (noindex) and the kind's analytics event.
+`POST /api/lead` runs: JSON body → honeypot (`website` filled → pretend success) → per-IP rate limit (10 per 10 minutes, in memory, 429) → zod validation for the posted kind (400 `invalid` + `fieldErrors`) → Turnstile `siteverify` (400 `captcha_failed`; fails closed when `TURNSTILE_SECRET_KEY` is set, passes through when it is not) → optional invoice reference → signed deal-desk link → **Pipedrive** (Organization + Person deduplicated, Lead labelled per kind, Note with the field table and invoice link) → **email to sales@msphub.com via Resend** (`[PREVIEW]`-prefixed off production, with the Pipedrive lead URL). Pipedrive and email degrade independently: one failing still delivers; neither configured → 503 `not_configured`; both failing → 502 `delivery_failed`. On every failure the form keeps the visitor's input on screen with a visible notice and a prefilled `mailto:sales@msphub.com`. Success → `/thank-you/<kind>` (noindex; per-kind "what happens next" copy from `src/content/thank-you.ts`, with a Bookings button when `NEXT_PUBLIC_BOOKINGS_URL` is set) and the kind's analytics event.
 
-**Invoice upload** (`POST /api/upload`, used by the licensing forms): `multipart/form-data` with `file` (PDF, XLSX, XLS, or CSV, ≤ 10 MB, checked by extension *and* magic bytes) and `kind`. Success: `200 { ok: true, file: { id, name, size, type } }`; `id` is an opaque HMAC-signed reference, never a URL. Failures: 400 `invalid_file`, 415 `unsupported_type`, 413 `too_large`, 429 `rate_limited`, 503 `not_configured` (no storage variables — the state the POC ships in; the UI shows "secure upload not available" and the form still submits), 500 `upload_failed`. Files land in **private** storage under a random key (`src/lib/storage/`: Vercel Blob with `access: "private"` or Azure Blob Storage, chosen by env); the lead handler turns `invoiceId` into a signed link that expires after `UPLOAD_LINK_TTL_HOURS` (default 72). Nothing is ever public and no virus scanning is performed (open attachments with the usual care). Vercel Functions cap request bodies at 4.5 MB, so on Vercel the platform answers 413 before this handler for larger files.
+**Invoice upload** (`POST /api/upload`; the client is `InvoiceUpload` in `src/components/licensing/invoice-upload.tsx`, rendered as a child of the switch and quote forms): `multipart/form-data` with `file` (PDF, XLSX, XLS, or CSV, ≤ 10 MB, checked by extension *and* magic bytes) and `kind`. Success: `200 { ok: true, file: { id, name, size, type } }`; `id` is an opaque HMAC-signed reference, never a URL. Failures: 400 `invalid_file`, 415 `unsupported_type`, 413 `too_large`, 429 `rate_limited`, 503 `not_configured` (no storage variables — the state the POC ships in; the UI shows "secure upload not available" and the form still submits), 500 `upload_failed`. Files land in **private** storage under a random key (`src/lib/storage/`: Vercel Blob with `access: "private"` or Azure Blob Storage, chosen by env); the lead handler turns `invoiceId` into a signed link that expires after `UPLOAD_LINK_TTL_HOURS` (default 72). Nothing is ever public and no virus scanning is performed (open attachments with the usual care). Vercel Functions cap request bodies at 4.5 MB, so on Vercel the platform answers 413 before this handler for larger files.
 
 **Bookings** (`/demo`): `BookingsEmbed` renders the Microsoft Bookings page in a lazy, sandboxed iframe with an "Open in Microsoft Bookings" link when `NEXT_PUBLIC_BOOKINGS_URL` is set; without it the request form is the path (review builds show the asset marker).
 
@@ -92,6 +105,10 @@ Every form is `<LeadForm kind="…" />` (`src/components/forms/lead-form.tsx`: r
 **SEO**: `pageMetadata()` (`src/lib/metadata.ts`) builds title, description, canonical, Open Graph, and Twitter fields per route; each route can add a generated `opengraph-image.tsx` (copy in `src/content/og.ts`, renderer in `src/lib/og.tsx`, static at build). JSON-LD via `<JsonLd />` with builders in `src/lib/schema.ts`: `Organization` + `WebSite` (layout), `Service` (service pages), `SoftwareApplication` (HubX), `FAQPage`, `BreadcrumbList`, `ContactPage`.
 
 **Review builds**: with `NEXT_PUBLIC_SHOW_TODOS=true` a strip above the footer lists which integrations the deployment has configured (presence only, never values).
+
+## Insights and legal content (MDX)
+
+Posts live in `src/content/insights/*.mdx` with YAML frontmatter (`title`, `date` as `YYYY-MM-DD` or `YYYY-MM`, `summary`, `tags`, optional `canonical`, `author`, `note`); add a post by importing it in `src/content/insights/index.ts`, which validates the frontmatter with zod at build time. The three posts named in the handoff are rebuilt from facts in the handoff and replace the originals when the WordPress export arrives (`NeedsConfirm id="insightsSource"`). Legal documents live in `src/content/legal/*.mdx` (`title`, `summary`, `currentUrl`, `updated`, `migrated`); paste the verbatim policy text into the body and set `migrated: true` to drop the "current policy on msphub.com" link.
 
 ### Environment variables
 

@@ -35,7 +35,7 @@ export const audiences: Audience[] = [
       "Invoices and statements with PDF download",
       "Migrations, Azure, security, and managed operations from one team",
     ],
-    cta: { label: "Get a licensing quote", href: "/microsoft-365-quote" },
+    cta: { label: "Get a licensing quote", href: "/licensing/quote" },
     secondary: { label: "Explore services", href: "/services" },
   },
   {

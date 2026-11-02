@@ -141,8 +141,8 @@ export function Header() {
           ))}
           <div className="mt-4 flex flex-col gap-2 border-t border-white/10 pt-6">
             <ButtonLink href="/demo">Schedule a demo</ButtonLink>
-            <ButtonLink href="/microsoft-365-quote" variant="glass">
-              Get a Microsoft 365 quote
+            <ButtonLink href="/licensing/quote" variant="glass">
+              Get a licensing quote
             </ButtonLink>
             <ButtonLink href={site.hubxLoginUrl} variant="ghost">
               Log in to HubX
