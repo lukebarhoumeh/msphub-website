@@ -32,12 +32,33 @@ export const site = {
 
 export const platforms = ["Microsoft", "Azure", "AWS", "Google Cloud", "VMware"] as const;
 
-/** Rebrand history (handoff §2 #14). */
+/** Company story (handoff §1.2 and §5.8, filled from the company deck where the two agree). */
+export const companyStory = {
+  headline: "Since 1999. Built by an MSP, for the people who run Microsoft.",
+  lead: "MSP Hub started in 1999 as ReadyNetworks, an MSP that built its own licensing platform because the distributors' tools weren't good enough. In 2025 the company became MSP Hub; in 2026 the platform became HubX.",
+  body: [
+    "MSP Hub Technologies, LLC is a Microsoft CSP direct-bill partner (Tier-1 Direct) and a proprietary platform built on more than 25 years of Microsoft cloud delivery heritage.",
+    "Three reinforcing engines: HubX, the New Commerce Experience orchestration platform for licensing, invoicing reconciliation, and lifecycle management; a professional and managed services practice across Microsoft Azure, AWS, and Google Cloud; and multi-vendor procurement through distribution, so partners and customers get one procurement spine and one invoice.",
+    "We serve MSPs and VARs who resell Microsoft and need a platform and a bench behind them, direct-bill CSPs who run HubX on their own Partner Center tenant, and businesses buying licensing and services directly, from small companies to large enterprises. Licensing is the entry point; the services make it work.",
+  ],
+} as const;
+
+/** Rebrand history (handoff §2 #14) with the deck's stages filled in where they agree. */
 export const timeline = [
   {
     when: "1999",
-    title: "ReadyNetworks is founded",
-    body: "An MSP that built its own licensing platform because the distributors' tools weren't good enough.",
+    title: "Founded as ReadyNetworks",
+    body: "A full-service technology and MSP firm: infrastructure, cloud, security, and IT consulting, building customer delivery and channel credibility.",
+  },
+  {
+    when: "CSP era",
+    title: "Microsoft CSP direct-bill partner",
+    body: "Advanced into Microsoft cloud licensing as a Tier-1 Direct partner, owning billing, support, partner operations, and the subscription lifecycle.",
+  },
+  {
+    when: "Platform build",
+    title: "Automated licensing, billing, and provisioning",
+    body: "The platform that became HubX: CSP licensing, billing, and provisioning automated, with marketplace, orchestration, and cloud-operations IP built in-house.",
   },
   {
     when: "Nov 2024",
@@ -48,25 +69,62 @@ export const timeline = [
   {
     when: "Jul 2025",
     title: "ReadyNetworks becomes MSP Hub",
-    body: "The company rebrands to MSP Hub: licensing, services, and the platform under one name.",
+    body: "READY becomes MSP Hub Technologies, repositioned on partner growth: a services-led firm becomes a platform-led ecosystem.",
   },
   {
     when: "Oct 2026",
     title: "HubX launches",
-    body: "The platform is redesigned and renamed HubX, powered by MSP Hub.",
+    body: "The platform is redesigned and renamed HubX, powered by MSP Hub: Microsoft-first, built for MSPs, VARs, ISVs, and technology advisors, from distribution to end customer.",
   },
 ] as const;
 
-/** Leadership candidates pending confirmation of titles, order, and photos (handoff §2 #15). */
-export const leadership = [
-  { name: "Sam Barhoumeh", title: "Chief Executive Officer" },
-  { name: "Danny Gaston", title: "Senior Vice President" },
-  { name: "Matt H.", title: "Chief Revenue Officer" },
-  { name: "Arek Zimny", title: "Chief Product Officer" },
-  { name: "Destné Bailey", title: "Director of Strategic Growth" },
-  { name: "John Fitzsimmons", title: "Presales Operations Manager" },
-  { name: "Luke Barhoumeh", title: "Senior Solutions Architect" },
-] as const;
+export type Leader = {
+  slug: string;
+  name: string;
+  title: string;
+  bio: string;
+  /** Cropped from the leadership slide; hi-res originals are a go-live ask. */
+  photo: string;
+};
+
+/** Leadership (Luke's round-2 decision #8; bios transcribed from the leadership slide). */
+export const leadership: Leader[] = [
+  {
+    slug: "sam-barhoumeh",
+    name: "Sam Barhoumeh",
+    title: "Founder & CEO",
+    bio: "Two-time founder: Ready Networks for 27 years, and MSP Hub since 2025. Building a SaaS marketplace across the Microsoft CSP and NCE ecosystem with AI-driven sales development, CPQ, and marketplace intelligence.",
+    photo: "/team/sam-barhoumeh.jpg",
+  },
+  {
+    slug: "matt-hurley",
+    name: "Matt Hurley",
+    title: "Chief Revenue Officer",
+    bio: "25-year go-to-market global executive, CRO, and channel chief. Prior roles at Sun Microsystems, Bell Canada, Juniper Networks, and OneLogin.",
+    photo: "/team/matt-hurley.jpg",
+  },
+  {
+    slug: "arek-zimny",
+    name: "Arek Zimny",
+    title: "Chief Product Officer",
+    bio: "30 years in software and product development. Led global U.S. and offshore engineering teams; enterprise architecture, SaaS, and modern AI practices.",
+    photo: "/team/arek-zimny.jpg",
+  },
+  {
+    slug: "konrad-jachim",
+    name: "Konrad Jachim",
+    title: "Director, Professional Services",
+    bio: "20+ years in IT infrastructure, cybersecurity, and managed services. Leads SMB and enterprise client operations across the Cisco, Microsoft, and cloud stack: end-to-end technology operations.",
+    photo: "/team/konrad-jachim.jpg",
+  },
+  {
+    slug: "sai-vaidyanathan",
+    name: "Sai Vaidyanathan",
+    title: "Country Head, India",
+    bio: "25 years in software development and delivery, from programmer to delivery head at Citigroup, Polaris, IBM Labs, and eBay. Director and Country Head at MSP Hub; active in India's startup ecosystem.",
+    photo: "/team/sai-vaidyanathan.jpg",
+  },
+];
 
 export type Testimonial = { text: string; name: string; role: string };
 

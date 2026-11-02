@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { CredentialBadges, CtaBand, StatBand, SupportModel, Testimonials, Timeline } from "@/components/marketing/blocks";
+import { CredentialBadges, CtaBand, SolutionAreas, StatBand, SupportModel, Testimonials, Timeline } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
 import { GlassCard } from "@/components/ui/card";
-import { NeedsConfirm, NeedsConfirmBlock } from "@/components/ui/needs-confirm";
+import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container, Glow, Section } from "@/components/ui/section";
 import { Display, Eyebrow, Lead, SectionHeading } from "@/components/ui/typography";
-import { leadership, site, timeline } from "@/content/site";
+import { companyStory, leadership, site, timeline } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "About MSP Hub — Microsoft CSP direct-bill partner and IT services company since 1999",
@@ -38,19 +39,15 @@ export default function AboutPage() {
           <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
             <div>
               <Eyebrow>Who we are</Eyebrow>
-              <Display className="mt-3.5">Since 1999. Built by an MSP, for the people who run Microsoft.</Display>
+              <Display className="mt-3.5">{companyStory.headline}</Display>
             </div>
             <div className="space-y-5">
-              <Lead>
-                MSP Hub started in 1999 as ReadyNetworks, an MSP that built its own licensing platform because the
-                distributors&apos; tools weren&apos;t good enough. In 2025 the company became MSP Hub; in 2026 the
-                platform became HubX.
-              </Lead>
-              <p className="text-[15px] leading-relaxed text-white/70">
-                We serve MSPs and VARs who resell Microsoft and need a platform and a bench behind them, direct-bill CSPs
-                who run HubX on their own Partner Center tenant, and businesses buying licensing and services directly,
-                from small companies to large enterprises. Licensing is the entry point; the services make it work.
-              </p>
+              <Lead>{companyStory.lead}</Lead>
+              {companyStory.body.map((paragraph) => (
+                <p key={paragraph.slice(0, 24)} className="text-[15px] leading-relaxed text-white/70">
+                  {paragraph}
+                </p>
+              ))}
             </div>
           </div>
         </Container>
@@ -67,6 +64,7 @@ export default function AboutPage() {
         <Container>
           <SectionHeading eyebrow="History" title="From an MSP's own tool to HubX." />
           <Timeline
+            columns={6}
             items={timeline.map((t) => ({
               when: "confirm" in t ? <NeedsConfirm id={t.confirm} fallback={t.when} /> : t.when,
               title: t.title,
@@ -78,12 +76,9 @@ export default function AboutPage() {
 
       <Section className="pt-0 sm:pt-0 lg:pt-0" decor={<Glow tone="navy" className="top-0 right-[-300px] h-[700px] w-[900px]" />}>
         <Container>
-          <SectionHeading
-            eyebrow="Credentials"
-            title="Certified, direct, and recognized."
-            lead={<NeedsConfirm id="badgesHeld" fallback="Microsoft Solutions Partner designations appear here as they are confirmed in Partner Center." />}
-          />
+          <SectionHeading eyebrow="Credentials" title="Certified, direct, and recognized." />
           <CredentialBadges variant="cards" />
+          <SolutionAreas className="mt-4" />
         </Container>
       </Section>
 
@@ -94,24 +89,36 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
+      <Section tone="light">
         <Container>
-          <NeedsConfirmBlock id="leadership" fallback={null}>
-            <h2 className="font-display text-2xl text-white">Leadership (candidates, pending confirmation)</h2>
-            <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {leadership.map((p) => (
-                <li key={p.name} className="rounded-xl border border-white/12 bg-white/4 p-4">
-                  <p className="font-semibold text-white">{p.name}</p>
-                  <p className="text-sm text-white/60">{p.title}</p>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-3 text-xs text-white/60">
-              <NeedsConfirm id="teamPhotos" fallback={null}>
-                Real photography or none; no stock people.
-              </NeedsConfirm>
-            </p>
-          </NeedsConfirmBlock>
+          <SectionHeading
+            tone="light"
+            eyebrow="Leadership"
+            title="The team driving MSP Hub's platform, partner channel, and Microsoft cloud delivery."
+          />
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {leadership.map((p) => (
+              <li key={p.slug} className="card-light flex flex-col p-5">
+                <Image
+                  src={p.photo}
+                  alt={`${p.name}, ${p.title}`}
+                  width={360}
+                  height={360}
+                  sizes="(min-width: 1024px) 200px, (min-width: 640px) 45vw, 90vw"
+                  className="aspect-square w-full rounded-[10px] object-cover"
+                />
+                <p className="mt-4 font-mono text-[11px] font-semibold tracking-[0.12em] text-charcoal/80 uppercase">{p.title}</p>
+                <h3 className="mt-1.5 text-lg font-semibold tracking-tight text-charcoal">{p.name}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-charcoal/80">{p.bio}</p>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-4 text-xs text-charcoal/70">
+            <NeedsConfirm id="teamPhotos" fallback={null}>
+              Portraits cropped from the leadership slide; hi-res originals to follow.
+            </NeedsConfirm>{" "}
+            <NeedsConfirm id="leadership" fallback={null} />
+          </p>
         </Container>
       </Section>
 

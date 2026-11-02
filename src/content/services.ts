@@ -33,7 +33,14 @@ export const professional = {
     },
     {
       title: "Data & platform",
-      items: ["Power Platform / Power BI", "Fabric architecture", "Dataverse & automation", "App modernization", "Custom .NET development"],
+      items: [
+        "Power Platform / Power BI",
+        "Fabric and Databricks architecture",
+        "SQL and Oracle Database migrations & integrations",
+        "Dataverse & automation",
+        "App modernization",
+        "Custom .NET development",
+      ],
     },
   ],
   practices: [
@@ -83,7 +90,7 @@ export const professional = {
     { title: "Validate & Transition", body: "Evidence-based acceptance review, documentation your team can operate from, and an optional handoff into MSP Hub managed services." },
   ],
   commitments: [
-    "Fixed-fee statement of work",
+    "Fixed-fee statement of work for projects; block-time for ongoing advisory",
     "A named project manager, accountable end to end",
     "Milestone visibility throughout",
     "Evidence-based acceptance review",
@@ -121,6 +128,10 @@ export const managed = {
       title: "Direct Microsoft escalation",
       body: "Issues escalate to Microsoft Premier support directly, as a CSP direct-bill partner.",
     },
+    {
+      title: "Desktop as a Service",
+      body: "Enterprise VDI without the complexity: personal, shared, and pooled Windows or Linux desktops on Oracle Cloud Infrastructure, with hybrid and multi-cloud deployment models and Entra ID single sign-on.",
+    },
   ],
   howItWorks: [
     { title: "Monitor", body: "Telemetry across tenants, subscriptions, and databases feeds one operations view, around the clock for managed environments." },
@@ -148,7 +159,7 @@ export const development = {
       items: [
         "CI/CD pipelines for rapid, reliable delivery",
         "Infrastructure as code with Terraform, ARM, and Bicep",
-        "Kubernetes and serverless platforms",
+        "Kubernetes, microservices, and containerized services",
         "DevOps transformation: lifecycle, toolchain, and team velocity",
       ],
     },
@@ -157,7 +168,7 @@ export const development = {
       items: [
         "AI strategy: high-impact opportunities and a roadmap",
         "Custom AI solutions, from intelligent automation to predictive analytics",
-        "Microsoft Copilot deployment and optimization",
+        "Microsoft Copilot rollout, governance, and adoption",
         "Claude and Anthropic implementations and custom AI tools",
         "AI operations: monitoring and optimizing for measurable ROI",
       ],

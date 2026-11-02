@@ -1,7 +1,9 @@
 /**
- * Vendor and alliance ecosystem, rendered as text chips until logo files and
- * written permission exist (handoff §2 #9–10). `logo` stays undefined until
- * then; `LogoCloud` only renders artwork when it is set.
+ * Vendor, distribution, and alliance ecosystem, rendered as text chips until
+ * logo files and written permission exist (handoff §2 #9–10; Luke's round-2
+ * decision #2). Reseller/MSP partner names and customer names never appear.
+ * `logo` stays undefined until permission; `LogoCloud` only renders artwork
+ * when it is set.
  */
 export type EcosystemEntry = {
   name: string;
@@ -10,7 +12,7 @@ export type EcosystemEntry = {
   logo?: string;
 };
 
-/** Vendor set carried over from the previous msphub.com (13), pending Luke's pruning. */
+/** Vendors already shown on the previous msphub.com or in the company deck. */
 export const vendors: EcosystemEntry[] = [
   { name: "Microsoft", kind: "vendor" },
   { name: "Cisco Meraki", kind: "vendor" },
@@ -26,13 +28,13 @@ export const vendors: EcosystemEntry[] = [
   { name: "Extreme Networks", kind: "vendor" },
   { name: "HPE Aruba Networking", kind: "vendor" },
   { name: "APC by Schneider Electric", kind: "vendor" },
+  { name: "Coro", kind: "vendor", note: "Publisher in the HubX catalog" },
 ];
 
-/** Distribution and alliance relationships named in the handoff §2 #10; text until permission. */
+/** Distribution relationships (kept as-is) and alliances already public. */
 export const alliances: EcosystemEntry[] = [
   { name: "Ingram Micro", kind: "distribution", note: "Distribution" },
   { name: "TD SYNNEX", kind: "distribution", note: "Distribution" },
-  { name: "Coro", kind: "alliance", note: "Billing partnership; publisher in the HubX catalog" },
   { name: "Trust X Alliance", kind: "alliance", note: "Member community of IT solution providers" },
   { name: "Frontier Technologies", kind: "alliance", note: "Strategic alliance" },
   { name: "P2 Telecom", kind: "alliance", note: "Partner events and co-selling" },

@@ -19,6 +19,7 @@ import { Container, Glow, Section } from "@/components/ui/section";
 import { Display, Eyebrow, Lead, SectionHeading } from "@/components/ui/typography";
 import { audiences } from "@/content/audiences";
 import { branches, serviceBranches } from "@/content/branches";
+import { enrolledSolutionAreas } from "@/content/credentials";
 import { vendors } from "@/content/ecosystem";
 import { hubxCapabilities } from "@/content/hubx";
 import { screens } from "@/content/screens";
@@ -282,6 +283,9 @@ export default function HomePage() {
             <GlassCard>
               <p className="mb-4 text-xs tracking-[0.12em] text-white/60 uppercase">Credentials</p>
               <CredentialBadges variant="chips" />
+              <p className="mt-4 text-sm text-white/70">
+                Microsoft Solutions Partner program, enrolled: {enrolledSolutionAreas.map((a) => a.name).join(" · ")}.
+              </p>
             </GlassCard>
             <GlassCard>
               <p className="mb-4 text-xs tracking-[0.12em] text-white/60 uppercase">Vendor ecosystem</p>

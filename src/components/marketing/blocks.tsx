@@ -8,7 +8,7 @@ import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container, Glow } from "@/components/ui/section";
 import { Display, Eyebrow, Lead } from "@/components/ui/typography";
 import type { ConfirmId } from "@/content/confirmations";
-import { activeCredentials } from "@/content/credentials";
+import { activeCredentials, enrolledSolutionAreas } from "@/content/credentials";
 import type { EcosystemEntry } from "@/content/ecosystem";
 import { site, testimonials } from "@/content/site";
 import { stats } from "@/content/stats";
@@ -95,9 +95,9 @@ export function StatBand({ className, tone = "dark" }: { className?: string; ton
 type TimelineItem = { when: React.ReactNode; title: string; body: string };
 
 /** Dated milestones: vertical on small screens, a horizontal rail from lg up. */
-export function Timeline({ items, className }: { items: TimelineItem[]; className?: string }) {
+export function Timeline({ items, className, columns = 4 }: { items: TimelineItem[]; className?: string; columns?: 4 | 6 }) {
   return (
-    <ol className={cn("relative grid gap-6 lg:grid-cols-4 lg:gap-4", className)}>
+    <ol className={cn("relative grid gap-6 lg:gap-4", columns === 6 ? "md:grid-cols-3 lg:grid-cols-6" : "lg:grid-cols-4", className)}>
       <span aria-hidden className="absolute top-0 bottom-0 left-[11px] w-px bg-white/12 lg:top-[11px] lg:right-0 lg:bottom-auto lg:left-0 lg:h-px lg:w-auto" />
       {items.map((t, i) => (
         <li key={t.title} className={cn("relative pl-9 lg:pt-9 lg:pl-0", "motion-safe:animate-fade-up", `stagger-${Math.min(i + 1, 5)}`)}>
@@ -178,6 +178,41 @@ export function CredentialBadges({ variant = "chips", className }: CredentialBad
           {c.confirm ? <NeedsConfirm id={c.confirm} fallback={c.name} /> : c.name}
         </Chip>
       ))}
+    </div>
+  );
+}
+
+/** Microsoft Solutions Partner program: enrolled solution areas as "Enrolled" chips, grouped by designation. No scores. */
+export function SolutionAreas({ className }: { className?: string }) {
+  const groups = Array.from(new Set(enrolledSolutionAreas.map((a) => a.designation)));
+  return (
+    <div className={cn("glass p-6 sm:p-7", className)}>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="font-mono text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">Microsoft Solutions Partner program</p>
+          <p className="mt-1.5 max-w-[60ch] text-[15px] text-white/70">
+            Enrolled solution areas in Partner Center. Designation badges appear here once attained.{" "}
+            <NeedsConfirm id="badgesHeld" fallback={null} />
+          </p>
+        </div>
+      </div>
+      <dl className="mt-5 grid gap-4 md:grid-cols-3">
+        {groups.map((g) => (
+          <div key={g} className="rounded-[10px] border border-white/10 bg-white/4 p-4">
+            <dt className="text-sm font-semibold text-white">{g}</dt>
+            <dd className="mt-3 flex flex-wrap gap-2">
+              {enrolledSolutionAreas
+                .filter((a) => a.designation === g)
+                .map((a) => (
+                  <Chip key={a.id} tone="orange" wrap className="text-[13px]">
+                    {a.name}
+                    <span className="rounded-md bg-success/15 px-1.5 py-0.5 font-mono text-[10.5px] font-semibold tracking-[0.06em] text-success uppercase">Enrolled</span>
+                  </Chip>
+                ))}
+            </dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }

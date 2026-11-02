@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowRight, Activity, Cloud, Database, Headset, Laptop, TicketCheck } from "lucide-react";
+import { ArrowRight, Activity, Cloud, Database, Headset, Laptop, MonitorSmartphone, TicketCheck } from "lucide-react";
 import { CtaBand, Steps, SupportModel } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PairsWithHubX } from "@/components/marketing/pairs-with-hubx";
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/services/managed" },
 };
 
-const icons = [Cloud, Laptop, Database, Activity, TicketCheck, Headset];
+const icons = [Cloud, Laptop, Database, Activity, TicketCheck, Headset, MonitorSmartphone];
 
 export default function ManagedServicesPage() {
   return (

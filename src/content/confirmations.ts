@@ -34,10 +34,10 @@ export const confirmations = {
     detail: "Confirm which entity holds the certificate before naming it alongside the badge.",
   },
   badgesHeld: {
-    kind: "confirm",
-    label: "Microsoft Solutions Partner badges",
+    kind: "asset",
+    label: "Microsoft Solutions Partner designation artwork",
     detail:
-      "Only badges currently held per Partner Center → Logo Builder may render (set active: true in credentials.ts). Modern Work renewal pending.",
+      "Enrolled solution areas render as text chips (no scores). Designation badge artwork only once Luke confirms a designation as attained and supplies the Logo Builder file.",
   },
   awardTitle: {
     kind: "confirm",
@@ -107,12 +107,12 @@ export const confirmations = {
   leadership: {
     kind: "confirm",
     label: "Leadership",
-    detail: "Confirm titles, order, and who appears; bios by Luke; real photos or none.",
+    detail: "Names, titles, and bios per Luke's round-2 decision #8; confirm order and any additions.",
   },
   teamPhotos: {
     kind: "asset",
-    label: "Team photography",
-    detail: "Real photography or none; no stock people.",
+    label: "Hi-res leadership photos",
+    detail: "Portraits are cropped from the leadership slide at its resolution; supply hi-res originals before launch.",
   },
   testimonials: {
     kind: "asset",
