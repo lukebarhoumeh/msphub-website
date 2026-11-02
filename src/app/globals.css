@@ -5,8 +5,8 @@
  *
  * `brand-*` values are the exact colors from the HubX brand kit
  * (docs/brand/HubX-Logo-Guidelines.pdf, section 03). The remaining surface
- * colors come from the website plan and may change once the design direction
- * is approved. Usage: `bg-brand-orange`, `text-brand-charcoal`, `bg-ink`, ...
+ * colors come from the approved website plan (section 7).
+ * Usage: `bg-brand-orange`, `text-brand-charcoal`, `bg-ink`, ...
  */
 @theme {
   --color-brand-orange: #f97316;
@@ -14,9 +14,29 @@
   --color-brand-white: #ffffff;
   --color-brand-canvas: #eeeeee;
 
+  --color-orange-hover: #fb8a3c;
+  --color-orange-deep: #ea6a0f;
   --color-ink: #0a0d14;
+  --color-ink-2: #0d121c;
   --color-navy-900: #0f1a33;
   --color-navy-700: #132142;
+  --color-success: #22c55e;
+  --color-error: #f87171;
+
+  --radius-glass: 20px;
+  --radius-glass-lg: 24px;
+  --shadow-glass: 0 20px 60px rgba(0, 0, 0, 0.45);
+
+  --animate-glow-drift: glow-drift 20s ease-in-out infinite alternate;
+
+  @keyframes glow-drift {
+    from {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    to {
+      transform: translate3d(4%, 6%, 0) scale(1.08);
+    }
+  }
 }
 
 /*
@@ -31,12 +51,110 @@
   --font-display: var(--font-heading), ui-serif, Georgia, "Times New Roman", serif;
 }
 
+/* Frosted glass surface: 5% white fill, hairline border, inner top highlight. */
+@utility glass {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-glass);
+  box-shadow: var(--shadow-glass);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.22),
+      transparent
+    );
+    pointer-events: none;
+  }
+}
+
+@utility glass-soft {
+  box-shadow: none;
+}
+
+@utility glass-lg {
+  border-radius: var(--radius-glass-lg);
+}
+
+/* Hex-grid line pattern (deck + old-site motif), masked to fade at the edges. */
+@utility bg-hex {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='84' height='48.5' viewBox='0 0 84 48.5'><g fill='none' stroke='%23ffffff' stroke-opacity='0.07' stroke-width='1'><polygon points='70,24.25 56,48.5 28,48.5 14,24.25 28,0 56,0'/><path d='M0 24.25H14M70 24.25H84'/></g></svg>");
+  background-size: 126px 72.75px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 60% at 60% 30%,
+    #000 20%,
+    transparent 75%
+  );
+  mask-image: radial-gradient(ellipse 70% 60% at 60% 30%, #000 20%, transparent 75%);
+}
+
+/* Placeholder marker for content Luke still has to supply. */
+@utility needs-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding: 0 9px;
+  border-radius: 999px;
+  border: 1px dashed rgba(251, 191, 36, 0.7);
+  background: rgba(251, 191, 36, 0.1);
+  color: #fcd34d;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
 html {
   color-scheme: dark;
+  scroll-behavior: smooth;
 }
 
 body {
   background-color: var(--color-ink);
-  color: var(--color-brand-white);
+  color: #f5f7fa;
   font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(249, 115, 22, 0.35);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand-orange);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(16, 20, 30, 0.92);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
