@@ -217,6 +217,8 @@ The project is deployed on Vercel from this repository (team **MSP Hub**, projec
 
 ### Go-live on msphub.com (later, dev team)
 
+The full launch list — variables, assets, decisions, and remaining code work — is in `docs/launch-checklist.md`.
+
 Add `msphub.com` and `www.msphub.com` to the Vercel project's Domains, point DNS at Vercel, set `NEXT_PUBLIC_SITE_URL=https://msphub.com` on Production (this is what switches indexing on), add the integration variables from the table above (at minimum `RESEND_API_KEY` + `LEAD_FROM_EMAIL` or `PIPEDRIVE_API_TOKEN` + labels, and the Turnstile pair), and redeploy. The redirect and 410 maps in `next.config.ts` then handle the old URLs. A full cutover runbook ships with the handoff package.
 
 ## Contributing
