@@ -12,18 +12,31 @@ export default function Home() {
 
       <section className="w-full max-w-xl rounded-3xl border border-white/10 bg-white/5 px-8 py-12 text-center shadow-2xl shadow-black/40 backdrop-blur-xl sm:px-14 sm:py-16">
         <Image
-          src="/brand/svg/hubx-logo-reversed.svg"
-          alt="HubX"
-          width={1087}
-          height={282}
+          src="/brand/msphub/msp-hub-logo-white.svg"
+          alt="MSP Hub"
+          width={504}
+          height={71}
           priority
-          className="mx-auto h-12 w-auto sm:h-14"
+          className="mx-auto h-9 w-auto sm:h-11"
         />
         <h1 className="mt-10 font-display text-2xl font-normal tracking-tight text-balance text-white sm:text-3xl">
-          HubX — powered by MSP Hub
+          Your single technology partner for everything Microsoft.
         </h1>
         <p className="mt-4 text-xs font-medium tracking-[0.25em] text-white/60 uppercase">
           New site coming soon
+        </p>
+        <p className="mt-10 inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-2 rounded-full border border-white/10 bg-white/5 px-5 py-2.5 text-sm text-white/70">
+          <span>Introducing</span>
+          <span className="inline-flex items-center">
+            <Image
+              src="/brand/svg/hubx-logo-reversed.svg"
+              alt="HubX"
+              width={1087}
+              height={282}
+              className="h-6 w-auto"
+            />
+            <span>, powered by MSP Hub</span>
+          </span>
         </p>
       </section>
     </main>

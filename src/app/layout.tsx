@@ -4,9 +4,14 @@ import { allowIndexing } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "HubX — powered by MSP Hub",
+  title: {
+    default: "MSP Hub — Your single technology partner for everything Microsoft",
+    template: "%s | MSP Hub",
+  },
+  applicationName: "MSP Hub",
   description:
-    "MSP Hub: the HubX Microsoft portal plus professional, managed, and development services. New website coming soon.",
+    "MSP Hub delivers Microsoft licensing through HubX, powered by MSP Hub, plus professional, managed, and development services. New website coming soon.",
+  openGraph: { siteName: "MSP Hub", type: "website" },
   robots: allowIndexing ? undefined : { index: false, follow: false },
 };
 

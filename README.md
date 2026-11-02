@@ -1,6 +1,6 @@
 # msphub-website
 
-Source for the new [msphub.com](https://msphub.com) — the marketing site for MSP Hub and its Microsoft portal, **HubX** ("HubX is powered by MSP Hub").
+Source for the new [msphub.com](https://msphub.com) — the marketing site for **MSP Hub** and its four branches: HubX (the Microsoft portal, "HubX, powered by MSP Hub"), professional services, managed services, and development as a service.
 
 **Status:** Phase 1 scaffold. The site currently serves a single "coming soon" placeholder while the design plan is approved. Real pages land through pull requests into `main`.
 
@@ -42,7 +42,12 @@ docs/brand/         HubX-Logo-Guidelines.pdf (the brand kit rules)
 
 ## Brand assets
 
-Everything under `public/brand/svg` and `public/brand/png` is the unmodified HubX brand kit. Pick the version by background, per the guidelines:
+**Brand rule (Luke, Nov 2 2026): the site is branded MSP Hub, not HubX.** The `<title>`, site name in metadata, header logo, hero headline, favicon/app icon, footer, and Open Graph image all use MSP Hub. HubX appears only where the Microsoft side is introduced (the HubX spotlight on the home page, `/hubx`, and the Microsoft 365 quote flow), is always written "HubX, powered by MSP Hub", and carries the HubX logo there. Present HubX as the new flagship product under MSP Hub, never as the company.
+
+- `public/brand/msphub/` — MSP Hub wordmark (`msp-hub-logo-white.svg`) and hex mark (`msp-hub-icon.svg`), taken from the current msphub.com until Luke supplies master files. The wordmark is for dark backgrounds only.
+- `public/brand/svg`, `public/brand/png` — the unmodified HubX brand kit, used under the kit's rules below.
+
+Pick the HubX version by background, per the guidelines:
 
 | File | Use on |
 | --- | --- |
@@ -55,7 +60,7 @@ Everything under `public/brand/svg` and `public/brand/png` is the unmodified Hub
 
 Rules that apply to every page: keep clear space of half the logo height on all sides, never add glows/shadows/gradients to the logo, never recolor or retype it, and write the name as `HubX`. Full text in `docs/brand/HubX-Logo-Guidelines.pdf`.
 
-Favicon (`src/app/icon.svg`, `favicon.ico`) and Apple touch icon (`src/app/apple-icon.png`) are derived from the X mark and app icon, as the guidelines require.
+Favicon (`src/app/icon.svg`, `favicon.ico`) and Apple touch icon (`src/app/apple-icon.png`) are the MSP Hub hex mark (site brand rule above). The HubX X mark stays reserved for HubX-specific surfaces.
 
 ## Design tokens
 
