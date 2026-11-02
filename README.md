@@ -44,7 +44,8 @@ docs/brand/         HubX-Logo-Guidelines.pdf (the brand kit rules)
 
 **Brand rule (Luke, Nov 2 2026): the site is branded MSP Hub, not HubX.** The `<title>`, site name in metadata, header logo, hero headline, favicon/app icon, footer, and Open Graph image all use MSP Hub. HubX appears only where the Microsoft side is introduced (the HubX spotlight on the home page, `/hubx`, and the Microsoft 365 quote flow), is always written "HubX, powered by MSP Hub", and carries the HubX logo there. Present HubX as the new flagship product under MSP Hub, never as the company.
 
-- `public/brand/msphub/` — MSP Hub wordmark (`msp-hub-logo-white.svg`) and hex mark (`msp-hub-icon.svg`), taken from the current msphub.com until Luke supplies master files. The wordmark is for dark backgrounds only.
+- `public/brand/msphub/msphub-name-logo.png` — the MSP Hub wordmark supplied by Luke (white on transparent; dark backgrounds only). It is referenced from exactly one place, `src/components/brand/msp-hub-logo.tsx`, so the new logo concepts in progress can be swapped in by replacing that file and its intrinsic size — nothing else changes.
+- `public/brand/msphub/msp-hub-icon.svg` — the MSP Hub hex mark from the current msphub.com, used for the favicon and app icon until master files arrive.
 - `public/brand/svg`, `public/brand/png` — the unmodified HubX brand kit, used under the kit's rules below.
 
 Pick the HubX version by background, per the guidelines:

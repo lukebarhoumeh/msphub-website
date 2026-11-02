@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { MspHubLogo } from "@/components/brand/msp-hub-logo";
 
 export default function Home() {
   return (
@@ -11,14 +12,7 @@ export default function Home() {
       </div>
 
       <section className="w-full max-w-xl rounded-3xl border border-white/10 bg-white/5 px-8 py-12 text-center shadow-2xl shadow-black/40 backdrop-blur-xl sm:px-14 sm:py-16">
-        <Image
-          src="/brand/msphub/msp-hub-logo-white.svg"
-          alt="MSP Hub"
-          width={504}
-          height={71}
-          priority
-          className="mx-auto h-9 w-auto sm:h-11"
-        />
+        <MspHubLogo priority className="mx-auto h-8 w-auto sm:h-10" />
         <h1 className="mt-10 font-display text-2xl font-normal tracking-tight text-balance text-white sm:text-3xl">
           Your single technology partner for everything Microsoft.
         </h1>
