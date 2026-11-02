@@ -1,4 +1,5 @@
 import { Container, Glow, Section } from "@/components/ui/section";
+import { HexGrid } from "@/components/ui/hex-grid";
 import { Display, Eyebrow, Lead } from "@/components/ui/typography";
 import { cn } from "@/lib/cn";
 
@@ -20,7 +21,7 @@ export function PageHero({ eyebrow, title, lead, children, align = "left", below
       className={cn("overflow-hidden pt-12 pb-14 sm:pt-16 lg:pt-20", className)}
       decor={
         <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,black_55%,transparent)]">
-          <div className="bg-hex absolute inset-0" />
+          <HexGrid />
           <Glow tone="orange" className="top-[-380px] left-1/2 h-[760px] w-[760px] -translate-x-1/2" drift />
           <Glow tone="navy" className="top-[20%] left-[-400px] h-[800px] w-[1000px]" />
           <Glow tone="blue" className="top-[10%] right-[-300px] h-[800px] w-[800px]" />

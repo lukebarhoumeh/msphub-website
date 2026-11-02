@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { HexGrid } from "@/components/ui/hex-grid";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
@@ -55,7 +56,7 @@ export default async function InsightPostPage({ params }: PageProps<"/insights/[
         className="overflow-hidden pt-12 pb-14 sm:pt-16 lg:pt-20"
         decor={
           <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,black_55%,transparent)]">
-            <div className="bg-hex absolute inset-0" />
+            <HexGrid />
             <Glow tone="orange" className="top-[-380px] left-1/2 h-[760px] w-[760px] -translate-x-1/2" />
             <Glow tone="navy" className="top-[20%] left-[-400px] h-[800px] w-[1000px]" />
           </div>

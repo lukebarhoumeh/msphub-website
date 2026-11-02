@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { HexGrid } from "@/components/ui/hex-grid";
 import { ArrowRight, CalendarDays, CheckCircle2 } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { NeedsConfirm } from "@/components/ui/needs-confirm";
@@ -40,7 +41,7 @@ export default async function ThankYouPage({ params }: PageProps<"/thank-you/[fo
       className="flex min-h-[70vh] items-center justify-center [&>div]:w-full"
       decor={
         <>
-          <div className="bg-hex absolute inset-0" />
+          <HexGrid />
           <Glow tone="orange" className="top-[-380px] left-1/2 h-[760px] w-[760px] -translate-x-1/2" />
         </>
       }

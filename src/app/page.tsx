@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { HexGrid } from "@/components/ui/hex-grid";
 import { ArrowRight, Building2, Globe2, Layers, Users } from "lucide-react";
 import { HubXLockup, HubXPoweredBy } from "@/components/brand/hubx-logo";
 import { HomeHubxSpotlight, HomeProductProof } from "@/components/hubx/home-sections";
@@ -64,7 +65,7 @@ export default function HomePage() {
         className="overflow-hidden pt-12 pb-16 sm:pt-16 lg:pt-24 lg:pb-24"
         decor={
           <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,black_70%,transparent)]">
-            <div className="bg-hex absolute inset-0" />
+            <HexGrid />
             <Glow tone="orange" className="top-[-320px] left-[-280px] h-[760px] w-[760px]" drift />
             <Glow tone="navy" className="top-[-200px] right-[-300px] h-[900px] w-[900px]" />
             <Glow tone="blue" className="right-[10%] bottom-[-320px] h-[620px] w-[620px]" />
@@ -102,9 +103,8 @@ export default function HomePage() {
                 </Chip>
               </div>
             </div>
-            <div className="motion-safe:animate-fade-up stagger-2">
-              <BrowserFrame screen={screens.dashboardsDark} priority sizes="(min-width: 1024px) 45vw, 100vw" />
-            </div>
+            {/* No entrance animation on the hero image: it is the LCP element. */}
+            <BrowserFrame screen={screens.dashboardsDark} priority sizes="(min-width: 1024px) 45vw, 100vw" />
           </div>
         </Container>
       </Section>

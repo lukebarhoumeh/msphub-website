@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { HexGrid } from "@/components/ui/hex-grid";
 import Link from "next/link";
 import { Fragment } from "react";
 import { ArrowRight, Quote } from "lucide-react";
@@ -336,7 +337,7 @@ export function CtaBand({ eyebrow = "Next step", title, lead, primary, secondary
     <Container className={className}>
       <div className="glass glass-lg overflow-hidden px-6 py-12 text-center sm:px-12 sm:py-16">
         <Glow tone="orange" className="top-[-300px] left-1/2 h-[500px] w-[700px] -translate-x-1/2 opacity-80" />
-        <div aria-hidden className="bg-hex absolute inset-0 opacity-70" />
+        <HexGrid className="opacity-70" />
         <div className="relative">
           <Eyebrow className="before:hidden">{eyebrow}</Eyebrow>
           <Display className="mx-auto mt-3.5 max-w-[18ch]">{title}</Display>

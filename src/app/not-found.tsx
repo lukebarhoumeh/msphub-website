@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { HexGrid } from "@/components/ui/hex-grid";
 import { ArrowRight } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { Container, Glow, Section } from "@/components/ui/section";
@@ -15,7 +16,7 @@ export default function NotFound() {
       className="flex min-h-[70vh] items-center"
       decor={
         <>
-          <div className="bg-hex absolute inset-0" />
+          <HexGrid />
           <Glow tone="navy" className="top-[-200px] right-[-300px] h-[800px] w-[800px]" />
         </>
       }
