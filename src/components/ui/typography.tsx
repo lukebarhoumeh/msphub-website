@@ -1,12 +1,18 @@
 import type { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/cn";
 
-/** Small orange uppercase label with a short rule, the deck motif. */
-export function Eyebrow({ className, children, ...rest }: ComponentPropsWithoutRef<"span">) {
+/** Dark sections (default) use white type; light `canvas` sections use charcoal. */
+export type Tone = "dark" | "light";
+
+type EyebrowProps = ComponentPropsWithoutRef<"span"> & { tone?: Tone };
+
+/** Small uppercase label with a short orange rule, the deck motif. Orange text only on dark grounds. */
+export function Eyebrow({ className, children, tone = "dark", ...rest }: EyebrowProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2.5 text-[12.5px] font-medium tracking-[0.14em] text-brand-orange uppercase before:h-0.5 before:w-5 before:rounded before:bg-brand-orange",
+        "inline-flex items-center gap-2.5 text-[12.5px] font-medium tracking-[0.14em] uppercase before:h-0.5 before:w-5 before:rounded before:bg-brand-orange",
+        tone === "dark" ? "text-brand-orange" : "text-brand-charcoal",
         className,
       )}
       {...rest}
@@ -21,6 +27,7 @@ type HeadingLevel = "h1" | "h2" | "h3";
 type DisplayProps = ComponentPropsWithoutRef<"h1"> & {
   as?: HeadingLevel;
   size?: "xl" | "lg" | "md";
+  tone?: Tone;
 };
 
 const displaySizes = {
@@ -30,11 +37,12 @@ const displaySizes = {
 } as const;
 
 /** Serif display heading. */
-export function Display({ as: Tag = "h2", size = "lg", className, ...rest }: DisplayProps) {
+export function Display({ as: Tag = "h2", size = "lg", tone = "dark", className, ...rest }: DisplayProps) {
   return (
     <Tag
       className={cn(
-        "font-display font-semibold tracking-[-0.02em] text-balance text-white",
+        "font-display font-semibold tracking-[-0.02em] text-balance",
+        tone === "dark" ? "text-white" : "text-brand-charcoal",
         displaySizes[size],
         className,
       )}
@@ -43,10 +51,16 @@ export function Display({ as: Tag = "h2", size = "lg", className, ...rest }: Dis
   );
 }
 
-export function Lead({ className, ...rest }: ComponentPropsWithoutRef<"p">) {
+type LeadProps = ComponentPropsWithoutRef<"p"> & { tone?: Tone };
+
+export function Lead({ className, tone = "dark", ...rest }: LeadProps) {
   return (
     <p
-      className={cn("max-w-[60ch] text-[clamp(1.0625rem,1.3vw,1.25rem)] leading-relaxed text-white/70", className)}
+      className={cn(
+        "max-w-[60ch] text-[clamp(1.0625rem,1.3vw,1.25rem)] leading-relaxed",
+        tone === "dark" ? "text-white/70" : "text-brand-charcoal/80",
+        className,
+      )}
       {...rest}
     />
   );
@@ -58,6 +72,7 @@ type SectionHeadingProps = {
   lead?: React.ReactNode;
   align?: "left" | "center";
   as?: HeadingLevel;
+  tone?: Tone;
   className?: string;
 };
 
@@ -67,6 +82,7 @@ export function SectionHeading({
   lead,
   align = "left",
   as = "h2",
+  tone = "dark",
   className,
 }: SectionHeadingProps) {
   return (
@@ -77,11 +93,19 @@ export function SectionHeading({
         className,
       )}
     >
-      {eyebrow ? <Eyebrow className={cn(align === "center" && "before:hidden")}>{eyebrow}</Eyebrow> : null}
-      <Display as={as} className="mt-3.5">
+      {eyebrow ? (
+        <Eyebrow tone={tone} className={cn(align === "center" && "before:hidden")}>
+          {eyebrow}
+        </Eyebrow>
+      ) : null}
+      <Display as={as} tone={tone} className="mt-3.5">
         {title}
       </Display>
-      {lead ? <Lead className={cn("mt-4", align === "center" && "mx-auto")}>{lead}</Lead> : null}
+      {lead ? (
+        <Lead tone={tone} className={cn("mt-4", align === "center" && "mx-auto")}>
+          {lead}
+        </Lead>
+      ) : null}
     </div>
   );
 }

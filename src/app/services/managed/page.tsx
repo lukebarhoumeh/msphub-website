@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { ArrowRight, Activity, Cloud, Database, Laptop } from "lucide-react";
-import { CtaBand, Steps } from "@/components/marketing/blocks";
+import { ArrowRight, Activity, Cloud, Database, Headset, Laptop, TicketCheck } from "lucide-react";
+import { CtaBand, Steps, SupportModel } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PairsWithHubX } from "@/components/marketing/pairs-with-hubx";
 import { ButtonLink } from "@/components/ui/button";
@@ -10,13 +10,13 @@ import { Display, Eyebrow, Lead, SectionHeading } from "@/components/ui/typograp
 import { managed } from "@/content/services";
 
 export const metadata: Metadata = {
-  title: "Managed services — 24/7 Microsoft 365, cloud, and database operations",
+  title: "Managed services — Microsoft 365, Azure, and database operations run to agreed SLAs",
   description:
-    "MSP Hub managed services: 24/7 monitoring, alerting, and incident management across Microsoft 365, Azure, and databases, run to agreed SLAs with direct Microsoft escalation.",
+    "MSP Hub managed services: around-the-clock monitoring, alerting, and incident management for managed environments across Microsoft 365, Azure, and databases, run to agreed SLAs with direct Microsoft escalation.",
   alternates: { canonical: "/services/managed" },
 };
 
-const icons = [Cloud, Laptop, Database, Activity];
+const icons = [Cloud, Laptop, Database, Activity, TicketCheck, Headset];
 
 export default function ManagedServicesPage() {
   return (
@@ -34,7 +34,7 @@ export default function ManagedServicesPage() {
       <Section className="pt-0 sm:pt-0 lg:pt-0" decor={<Glow tone="navy" className="top-0 left-[-300px] h-[700px] w-[900px]" />}>
         <Container>
           <SectionHeading eyebrow="What we run" title="The environments we operate for you." />
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {managed.offerings.map((o, i) => (
               <FeatureCard key={o.title} icon={icons[i]} title={o.title}>
                 {o.body}
@@ -57,10 +57,17 @@ export default function ManagedServicesPage() {
             <Eyebrow className="before:hidden">SLAs and reporting</Eyebrow>
             <Display className="mx-auto mt-3.5 max-w-[22ch]">Managed operations run to agreed SLAs.</Display>
             <Lead className="mx-auto mt-4">
-              Monitored and supported around the clock, with response and resolution targets agreed up front and
-              reported monthly, so you always know what was handled, how fast, and what to fix next.
+              Managed environments are monitored around the clock, with response and resolution targets agreed up front
+              and reported monthly, so you always know what was handled, how fast, and what to fix next.
             </Lead>
           </div>
+        </Container>
+      </Section>
+
+      <Section className="pt-0 sm:pt-0 lg:pt-0">
+        <Container>
+          <SectionHeading eyebrow="Support model" title="What is 24/7, and what is business hours." />
+          <SupportModel />
         </Container>
       </Section>
 

@@ -1,12 +1,11 @@
 import Image from "next/image";
-import { MspHubPoweredByBadge } from "@/components/brand/msp-hub-logo";
+import { hubxLockup } from "@/content/hubx";
 import { cn } from "@/lib/cn";
 
 /**
  * HubX lockup, reversed version for dark surfaces (brand kit rule). Only used
- * where the Microsoft side is introduced, and always paired with the
- * "Powered by MSP Hub" badge (`HubXWithBadge`) or the sentence
- * "HubX, powered by MSP Hub" (`HubXPoweredBy`).
+ * where the Microsoft side is introduced, always with the text lockup
+ * "HubX, powered by MSP Hub" nearby. No combined logo is ever composed.
  */
 export function HubXLogo({ className = "h-8 w-auto", priority }: { className?: string; priority?: boolean }) {
   return (
@@ -21,30 +20,22 @@ export function HubXLogo({ className = "h-8 w-auto", priority }: { className?: s
   );
 }
 
-type HubXWithBadgeProps = {
-  /** Height class for the HubX lockup (sets the row's scale). */
-  hubxClassName?: string;
-  /** Height class for the badge: 0.75–1× the HubX height, never below 24 px (h-6). */
-  badgeClassName?: string;
-  className?: string;
-  priority?: boolean;
-};
-
-/**
- * HubX logo beside the "Powered by MSP Hub" badge, vertically centred and
- * separated by a 1 px rule (MSP Hub logo guidelines, "Pairing with HubX").
- */
-export function HubXWithBadge({
-  hubxClassName = "h-10 w-auto sm:h-14",
-  badgeClassName = "h-8 w-auto sm:h-12",
+/** The HubX logo with the text lockup beneath it. */
+export function HubXLockup({
+  logoClassName = "h-10 w-auto sm:h-14",
   className,
+  align = "left",
   priority,
-}: HubXWithBadgeProps) {
+}: {
+  logoClassName?: string;
+  className?: string;
+  align?: "left" | "center";
+  priority?: boolean;
+}) {
   return (
-    <div className={cn("flex items-center gap-3 sm:gap-5", className)}>
-      <HubXLogo className={hubxClassName} priority={priority} />
-      <span aria-hidden className="my-1 w-px self-stretch bg-white/25" />
-      <MspHubPoweredByBadge className={badgeClassName} priority={priority} />
+    <div className={cn("flex flex-col gap-3", align === "center" && "items-center text-center", className)}>
+      <HubXLogo className={logoClassName} priority={priority} />
+      <p className="text-sm text-white/70">{hubxLockup}</p>
     </div>
   );
 }

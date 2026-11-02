@@ -1,24 +1,25 @@
 import type { Metadata } from "next";
 import { ArrowRight, Building2, Globe2, Layers, Users } from "lucide-react";
-import { HubXPoweredBy, HubXWithBadge } from "@/components/brand/hubx-logo";
+import { HubXLockup, HubXPoweredBy } from "@/components/brand/hubx-logo";
+import { BrowserFrame } from "@/components/marketing/browser-frame";
 import {
-  AwardCard,
+  CredentialBadges,
   CtaBand,
+  LogoCloud,
   StatBand,
-  Testimonial,
+  Testimonials,
   TextLink,
   TrustStrip,
-  VendorLogoWall,
 } from "@/components/marketing/blocks";
-import { PortalFrame } from "@/components/marketing/portal-frame";
 import { ButtonLink } from "@/components/ui/button";
 import { Chip, FeatureCard, GlassCard, IconTile } from "@/components/ui/card";
-import { Needs } from "@/components/ui/needs";
+import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container, Glow, Section } from "@/components/ui/section";
 import { Display, Eyebrow, Lead, SectionHeading } from "@/components/ui/typography";
 import { branches, serviceBranches } from "@/content/branches";
+import { vendors } from "@/content/ecosystem";
 import { hubxCapabilities } from "@/content/hubx";
-import { testimonials } from "@/content/proof";
+import { screens } from "@/content/screens";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -30,8 +31,8 @@ export const metadata: Metadata = {
 const whyItems = [
   {
     icon: Layers,
-    title: "Microsoft Tier-1 Direct CSP",
-    body: "A direct relationship with Microsoft for licensing, CSP automation, and support, with no reseller layer in between.",
+    title: "Microsoft CSP direct-bill partner",
+    body: "We buy from Microsoft and bill, support, and provision customers ourselves. No distributor layer in the price or in the escalation path. Tier-1 Direct, North America.",
   },
   {
     icon: Users,
@@ -40,9 +41,9 @@ const whyItems = [
   },
   {
     icon: Globe2,
-    title: "Follow-the-sun delivery",
-    body: "Delivery teams across North America, the UK, and India keep work moving around the clock.",
-    needs: "deliveryCenters" as const,
+    title: "Teams across time zones",
+    body: `Delivery teams across ${site.deliveryRegions.join(", ")} keep migrations and managed operations moving.`,
+    confirm: "deliveryRegions" as const,
   },
   {
     icon: Building2,
@@ -70,27 +71,27 @@ export default function HomePage() {
         <Container>
           <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
             <div>
-              <Eyebrow>Microsoft Tier-1 Direct CSP · Services · Development</Eyebrow>
+              <Eyebrow>Microsoft CSP direct-bill partner · Services · Development</Eyebrow>
               <Display as="h1" size="xl" className="mt-5">
                 Your single technology partner for <span className="text-brand-orange">everything Microsoft.</span>
               </Display>
               <Lead className="mt-6">
-                Licensing, cloud, security, AI, and 24/7 managed support, bought and run through one partner and one
-                team. MSP Hub delivers the services; our new portal, HubX, puts your Microsoft estate in one place.
+                Licensing, cloud, security, AI, and managed operations — bought and run through one partner and one
+                team. MSP Hub delivers the services; HubX, our portal, puts your Microsoft estate in one place.
               </Lead>
               <div className="mt-8 flex flex-wrap gap-3">
                 <ButtonLink href="/demo">
                   Schedule a HubX demo
                   <ArrowRight className="size-4" aria-hidden />
                 </ButtonLink>
-                <ButtonLink href="/services" variant="glass">
-                  Explore services
+                <ButtonLink href="/microsoft-365-quote" variant="glass">
+                  Get a licensing quote
                 </ButtonLink>
               </div>
               <div className="mt-7 flex flex-wrap gap-2">
                 <Chip>
                   <span className="size-1.5 rounded-full bg-brand-orange" aria-hidden />
-                  Microsoft 365 · Azure · Copilot
+                  Microsoft 365 · Azure · Copilot · Dynamics
                 </Chip>
                 <Chip>
                   <span className="size-1.5 rounded-full bg-brand-orange" aria-hidden />
@@ -98,21 +99,7 @@ export default function HomePage() {
                 </Chip>
               </div>
             </div>
-            <div className="relative">
-              <PortalFrame />
-              <div className="glass absolute -top-6 right-2 hidden min-w-[190px] rounded-2xl px-4 py-3.5 xl:block">
-                <p className="text-[11.5px] tracking-[0.08em] text-white/45 uppercase">Renewal alerts</p>
-                <p className="mt-0.5 text-xl font-semibold tabular-nums">
-                  7 <small className="ml-2 text-xs font-medium text-success">auto-scheduled</small>
-                </p>
-              </div>
-              <div className="glass absolute bottom-16 -left-6 hidden min-w-[190px] rounded-2xl px-4 py-3.5 xl:block">
-                <p className="text-[11.5px] tracking-[0.08em] text-white/45 uppercase">Licenses managed</p>
-                <p className="mt-0.5 text-xl font-semibold tabular-nums">
-                  12,480 <small className="ml-2 text-xs font-medium text-success">+3.2%</small>
-                </p>
-              </div>
-            </div>
+            <BrowserFrame screen={screens.dashboardsDark} priority sizes="(min-width: 1024px) 45vw, 100vw" />
           </div>
         </Container>
       </Section>
@@ -121,6 +108,19 @@ export default function HomePage() {
       <Section tight className="pt-0 sm:pt-0">
         <Container>
           <TrustStrip />
+        </Container>
+      </Section>
+
+      {/* Product proof (light section: the real product is light-theme by default) */}
+      <Section className="bg-brand-canvas text-brand-charcoal">
+        <Container>
+          <SectionHeading
+            tone="light"
+            eyebrow="HubX, powered by MSP Hub"
+            title="The live product, not a mock-up."
+            lead="Every customer, subscription, license, invoice, and margin in one portal. These are real HubX screens with demo data."
+          />
+          <BrowserFrame screen={screens.homeOverview} sizes="(min-width: 1024px) 1100px, 100vw" />
         </Container>
       </Section>
 
@@ -141,43 +141,15 @@ export default function HomePage() {
                 <span className="inline-flex h-7.5 items-center rounded-full border border-brand-orange/30 bg-brand-orange/12 px-3 text-xs font-semibold tracking-[0.06em] text-brand-orange uppercase">
                   Flagship · the Microsoft portal
                 </span>
-                <HubXWithBadge hubxClassName="h-10 w-auto" badgeClassName="h-8 w-auto" className="mt-5 mb-4" />
+                <HubXLockup logoClassName="h-10 w-auto" className="mt-5 mb-4" />
                 <h3 className="text-2xl font-semibold tracking-tight text-white">{hubx.short}</h3>
                 <p className="mt-3 text-[15px] leading-relaxed text-white/70">{hubx.description}</p>
-                <p className="mt-4">
-                  <HubXPoweredBy logoClassName="h-5 w-auto" />
-                </p>
                 <TextLink href={hubx.href} className="mt-5">
                   {hubx.linkLabel}
                 </TextLink>
               </div>
-              <div aria-hidden className="relative hidden aspect-[4/3] overflow-hidden rounded-2xl border border-white/12 bg-[#181818] lg:block">
-                <div className="absolute -inset-[40%] bg-[radial-gradient(circle_at_70%_20%,rgba(249,115,22,.35),transparent_50%)]" />
-                <div className="absolute inset-x-3.5 top-3.5 grid grid-cols-2 gap-2.5 text-[#ECEDEF]">
-                  {[
-                    ["Active licenses", "12,480", "+3.2%"],
-                    ["Savings found", "$21,900", "Hub AI"],
-                  ].map(([k, v, d]) => (
-                    <div key={k} className="rounded-xl border border-white/8 bg-[#1F1F1F] px-3.5 py-3">
-                      <div className="text-[11px] text-white/50">{k}</div>
-                      <div className="mt-1 text-xl font-semibold tabular-nums">{v}</div>
-                      <div className="mt-0.5 text-[11px] text-success">{d}</div>
-                    </div>
-                  ))}
-                </div>
-                <div className="absolute inset-x-3.5 bottom-3.5 flex h-[70px] items-end gap-1.5">
-                  {[40, 52, 46, 64, 58, 72, 68, 84, 92].map((h, i) => (
-                    <i
-                      key={i}
-                      style={{ height: `${h}%` }}
-                      className={
-                        i < 3
-                          ? "flex-1 rounded-t bg-white/15"
-                          : "flex-1 rounded-t bg-[linear-gradient(180deg,rgba(249,115,22,.95),rgba(249,115,22,.35))]"
-                      }
-                    />
-                  ))}
-                </div>
+              <div className="hidden lg:block">
+                <BrowserFrame screen={screens.dashboardsDark} caption={false} sizes="400px" />
               </div>
             </GlassCard>
 
@@ -219,26 +191,22 @@ export default function HomePage() {
           <div className="glass glass-lg overflow-hidden p-7 sm:p-10 lg:p-14">
             <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
               <div>
-                <HubXWithBadge />
-                <p className="mt-4 text-sm text-white/70">HubX, powered by MSP Hub</p>
+                <HubXLockup logoClassName="h-12 w-auto sm:h-14" />
                 <Eyebrow className="mt-7">The Microsoft portal</Eyebrow>
                 <Display className="mt-3.5">See every license. Control every dollar.</Display>
                 <Lead className="mt-4">
-                  HubX puts procurement, visibility, and optimization in one place, so IT, finance, and purchasing stop
+                  HubX puts procurement, visibility, and margin in one place, so IT, finance, and purchasing stop
                   reconciling spreadsheets and start making data-driven decisions.
                 </Lead>
-                <div className="mt-7 inline-flex rounded-full border border-white/12 bg-white/6 p-1 text-xs font-medium sm:text-sm">
-                  <span className="rounded-full bg-brand-orange px-3 py-2 text-ink sm:px-4">For MSPs & VARs</span>
-                  <span className="px-3 py-2 text-white/70 sm:px-4">For your business</span>
-                </div>
-                <p className="mt-3 text-sm text-white/55">
-                  Manage every customer tenant from one console with Tier-1 direct pricing and automated billing.{" "}
-                  <Needs id="audienceSplit" />
+                <p className="mt-5 text-[15px] text-white/70">
+                  For MSPs and VARs, every customer tenant in one console at Tier-1 direct pricing. Your customers see
+                  your brand on invoices and get their own portal access.{" "}
+                  <NeedsConfirm id="whiteLabel" fallback={null} />
                 </p>
                 <div className="mt-7 flex flex-wrap gap-3">
                   <ButtonLink href="/demo">Schedule a demo</ButtonLink>
                   <ButtonLink href="/microsoft-365-quote" variant="glass">
-                    Get a Microsoft 365 quote
+                    Get a licensing quote
                   </ButtonLink>
                 </div>
               </div>
@@ -271,7 +239,7 @@ export default function HomePage() {
                 <IconTile icon={w.icon} className="mb-5" />
                 <h3 className="text-lg font-semibold tracking-tight text-white">{w.title}</h3>
                 <p className="mt-2.5 text-[15px] leading-relaxed text-white/70">
-                  {w.body} {w.needs ? <Needs id={w.needs} /> : null}
+                  {w.confirm ? <NeedsConfirm id={w.confirm} fallback={w.body} /> : w.body}
                 </p>
               </GlassCard>
             ))}
@@ -287,21 +255,22 @@ export default function HomePage() {
         <Container>
           <SectionHeading eyebrow="Track record" title="What we run today." />
           <StatBand />
+          <Testimonials className="mt-4" />
         </Container>
       </Section>
 
-      {/* Proof */}
+      {/* Credentials and ecosystem */}
       <Section className="pt-0 sm:pt-0 lg:pt-0">
         <Container>
-          <div className="grid gap-4 lg:grid-cols-[1.1fr_.9fr]">
-            <Testimonial quote={testimonials[0]} />
-            <div className="grid gap-4">
-              <AwardCard />
-              <GlassCard>
-                <p className="mb-4 text-xs tracking-[0.12em] text-white/45 uppercase">Vendor ecosystem</p>
-                <VendorLogoWall compact />
-              </GlassCard>
-            </div>
+          <div className="grid gap-4 lg:grid-cols-2">
+            <GlassCard>
+              <p className="mb-4 text-xs tracking-[0.12em] text-white/45 uppercase">Credentials</p>
+              <CredentialBadges variant="chips" />
+            </GlassCard>
+            <GlassCard>
+              <p className="mb-4 text-xs tracking-[0.12em] text-white/45 uppercase">Vendor ecosystem</p>
+              <LogoCloud items={vendors} confirm="vendorLogos" />
+            </GlassCard>
           </div>
         </Container>
       </Section>
@@ -313,7 +282,7 @@ export default function HomePage() {
           lead="One practice or the whole stack. We'll map your estate, surface the gaps, and show exactly where MSP Hub fits. No obligation."
           primary={{ label: "Schedule a HubX demo", href: "/demo" }}
           secondary={[
-            { label: "Get a Microsoft 365 quote", href: "/microsoft-365-quote" },
+            { label: "Get a licensing quote", href: "/microsoft-365-quote" },
             { label: "Service inquiry", href: "/services#inquiry" },
           ]}
         >
@@ -322,6 +291,11 @@ export default function HomePage() {
             <a href={`mailto:${site.salesEmail}`} className="font-medium text-white underline-offset-4 hover:underline">
               {site.salesEmail}
             </a>
+            <span className="mx-2 text-white/30">·</span>
+            <NeedsConfirm id="phone" fallback={<a href={site.salesPhoneHref} className="font-medium text-white underline-offset-4 hover:underline">{site.salesPhone}</a>} />
+          </p>
+          <p className="mt-3 text-xs text-white/45">
+            <HubXPoweredBy logoClassName="h-4 w-auto" className="text-xs text-white/45" />
           </p>
         </CtaBand>
       </Section>

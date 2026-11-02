@@ -6,21 +6,21 @@ alwaysApply: true
 
 # MSP Hub website rules
 
-Read `docs/HANDOFF.md` before changing any content, design, or route. It is the source of truth.
+`HANDOFF.md` is the source of truth for every content, design, and route decision. It is kept **outside this public repository** (private copy in the Project Context at `/cursor/stores/bc-7d327e9e-5b6f-46fa-8186-7f65361135b6/internal/handoff/HANDOFF.md`); `docs/architecture.md` carries the publishable summary. Read the private copy before changing any content, design, or route, and base everything on it.
 
 ## Hard rules
-- Never invent company facts, numbers, partners, customers, logos, awards, certifications, or integrations. If it is not in `docs/HANDOFF.md` and not verifiable, render `<NeedsConfirm id="…" fallback={…}>` instead.
+- Never invent company facts, numbers, partners, customers, logos, awards, certifications, or integrations. If it is not in `HANDOFF.md` (private copy, see above) and not verifiable, render `<NeedsConfirm id="…" fallback={…}>` instead.
 - No customer, partner, or prospect names anywhere (code, content, fixtures, tests, screenshots, commits). Fictional demo data only.
 - Brand: **MSP Hub** = company/services/legal; **HubX** = the platform (one word). Lockup is text: "HubX, powered by MSP Hub". Never compose a combined logo.
 - Never publish pricing percentages, pass-through rates, margins, hourly rates, or partner cost.
-- Microsoft terminology exactly as in `docs/HANDOFF.md` Appendix C ("CSP direct-bill partner", current Solutions Partner badge names; never "Gold/Silver").
+- Microsoft terminology exactly as in `HANDOFF.md` Appendix C ("CSP direct-bill partner", current Solutions Partner badge names; never "Gold/Silver").
 - Credentials/badges render only from `content/credentials.ts` entries with `active: true`.
 - "24/7" applies only to managed-services monitoring; licensing/billing support is business hours.
 - `NeedsConfirm` chips ship only when `NEXT_PUBLIC_SHOW_TODOS === 'true'`; every instance needs a `fallback`.
 
 ## Build conventions
 - Next.js App Router + Tailwind + `next/font` (`headingFont` serif, `bodyFont` sans). Copy lives in `content/*` (TS/JSON/MDX), not in JSX.
-- Real HubX screenshots live in `public/hubx/` (manifest + alt text in `docs/HANDOFF.md` §6.4). Do not mix light and dark captures in one carousel. Do not reuse the old sidebar mock-ups.
+- Real HubX screenshots live in `public/hubx/` (manifest + alt text in `HANDOFF.md` §6.4 and `src/content/screens.ts`). Do not mix light and dark captures in one carousel. Do not reuse the old sidebar mock-ups.
 - Accent orange is `#F97316`; charcoal `#424242`; light canvas `#EEEEEE`; dark `#0A0D14`. Never small orange text on white.
 - WCAG 2.2 AA, Lighthouse ≥ 90 mobile, `prefers-reduced-motion` respected, no splash/loader.
 - Forms post to the API route that creates a Pipedrive lead and emails sales@msphub.com; Turnstile + honeypot on every form.

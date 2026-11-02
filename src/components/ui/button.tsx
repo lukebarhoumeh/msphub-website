@@ -48,11 +48,12 @@ export function ButtonLink({
   const external = /^https?:\/\//.test(href) || href.startsWith("mailto:");
   const classes = cn(base, variants[variant], sizes[size], className);
   if (external) {
+    // External links open in the same tab (HubX login must stay in-tab per the handoff); rel="noopener" always.
     return (
       <a
         href={href}
         className={classes}
-        {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        {...(href.startsWith("http") ? { rel: "noopener" } : {})}
         {...(rest as ComponentPropsWithoutRef<"a">)}
       >
         {children}

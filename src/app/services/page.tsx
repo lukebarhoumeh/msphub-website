@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import { ArrowRight, Clock, Globe2, Headset, Users } from "lucide-react";
 import { LeadForm } from "@/components/forms/lead-form";
 import { HubXPoweredBy } from "@/components/brand/hubx-logo";
-import { TrustStrip } from "@/components/marketing/blocks";
+import { SupportModel, TrustStrip } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
 import { GlassCard, IconTile } from "@/components/ui/card";
-import { Needs } from "@/components/ui/needs";
+import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container, Glow, Section } from "@/components/ui/section";
 import { Display, Eyebrow, Lead, SectionHeading } from "@/components/ui/typography";
 import { branches, serviceBranches } from "@/content/branches";
+import { site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Services — professional, managed, and development services for Microsoft estates",
@@ -21,13 +22,19 @@ export const metadata: Metadata = {
 const delivery = [
   {
     icon: Globe2,
-    title: "Follow-the-sun delivery",
-    body: "Delivery teams across North America, the UK, and India keep migrations and operations moving around the clock.",
-    needs: "deliveryCenters" as const,
+    title: "Teams across time zones",
+    body: `Delivery teams across ${site.deliveryRegions.join(", ")} keep migrations and managed operations moving.`,
+    confirm: "deliveryRegions" as const,
   },
-  { icon: Clock, title: "Agreed SLAs", body: "Managed operations run to agreed SLAs, monitored and supported around the clock." },
-  { icon: Headset, title: "Direct Microsoft escalation", body: "A Tier-1 Direct CSP relationship means issues escalate straight to Microsoft." },
-  { icon: Users, title: "100+ staff services team", body: "Certified cloud architects and engineers across cloud, Microsoft 365, database, and development." },
+  { icon: Clock, title: "Agreed SLAs", body: "Managed environments run to agreed SLAs, monitored around the clock, with monthly reporting." },
+  { icon: Headset, title: "Direct Microsoft escalation", body: "As a CSP direct-bill partner, MSP Hub escalates straight to Microsoft Premier support." },
+  {
+    icon: Users,
+    title: "A full services bench",
+    body: "Certified cloud architects and engineers across cloud, Microsoft 365, database, and development.",
+    confirm: "servicesHeadcount" as const,
+    todo: "100+ staff on the services team (unverified).",
+  },
 ];
 
 export default function ServicesPage() {
@@ -93,11 +100,24 @@ export default function ServicesPage() {
                 <IconTile icon={d.icon} className="mb-5" />
                 <h3 className="text-lg font-semibold tracking-tight text-white">{d.title}</h3>
                 <p className="mt-2.5 text-[15px] leading-relaxed text-white/70">
-                  {d.body} {d.needs ? <Needs id={d.needs} /> : null}
+                  {d.confirm ? (
+                    <NeedsConfirm id={d.confirm} fallback={d.body}>
+                      {d.body} {"todo" in d ? d.todo : null}
+                    </NeedsConfirm>
+                  ) : (
+                    d.body
+                  )}
                 </p>
               </GlassCard>
             ))}
           </div>
+        </Container>
+      </Section>
+
+      <Section className="pt-0 sm:pt-0 lg:pt-0">
+        <Container>
+          <SectionHeading eyebrow="Support" title="Business hours for licensing and billing. Around the clock for managed environments." />
+          <SupportModel />
         </Container>
       </Section>
 

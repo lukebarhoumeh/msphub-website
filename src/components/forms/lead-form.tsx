@@ -202,9 +202,10 @@ function DemoFields({ errors, invalid }: FieldsProps) {
       </div>
       <fieldset>
         <legend className="mb-2 text-sm font-medium text-white/85">I am</legend>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2">
           <Choice type="radio" name="audience" value="msp" label="An MSP or VAR" description="Managing customer tenants" defaultChecked />
           <Choice type="radio" name="audience" value="business" label="A business" description="Managing our own licensing" />
+          <Choice type="radio" name="audience" value="csp" label="A direct-bill CSP" description="Evaluating HubX for my own tenant" />
           <Choice type="radio" name="audience" value="other" label="Other" description="Advisor, press, partner" />
         </div>
         {errors.audience ? <p className="mt-2 text-[13px] text-error">{errors.audience}</p> : null}
@@ -229,7 +230,7 @@ function ServiceFields({ errors, invalid }: FieldsProps) {
         <legend className="mb-2 text-sm font-medium text-white/85">Which practices?</legend>
         <div className="grid gap-3 sm:grid-cols-3">
           <Choice name="branches" value="professional" label="Professional services" description="Migrations, Azure, security, data" />
-          <Choice name="branches" value="managed" label="Managed services" description="24/7 operations and support" />
+          <Choice name="branches" value="managed" label="Managed services" description="Monitoring, incident management, SLAs" />
           <Choice name="branches" value="development" label="Development & AI" description="Apps, DevOps, AI development" />
         </div>
         {errors.branches ? <p className="mt-2 text-[13px] text-error">{errors.branches}</p> : null}
@@ -321,6 +322,8 @@ function ContactFields({ errors, invalid, defaultTopic }: FieldsProps & { defaul
           <Select id="topic" name="topic" defaultValue={defaultTopic ?? "general"} {...invalid("topic")}>
             <option value="general">General question</option>
             <option value="sales">Sales</option>
+            <option value="billing">Billing question</option>
+            <option value="transfer">Partner-to-partner transfer</option>
             <option value="support">Support</option>
             <option value="partnership">Partnership</option>
             <option value="press">Press & media</option>

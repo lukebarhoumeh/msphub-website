@@ -1,48 +1,43 @@
 import type { Metadata } from "next";
 import { ArrowRight, Briefcase, Handshake, Layers, Megaphone } from "lucide-react";
-import { CtaBand, Steps, VendorLogoWall } from "@/components/marketing/blocks";
+import { CheckList, CtaBand, LogoCloud, Steps } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
-import { FeatureCard } from "@/components/ui/card";
-import { Needs } from "@/components/ui/needs";
+import { FeatureCard, GlassCard } from "@/components/ui/card";
+import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container, Glow, Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/typography";
-import { alliances } from "@/content/proof";
+import { alliances, vendors } from "@/content/ecosystem";
+import { partnerEconomics, partnerEnablement, partnerPrograms, partnerSteps } from "@/content/partners";
 
 export const metadata: Metadata = {
-  title: "Partners — grow with MSP Hub",
+  title: "Partners — reseller, agent, and platform programs",
   description:
-    "For MSPs, VARs, and agents: Tier-1 Microsoft pricing through HubX, MSP Hub's services team as your back office, co-selling, and enablement.",
+    "Three ways to partner with MSP Hub: resell Microsoft at Tier-1 direct pricing through HubX, refer opportunities as an agent, or run HubX on your own Partner Center tenant as a direct-bill CSP.",
   alternates: { canonical: "/partners" },
 };
 
 const why = [
   {
     icon: Layers,
-    title: "Tier-1 pricing through HubX",
+    title: "Tier-1 direct pricing through HubX",
     body: "Resell the Microsoft catalog at Tier-1 direct pricing and manage every customer tenant from one console.",
   },
   {
     icon: Briefcase,
     title: "A services bench as your back office",
-    body: "Migrations, Azure projects, security work, and 24/7 operations delivered under your relationship.",
+    body: "Migrations, Azure projects, security work, and managed operations delivered under your relationship.",
   },
   {
     icon: Handshake,
     title: "Co-selling",
-    body: "Joint pursuits on licensing-led deals, with MSP Hub's engineers in the room for scoping.",
+    body: "Joint pursuits on licensing-led deals, with MSP Hub's engineers on scoping calls.",
   },
   {
     icon: Megaphone,
     title: "Enablement",
-    body: "Product training, pricing guidance, and marketing support for your HubX and services practice.",
+    body: "Product training, quoting support from the deal desk, and marketing collateral for your practice.",
   },
-];
-
-const steps = [
-  { title: "Apply", body: "Tell us about your business, your customers, and the Microsoft workloads you sell today." },
-  { title: "Onboard", body: "Your tenants, pricing, and billing are set up in HubX and your team is trained." },
-  { title: "Transact and submit opportunities", body: "Sell and provision through HubX; bring services opportunities to the MSP Hub team." },
 ];
 
 export default function PartnersPage() {
@@ -51,7 +46,7 @@ export default function PartnersPage() {
       <PageHero
         eyebrow="Partners"
         title="Grow with MSP Hub."
-        lead="For MSPs, VARs, and agents who want Tier-1 Microsoft pricing, a services team behind them, and a platform their customers can see themselves in."
+        lead="For MSPs, VARs, agents, and direct-bill CSPs who want Tier-1 Microsoft pricing, a services team behind them, and a platform their customers can see themselves in."
       >
         <ButtonLink href="/contact?topic=partnership#contact-form">
           Become a partner
@@ -78,32 +73,38 @@ export default function PartnersPage() {
       <Section className="pt-0 sm:pt-0 lg:pt-0">
         <Container>
           <SectionHeading
-            eyebrow="How it works"
-            title="Apply, onboard, transact."
-            lead={
-              <>
-                Program tiers and deal-registration details will be published here. <Needs id="partnerProgram" />
-              </>
-            }
+            eyebrow="Three programs"
+            title="Resell, refer, or run the platform."
+            lead={<NeedsConfirm id="partnerTiers" fallback="One program, with pricing by volume. No tiers to climb." />}
           />
-          <Steps steps={steps} />
+          <div className="grid gap-4 lg:grid-cols-3">
+            {partnerPrograms.map((p) => (
+              <GlassCard key={p.id} className="p-8">
+                <p className="text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">{p.who}</p>
+                <h3 className="mt-3 font-display text-[1.625rem] leading-tight tracking-[-0.01em] text-white">{p.name}</h3>
+                <CheckList items={p.gets} className="mt-5" />
+              </GlassCard>
+            ))}
+          </div>
+          <p className="mt-6 max-w-[80ch] text-[15px] text-white/70">{partnerEconomics}</p>
         </Container>
       </Section>
 
       <Section className="pt-0 sm:pt-0 lg:pt-0">
         <Container>
-          <SectionHeading eyebrow="Alliances" title="Who we work with." />
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {alliances.map((a) => (
-              <li key={a.name} className="glass p-7">
-                <p className="font-semibold text-white">{a.name}</p>
-                <p className="mt-1.5 text-sm text-white/65">{a.note}</p>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-4 flex flex-wrap items-center gap-2 text-sm text-white/55">
-            Alliances as announced on MSP Hub&apos;s LinkedIn page; logos shown once permission is confirmed. <Needs id="alliances" />
-          </p>
+          <SectionHeading eyebrow="How it works" title="Apply, onboard, transact." lead="The same path for every program. Deal registration is a form to the partner team." />
+          <Steps steps={partnerSteps} />
+          <GlassCard className="mt-4">
+            <p className="text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">Enablement</p>
+            <CheckList items={partnerEnablement} className="mt-4 sm:grid-cols-2" />
+          </GlassCard>
+        </Container>
+      </Section>
+
+      <Section className="pt-0 sm:pt-0 lg:pt-0">
+        <Container>
+          <SectionHeading eyebrow="Distribution & alliances" title="Who we work with." />
+          <LogoCloud items={alliances} confirm="allianceLogos" />
         </Container>
       </Section>
 
@@ -114,7 +115,7 @@ export default function PartnersPage() {
             title="Hardware, cloud, security, and productivity through one partner."
             lead="Beyond Microsoft, MSP Hub procures and supports across hardware and networking, hyperscalers, security and data protection, and productivity vendors."
           />
-          <VendorLogoWall />
+          <LogoCloud items={vendors} confirm="vendorLogos" />
         </Container>
       </Section>
 

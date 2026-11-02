@@ -1,17 +1,17 @@
 import Link from "next/link";
 import { MspHubLogo } from "@/components/brand/msp-hub-logo";
 import { FacebookIcon, InstagramIcon, LinkedInIcon, XIcon, YouTubeIcon } from "@/components/layout/social-icons";
-import { Needs } from "@/components/ui/needs";
+import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container } from "@/components/ui/section";
 import { footerColumns, legalLinks } from "@/content/nav";
 import { site } from "@/content/site";
 
 const socials = [
   { label: "LinkedIn", href: site.social.linkedin, Icon: LinkedInIcon },
-  { label: "X", href: site.social.x, Icon: XIcon },
-  { label: "YouTube", href: site.social.youtube, Icon: YouTubeIcon },
   { label: "Facebook", href: site.social.facebook, Icon: FacebookIcon },
   { label: "Instagram", href: site.social.instagram, Icon: InstagramIcon },
+  { label: "X", href: site.social.x, Icon: XIcon },
+  { label: "YouTube", href: site.social.youtube, Icon: YouTubeIcon },
 ];
 
 export function Footer() {
@@ -24,8 +24,8 @@ export function Footer() {
               <MspHubLogo className="h-8 w-auto" />
             </Link>
             <p className="mt-4 max-w-[34ch] text-sm leading-relaxed text-white/70">{site.tagline}</p>
-            <p className="mt-3 flex flex-wrap items-center gap-2 text-xs text-white/45">
-              Formerly READY Networks and Six.One. <Needs id="formerly" />
+            <p className="mt-3 text-xs text-white/45">
+              {site.legalName} · formerly {site.formerly}
             </p>
           </div>
 
@@ -36,7 +36,7 @@ export function Footer() {
                 {col.links.map((l) =>
                   l.href.startsWith("http") ? (
                     <li key={l.href}>
-                      <a href={l.href} target="_blank" rel="noopener noreferrer" className="text-[14.5px] text-white/70 hover:text-white">
+                      <a href={l.href} rel="noopener" className="text-[14.5px] text-white/70 hover:text-white">
                         {l.label}
                       </a>
                     </li>
@@ -60,11 +60,18 @@ export function Footer() {
                   {site.salesEmail}
                 </a>
               </li>
-              <li className="flex flex-wrap items-center gap-2">
-                Phone <Needs id="phone" />
+              <li>
+                <NeedsConfirm
+                  id="phone"
+                  fallback={
+                    <a href={site.salesPhoneHref} className="hover:text-white">
+                      {site.salesPhone}
+                    </a>
+                  }
+                />
               </li>
-              <li className="flex flex-wrap items-center gap-2">
-                Offices <Needs id="offices" />
+              <li className="text-white/55">
+                <NeedsConfirm id="officePresentation" fallback={<address className="not-italic">{site.hq.address}</address>} />
               </li>
             </ul>
           </div>
@@ -98,9 +105,6 @@ export function Footer() {
                   </a>
                 </li>
               ))}
-              <li>
-                <Needs id="social" />
-              </li>
             </ul>
           </div>
         </div>

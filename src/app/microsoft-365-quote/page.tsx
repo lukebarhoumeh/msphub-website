@@ -4,13 +4,13 @@ import { LeadForm } from "@/components/forms/lead-form";
 import { CheckList, TrustStrip } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Chip, GlassCard } from "@/components/ui/card";
-import { Needs } from "@/components/ui/needs";
+import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container, Section } from "@/components/ui/section";
 import { Display, Eyebrow, Lead } from "@/components/ui/typography";
 import { licensingCatalog } from "@/content/hubx";
 
 export const metadata: Metadata = {
-  title: "Microsoft 365 quote — Tier-1 direct pricing",
+  title: "Licensing quote — Tier-1 direct pricing on Microsoft 365, Azure, and Copilot",
   description:
     "Request Tier-1 direct pricing on Microsoft 365, Azure, Copilot, and the rest of the Microsoft catalog from MSP Hub. Licenses are managed in HubX, powered by MSP Hub.",
   alternates: { canonical: "/microsoft-365-quote" },
@@ -40,7 +40,7 @@ export default function QuotePage() {
                 <CheckList
                   className="mt-4"
                   items={[
-                    "Tier-1 Microsoft Direct CSP: no reseller layer in the price",
+                    "Microsoft CSP direct-bill partner: no distributor layer in the price",
                     "Existing subscriptions transfer; nothing is re-bought",
                     "Every license managed, renewed, and optimized in HubX",
                     "Migration and managed services from the same team",
@@ -50,8 +50,8 @@ export default function QuotePage() {
                   <HubXPoweredBy logoClassName="h-5 w-auto" />
                 </p>
               </GlassCard>
-              <p className="flex flex-wrap items-center gap-2 text-sm text-white/55">
-                Response within one business day. <Needs id="responseTime" />
+              <p className="text-sm text-white/55">
+                <NeedsConfirm id="quoteResponse" fallback="Response within one business day." />
               </p>
             </div>
             <div className="glass glass-lg p-7 sm:p-10">

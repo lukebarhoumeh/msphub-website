@@ -1,56 +1,28 @@
 import type { Metadata } from "next";
-import { ArrowRight, Award, BadgeCheck, Layers, ShieldCheck } from "lucide-react";
-import { AwardCard, CtaBand, StatBand, Testimonial } from "@/components/marketing/blocks";
+import { ArrowRight } from "lucide-react";
+import { CredentialBadges, CtaBand, StatBand, SupportModel, Testimonials } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
-import { GlassCard, IconTile } from "@/components/ui/card";
-import { Needs, NeedsBlock } from "@/components/ui/needs";
+import { GlassCard } from "@/components/ui/card";
+import { NeedsConfirm, NeedsConfirmBlock } from "@/components/ui/needs-confirm";
 import { Container, Glow, Section } from "@/components/ui/section";
 import { Display, Eyebrow, Lead, SectionHeading } from "@/components/ui/typography";
-import { testimonials } from "@/content/proof";
-import { site } from "@/content/site";
+import { leadership, site, timeline } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "About MSP Hub — Microsoft Tier-1 Direct CSP and services company",
+  title: "About MSP Hub — Microsoft CSP direct-bill partner and IT services company since 1999",
   description:
-    "MSP Hub is a Microsoft Tier-1 Direct CSP and IT services company: 478+ companies served, 600K+ licenses managed, a 100+ staff services team, and HubX, our Microsoft portal.",
+    "MSP Hub started in 1999 as ReadyNetworks. Today it is a Microsoft CSP direct-bill partner (Tier-1 Direct) and IT services company, and the team that built HubX.",
   alternates: { canonical: "/about" },
 };
-
-const timeline = [
-  {
-    when: "Nov 2024",
-    title: "Six.One becomes MSP Hub",
-    body: "The Six.One marketplace, built by an MSP for MSPs, is rebranded MSP Hub.",
-  },
-  {
-    when: "Jul 2025",
-    title: "READY Networks joins MSP Hub",
-    body: "The READY Networks services business becomes part of MSP Hub, bringing the professional and managed services practices.",
-  },
-  {
-    when: "2026",
-    title: "HubX launches",
-    body: "HubX, powered by MSP Hub, is released: the Microsoft portal for licensing, procurement, and spend.",
-    needs: "formerly" as const,
-  },
-];
-
-const credentials = [
-  { icon: ShieldCheck, title: "ISO certified", body: "Information security management across our operations." },
-  { icon: BadgeCheck, title: "Microsoft Modern Work certified", body: "Microsoft's designation for Microsoft 365 workloads." },
-  { icon: BadgeCheck, title: "Azure certified", body: "Microsoft's designation for Azure infrastructure work." },
-  { icon: Layers, title: "Microsoft Tier-1 Direct CSP", body: "A direct Cloud Solution Provider relationship with Microsoft." },
-  { icon: Award, title: "ChannelPro Editor's Choice 2025", body: "Awarded at ChannelPro LIVE Chicago, April 2025." },
-];
 
 export default function AboutPage() {
   return (
     <>
       <PageHero
-        eyebrow="About MSP Hub"
-        title="One partner for licensing, cloud, security, AI, and 24/7 support."
-        lead="MSP Hub is a Microsoft Tier-1 Direct CSP and IT services company. We built HubX so IT, finance, and purchasing can see and control their Microsoft estate, and we staff the professional, managed, and development teams that run it."
+        eyebrow={`About MSP Hub · Since ${site.founded}`}
+        title="One partner for licensing, cloud, security, AI, and managed operations."
+        lead="MSP Hub is a Microsoft CSP direct-bill partner (Tier-1 Direct) and IT services company. We built HubX so IT, finance, and purchasing can see and control their Microsoft estate, and we staff the professional, managed, and development teams that run it."
       >
         <ButtonLink href="/contact">
           Contact us
@@ -66,17 +38,18 @@ export default function AboutPage() {
           <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
             <div>
               <Eyebrow>Who we are</Eyebrow>
-              <Display className="mt-3.5">We simplify IT so you can focus on growth.</Display>
+              <Display className="mt-3.5">Since 1999. Built by an MSP, for the people who run Microsoft.</Display>
             </div>
             <div className="space-y-5">
               <Lead>
-                MSP Hub is your single technology partner for everything Microsoft, from licensing and cloud
-                infrastructure to security, AI, and 24/7 managed support.
+                MSP Hub started in 1999 as ReadyNetworks, an MSP that built its own licensing platform because the
+                distributors&apos; tools weren&apos;t good enough. In 2025 the company became MSP Hub; in 2026 the
+                platform became HubX.
               </Lead>
               <p className="text-[15px] leading-relaxed text-white/70">
-                We serve MSPs and VARs who resell Microsoft and need a platform and a bench behind them, and we serve
-                businesses directly, from small companies to large enterprises, with certified cloud architects and
-                engineers. Licensing is the entry point; the services make it work.
+                We serve MSPs and VARs who resell Microsoft and need a platform and a bench behind them, direct-bill CSPs
+                who run HubX on their own Partner Center tenant, and businesses buying licensing and services directly,
+                from small companies to large enterprises. Licensing is the entry point; the services make it work.
               </p>
             </div>
           </div>
@@ -92,15 +65,15 @@ export default function AboutPage() {
 
       <Section className="pt-0 sm:pt-0 lg:pt-0">
         <Container>
-          <SectionHeading eyebrow="History" title="From marketplace to single partner." />
-          <ol className="grid gap-4 md:grid-cols-3">
+          <SectionHeading eyebrow="History" title="From an MSP's own tool to HubX." />
+          <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {timeline.map((t) => (
               <li key={t.title} className="glass p-7">
-                <p className="text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">{t.when}</p>
-                <h3 className="mt-3 text-lg font-semibold text-white">{t.title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-white/70">
-                  {t.body} {t.needs ? <Needs id={t.needs} /> : null}
+                <p className="text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">
+                  {"confirm" in t ? <NeedsConfirm id={t.confirm} fallback={t.when} /> : t.when}
                 </p>
+                <h3 className="mt-3 text-lg font-semibold text-white">{t.title}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-white/70">{t.body}</p>
               </li>
             ))}
           </ol>
@@ -109,46 +82,73 @@ export default function AboutPage() {
 
       <Section className="pt-0 sm:pt-0 lg:pt-0" decor={<Glow tone="navy" className="top-0 right-[-300px] h-[700px] w-[900px]" />}>
         <Container>
-          <SectionHeading eyebrow="Credentials" title="Certified, direct, and recognized." />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {credentials.map((c) => (
-              <GlassCard key={c.title}>
-                <IconTile icon={c.icon} className="mb-5" />
-                <h3 className="text-lg font-semibold tracking-tight text-white">{c.title}</h3>
-                <p className="mt-2 text-[15px] text-white/70">{c.body}</p>
-              </GlassCard>
-            ))}
-            <AwardCard className="sm:col-span-2 lg:col-span-1" />
-          </div>
+          <SectionHeading
+            eyebrow="Credentials"
+            title="Certified, direct, and recognized."
+            lead={<NeedsConfirm id="badgesHeld" fallback="Microsoft Solutions Partner designations appear here as they are confirmed in Partner Center." />}
+          />
+          <CredentialBadges variant="cards" />
         </Container>
       </Section>
 
       <Section className="pt-0 sm:pt-0 lg:pt-0">
         <Container>
-          <SectionHeading eyebrow="Leadership" title="The people behind MSP Hub." />
-          <NeedsBlock id="leadership" className="min-h-[220px]">
-            <p className="text-xs text-white/45">Names, titles, photos, and short bios to be supplied. <Needs id="team" /></p>
-          </NeedsBlock>
+          <SectionHeading eyebrow="Support model" title="Business hours for licensing. Around the clock for managed environments." />
+          <SupportModel />
+        </Container>
+      </Section>
+
+      <Section className="pt-0 sm:pt-0 lg:pt-0">
+        <Container>
+          <NeedsConfirmBlock id="leadership" fallback={null}>
+            <h2 className="font-display text-2xl text-white">Leadership (candidates, pending confirmation)</h2>
+            <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {leadership.map((p) => (
+                <li key={p.name} className="rounded-xl border border-white/12 bg-white/4 p-4">
+                  <p className="font-semibold text-white">{p.name}</p>
+                  <p className="text-sm text-white/60">{p.title}</p>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 text-xs text-white/45">
+              <NeedsConfirm id="teamPhotos" fallback={null}>
+                Real photography or none; no stock people.
+              </NeedsConfirm>
+            </p>
+          </NeedsConfirmBlock>
         </Container>
       </Section>
 
       <Section className="pt-0 sm:pt-0 lg:pt-0">
         <Container>
           <div className="grid gap-4 lg:grid-cols-2">
-            <Testimonial quote={testimonials[0]} />
-            <GlassCard className="flex flex-col justify-between p-8">
-              <div>
-                <Eyebrow>Locations</Eyebrow>
-                <h3 className="mt-3.5 text-2xl font-semibold tracking-tight text-white">Headquartered in Florida, delivering globally.</h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-white/70">
-                  Delivery teams across North America, the UK, and India keep work moving around the clock.
-                </p>
-              </div>
-              <div className="mt-6 flex flex-wrap items-center gap-2 text-sm text-white/55">
-                Office addresses to be confirmed. <Needs id="offices" /> <Needs id="deliveryCenters" />
-              </div>
+            <GlassCard className="p-8">
+              <Eyebrow>Locations</Eyebrow>
+              <h3 className="mt-3.5 text-2xl font-semibold tracking-tight text-white">
+                Headquartered in {site.hq.city}.
+              </h3>
+              <p className="mt-3 text-[15px] leading-relaxed text-white/70">
+                <NeedsConfirm
+                  id="deliveryRegions"
+                  fallback={`Teams across ${site.deliveryRegions.join(", ")} keep migrations and managed operations moving across time zones.`}
+                />
+              </p>
+              <p className="mt-3 text-sm text-white/55">
+                <NeedsConfirm id="officePresentation" fallback={null}>
+                  Full address shown in the footer and legal pages only.
+                </NeedsConfirm>
+              </p>
+            </GlassCard>
+            <GlassCard className="p-8">
+              <Eyebrow>Heritage</Eyebrow>
+              <h3 className="mt-3.5 text-2xl font-semibold tracking-tight text-white">Formerly READY Networks.</h3>
+              <p className="mt-3 text-[15px] leading-relaxed text-white/70">
+                The ReadyNetworks name carried the company from 1999 to the July 2025 rebrand. The people, the Microsoft
+                relationship, and the platform engineering continue as MSP Hub.
+              </p>
             </GlassCard>
           </div>
+          <Testimonials className="mt-4" />
         </Container>
       </Section>
 

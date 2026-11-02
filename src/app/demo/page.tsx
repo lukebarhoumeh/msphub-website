@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import { CalendarDays } from "lucide-react";
-import { HubXWithBadge } from "@/components/brand/hubx-logo";
+import { HubXLockup } from "@/components/brand/hubx-logo";
 import { LeadForm } from "@/components/forms/lead-form";
-import { CheckList, Testimonial, TrustStrip } from "@/components/marketing/blocks";
+import { CheckList, Testimonials, TrustStrip } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { GlassCard } from "@/components/ui/card";
-import { NeedsBlock } from "@/components/ui/needs";
+import { NeedsConfirmBlock } from "@/components/ui/needs-confirm";
 import { Container, Section } from "@/components/ui/section";
 import { Display, Eyebrow, Lead } from "@/components/ui/typography";
-import { testimonials } from "@/content/proof";
 
 export const metadata: Metadata = {
   title: "Schedule a HubX demo",
@@ -25,7 +24,7 @@ export default function DemoPage() {
         title="See HubX in 30 minutes."
         lead="A live walkthrough of the Microsoft portal with your tenant scenario, your licensing questions, and clear next steps. No obligation."
       >
-        <HubXWithBadge hubxClassName="h-9 w-auto" badgeClassName="h-7 w-auto" />
+        <HubXLockup logoClassName="h-9 w-auto" />
       </PageHero>
 
       <Section className="pt-0 sm:pt-0 lg:pt-0">
@@ -37,17 +36,19 @@ export default function DemoPage() {
                 <CheckList
                   className="mt-4"
                   items={[
-                    "The live portal: licenses, renewals, costs, and orders in one view",
-                    "Your scenario: one tenant or many, MSP or direct",
-                    "Hub AI recommendations on a sample estate",
-                    "Pricing and migration questions answered on the call",
+                    "Home and performance: customers, subscriptions, licenses, revenue, and margin",
+                    "Customers, catalog, quotations, and billing with partner-branded invoices",
+                    "Dashboards, scheduled reports, and the Service Desk",
+                    "HubAI answering questions about a demo estate",
+                    "Your scenario: one tenant or many; MSP, business, or direct-bill CSP",
                   ]}
                 />
               </GlassCard>
-              <NeedsBlock id="booking" className="min-h-[200px]">
-                <CalendarDays className="size-6 text-amber-300/80" aria-hidden />
-                <p className="text-xs text-white/45">A booking calendar embeds here once the link is supplied.</p>
-              </NeedsBlock>
+              <NeedsConfirmBlock id="bookingLink" fallback={null}>
+                <p className="flex items-center gap-2 text-sm text-white/70">
+                  <CalendarDays className="size-5 text-amber-300/80" aria-hidden />A Microsoft Bookings calendar embeds here once the link is supplied; the form stays as fallback.
+                </p>
+              </NeedsConfirmBlock>
             </div>
             <div className="glass glass-lg p-7 sm:p-10">
               <Display size="md" className="mb-2">
@@ -63,7 +64,7 @@ export default function DemoPage() {
       <Section className="pt-0 sm:pt-0 lg:pt-0">
         <Container className="grid gap-4">
           <TrustStrip />
-          <Testimonial quote={testimonials[1]} className="mx-auto w-full max-w-[900px]" />
+          <Testimonials />
         </Container>
       </Section>
     </>

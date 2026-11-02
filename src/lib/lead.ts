@@ -31,7 +31,7 @@ export const leadSchema = z.discriminatedUnion("flow", [
     flow: z.literal("demo"),
     company: shortText,
     role: optionalText,
-    audience: z.enum(["msp", "business", "other"]),
+    audience: z.enum(["msp", "business", "csp", "other"]),
     preferredTime: optionalText,
     notes: longText,
   }),
@@ -59,7 +59,7 @@ export const leadSchema = z.discriminatedUnion("flow", [
   z.object({
     ...base,
     flow: z.literal("contact"),
-    topic: z.enum(["general", "sales", "support", "partnership", "press"]),
+    topic: z.enum(["general", "sales", "billing", "transfer", "support", "partnership", "press"]),
     message: z.string().trim().min(10, "Tell us how we can help.").max(4000),
   }),
 ]);
@@ -78,7 +78,7 @@ export function leadToLines(lead: LeadInput): [string, string][] {
     case "demo":
       lines.push(
         ["Role", lead.role || "—"],
-        ["I am", { msp: "An MSP / VAR", business: "A business (direct customer)", other: "Other" }[lead.audience]],
+        ["I am", { msp: "An MSP / VAR", business: "A business (direct customer)", csp: "A direct-bill CSP evaluating HubX", other: "Other" }[lead.audience]],
         ["Preferred time", lead.preferredTime || "—"],
         ["Notes", lead.notes || "—"],
       );

@@ -5,7 +5,7 @@ import { ArrowRight, CalendarDays, FileText, Mail, Wrench } from "lucide-react";
 import { LeadForm } from "@/components/forms/lead-form";
 import { PageHero } from "@/components/marketing/page-hero";
 import { GlassCard, IconTile } from "@/components/ui/card";
-import { Needs } from "@/components/ui/needs";
+import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container, Section } from "@/components/ui/section";
 import { Display, Eyebrow, Lead } from "@/components/ui/typography";
 import { site } from "@/content/site";
@@ -48,7 +48,7 @@ const paths = [
   },
 ];
 
-const validTopics = new Set(["general", "sales", "support", "partnership", "press"]);
+const validTopics = new Set(["general", "sales", "billing", "transfer", "support", "partnership", "press"]);
 
 /** Reads `?topic=` at request time; isolated so the rest of the page prerenders. */
 async function ContactForm({ searchParams }: { searchParams: PageProps<"/contact">["searchParams"] }) {
@@ -104,23 +104,37 @@ export default function ContactPage({ searchParams }: PageProps<"/contact">) {
                 </div>
                 <div>
                   <dt className="text-xs tracking-[0.12em] text-white/45 uppercase">Phone</dt>
-                  <dd className="mt-1 flex items-center gap-2 text-white/70">
-                    To be confirmed <Needs id="phone" />
+                  <dd className="mt-1 text-white/70">
+                    <NeedsConfirm
+                      id="phone"
+                      fallback={
+                        <a href={site.salesPhoneHref} className="font-medium text-white hover:underline">
+                          {site.salesPhone}
+                        </a>
+                      }
+                    />
                   </dd>
                 </div>
                 <div>
-                  <dt className="text-xs tracking-[0.12em] text-white/45 uppercase">Offices</dt>
-                  <dd className="mt-1 flex items-center gap-2 text-white/70">
-                    To be confirmed <Needs id="offices" />
+                  <dt className="text-xs tracking-[0.12em] text-white/45 uppercase">Hours</dt>
+                  <dd className="mt-1 text-white/70">
+                    <NeedsConfirm id="supportHours" fallback={site.supportHours}>
+                      {site.supportHoursProposed}
+                    </NeedsConfirm>
+                    . Managed environments are monitored around the clock.
                   </dd>
+                </div>
+                <div>
+                  <dt className="text-xs tracking-[0.12em] text-white/45 uppercase">Headquarters</dt>
+                  <dd className="mt-1 text-white/70">{site.hq.city}</dd>
                 </div>
                 <div>
                   <dt className="text-xs tracking-[0.12em] text-white/45 uppercase">Already a customer?</dt>
-                  <dd className="mt-1 flex flex-wrap items-center gap-2 text-white/70">
-                    <a href={site.hubxLoginUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-white hover:underline">
+                  <dd className="mt-1 text-white/70">
+                    <a href={site.hubxLoginUrl} rel="noopener" className="font-medium text-white hover:underline">
                       Log in to HubX
-                    </a>
-                    for support tickets. <Needs id="loginUrl" />
+                    </a>{" "}
+                    and open a Service Desk ticket.
                   </dd>
                 </div>
               </dl>

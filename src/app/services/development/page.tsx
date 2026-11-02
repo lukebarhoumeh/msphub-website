@@ -5,7 +5,7 @@ import { PageHero } from "@/components/marketing/page-hero";
 import { PairsWithHubX } from "@/components/marketing/pairs-with-hubx";
 import { ButtonLink } from "@/components/ui/button";
 import { GlassCard, IconTile } from "@/components/ui/card";
-import { Needs } from "@/components/ui/needs";
+import { NeedsConfirmBlock } from "@/components/ui/needs-confirm";
 import { Container, Glow, Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/typography";
 import { development } from "@/content/services";
@@ -56,23 +56,22 @@ export default function DevelopmentServicesPage() {
 
       <Section className="pt-0 sm:pt-0 lg:pt-0">
         <Container>
-          <SectionHeading
-            eyebrow="Products we built"
-            title="Software we ship and run ourselves."
-            lead={
-              <>
-                Platforms built and operated by the MSP Hub development team. <Needs id="devProducts" />
-              </>
-            }
-          />
-          <div className="grid gap-4 md:grid-cols-3">
-            {development.products.map((p) => (
-              <GlassCard key={p.name}>
-                <p className="font-display text-2xl text-white">{p.name}</p>
-                <p className="mt-2.5 text-[15px] leading-relaxed text-white/70">{p.body}</p>
-              </GlassCard>
-            ))}
-          </div>
+          <NeedsConfirmBlock id="devProducts" fallback={null}>
+            <SectionHeading
+              eyebrow="Platform engineering heritage"
+              title="Software we built and run ourselves."
+              lead="Shown publicly only with CEO/CPO approval."
+              className="mb-6"
+            />
+            <div className="grid gap-4 md:grid-cols-3">
+              {development.products.map((p) => (
+                <GlassCard key={p.name}>
+                  <p className="font-display text-2xl text-white">{p.name}</p>
+                  <p className="mt-2.5 text-[15px] leading-relaxed text-white/70">{p.body}</p>
+                </GlassCard>
+              ))}
+            </div>
+          </NeedsConfirmBlock>
         </Container>
       </Section>
 

@@ -73,8 +73,13 @@ export default function ProfessionalServicesPage() {
 
       <Section className="pt-0 sm:pt-0 lg:pt-0">
         <Container>
-          <SectionHeading eyebrow="Engagement model" title="Assess, design, migrate, hand over." />
+          <SectionHeading
+            eyebrow="Delivery model"
+            title="Align → Plan → Deliver → Validate & Transition."
+            lead="The same model MSP Hub uses in its Modern Work delivery white paper and in every proposal."
+          />
           <Steps steps={professional.engagement} className="md:grid-cols-4" />
+          <CheckList items={professional.commitments} className="mt-8 sm:grid-cols-2" />
         </Container>
       </Section>
 

@@ -3,11 +3,19 @@
 export const professional = {
   title: "Professional services",
   headline: "Cloud expertise, delivered.",
-  lead: "Assessment, design, migration, and handover for Microsoft 365, Azure, security and identity, and the data platform. Fixed scope, named engineers, direct Microsoft escalation.",
+  lead: "Microsoft 365, Azure, security and identity, and the data platform, delivered under a fixed-fee statement of work with a named project manager accountable end to end. Every project starts with a licensing review in HubX.",
   columns: [
     {
       title: "Microsoft 365",
-      items: ["Tenant-to-tenant migrations", "Exchange migrations", "Intune & Autopilot", "SharePoint & OneDrive", "Security & compliance"],
+      items: [
+        "Tenant-to-tenant migrations, merges & divestitures",
+        "Exchange migrations",
+        "Google Workspace → Microsoft 365",
+        "Intune & Autopilot",
+        "Teams Phone & calling plans",
+        "Windows 365 / Azure Virtual Desktop",
+        "SharePoint & OneDrive",
+      ],
     },
     {
       title: "Azure infrastructure",
@@ -15,7 +23,13 @@ export const professional = {
     },
     {
       title: "Security & identity",
-      items: ["Defender implementations", "Conditional Access", "Identity governance", "Zero Trust frameworks", "Security posture management"],
+      items: [
+        "Defender for Endpoint / Servers / Cloud migrations",
+        "Purview: DLP, sensitivity labels, retention",
+        "Conditional Access & Entra ID governance",
+        "Zero Trust frameworks",
+        "Security posture management",
+      ],
     },
     {
       title: "Data & platform",
@@ -34,7 +48,7 @@ export const professional = {
         ["VDI", "Azure Virtual Desktop and Windows 365 design and rollout."],
         ["Penetration testing", "Find the gaps before someone else does."],
         ["Security & compliance", "Controls mapped to frameworks such as PCI DSS."],
-        ["Managed services", "Hand the finished environment to our 24/7 operations team."],
+        ["Managed services", "Hand the finished environment to our managed-services team, monitored around the clock."],
       ],
     },
     {
@@ -61,22 +75,31 @@ export const professional = {
       ],
     },
   ],
+  /** MSP Hub's delivery model, as named in its Modern Work delivery white paper and proposals. */
   engagement: [
-    { title: "Assess", body: "We inventory the estate, the licensing, and the risks, and agree the target state." },
-    { title: "Design", body: "Architecture, migration plan, and cutover runbook, reviewed with your team." },
-    { title: "Migrate", body: "Pilot, waves, and validation with a named engineer and clear rollback points." },
-    { title: "Hand over or operate", body: "Documentation and training, or a handoff into MSP Hub managed services." },
+    { title: "Align", body: "Scope, licensing review in HubX, risks, and success criteria agreed in a fixed-fee statement of work." },
+    { title: "Plan", body: "Architecture, migration plan, and cutover runbook, with milestone visibility for your team." },
+    { title: "Deliver", body: "Pilot, waves, and validation, run by a named project manager accountable end to end." },
+    { title: "Validate & Transition", body: "Evidence-based acceptance review, documentation your team can operate from, and an optional handoff into MSP Hub managed services." },
+  ],
+  commitments: [
+    "Fixed-fee statement of work",
+    "A named project manager, accountable end to end",
+    "Milestone visibility throughout",
+    "Evidence-based acceptance review",
+    "Documentation the client's team can operate from",
+    "Licensing alignment: every project starts with a licensing review in HubX",
   ],
 };
 
 export const managed = {
   title: "Managed services",
   headline: "Improved uptime, security, and strategic growth.",
-  lead: "24/7 monitoring, alerting, and incident management across Microsoft 365, cloud, and databases, run to agreed SLAs with clear ownership and direct Microsoft escalation.",
+  lead: "Monitoring, alerting, and incident management around the clock for the environments we manage across Microsoft 365, Azure, and databases, run to agreed SLAs with clear ownership and direct Microsoft escalation.",
   offerings: [
     {
-      title: "24/7 managed cloud support",
-      body: "Monitoring, alerting, and incident management around the clock for Azure and multi-cloud estates.",
+      title: "24/7 monitoring and incident management",
+      body: "Around-the-clock monitoring, alerting, and incident management for the Azure and multi-cloud environments under MSP Hub managed services.",
     },
     {
       title: "Microsoft 365 & desktop modernization",
@@ -87,14 +110,22 @@ export const managed = {
       body: "Backups, patching, performance tuning, and availability for SQL and cloud database platforms.",
     },
     {
-      title: "Cloud consulting",
-      body: "Migration readiness assessments, Well-Architected reviews, and ongoing cost optimization.",
+      title: "Azure cost optimization",
+      body: "Ongoing right-sizing of subscriptions, reservations, and savings plans by the cloud team, on estates MSP Hub takes over.",
+    },
+    {
+      title: "Service Desk in HubX",
+      body: "Tickets with priority and SLA state, visible to the customer and the partner, shared with MSP Hub's engineers.",
+    },
+    {
+      title: "Direct Microsoft escalation",
+      body: "Issues escalate to Microsoft Premier support directly, as a CSP direct-bill partner.",
     },
   ],
   howItWorks: [
-    { title: "Monitor", body: "Telemetry across tenants, subscriptions, and databases feeds one operations view." },
-    { title: "Alert and triage", body: "Alerts are triaged by engineers, not just forwarded, with severity agreed in advance." },
-    { title: "Resolve and escalate", body: "Clear ownership from first response to resolution, with direct escalation to Microsoft when needed." },
+    { title: "Monitor", body: "Telemetry across tenants, subscriptions, and databases feeds one operations view, around the clock for managed environments." },
+    { title: "Alert and triage", body: "Alerts are triaged by engineers, not just forwarded, with severity agreed in advance and tickets tracked in the HubX Service Desk." },
+    { title: "Resolve and escalate", body: "Clear ownership from first response to resolution, with direct escalation to Microsoft Premier support when needed." },
   ],
 };
 
@@ -137,6 +168,7 @@ export const development = {
     { title: "Milestone cycles", body: "Scope, build, and acceptance agreed per milestone, so budgets stay predictable." },
     { title: "DEV, UAT, Prod", body: "Separate environments with automated promotion and rollback." },
   ],
+  /** Platform engineering heritage; shown only once approved (handoff §2 #13). */
   products: [
     { name: "SIX.One", body: "Multi-tenant SaaS platform: microservices API and Blazor SPA, built for ISVs and operators." },
     { name: "Wave", body: "Warehouse management system with real-time integration to order and logistics systems." },

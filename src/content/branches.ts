@@ -1,4 +1,4 @@
-import { Code2, Layers, ShieldCheck, Clock } from "lucide-react";
+import { Code2, Layers, ShieldCheck, Activity } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export type Branch = {
@@ -20,7 +20,7 @@ export const branches: Branch[] = [
     icon: Layers,
     short: "The Microsoft portal for licensing, procurement, and spend.",
     description:
-      "One platform for IT, finance, and purchasing to see every license, cost, and renewal, and to buy, provision, and optimize directly. Built for MSPs managing many tenants and for businesses managing their own.",
+      "One platform for IT, finance, and purchasing to see every license, cost, renewal, and invoice, and to buy, provision, and manage directly. Built for MSPs managing many customers and for businesses managing their own.",
     linkLabel: "Explore HubX",
   },
   {
@@ -30,17 +30,17 @@ export const branches: Branch[] = [
     icon: ShieldCheck,
     short: "Cloud expertise, delivered.",
     description:
-      "Microsoft 365 and Exchange migrations, Intune and Autopilot, Azure infrastructure and Virtual Desktop, Defender and Zero Trust, Power Platform and Fabric.",
+      "Microsoft 365 and Exchange migrations, tenant-to-tenant merges, Intune and Autopilot, Azure infrastructure and Virtual Desktop, Defender and Purview, Power Platform and Fabric.",
     linkLabel: "Microsoft professional services",
   },
   {
     slug: "managed",
     name: "Managed services",
     href: "/services/managed",
-    icon: Clock,
+    icon: Activity,
     short: "Improved uptime, security, and strategic growth.",
     description:
-      "24/7 monitoring, alerting, and incident management across Microsoft 365, cloud, and databases, run to agreed SLAs with clear ownership and direct Microsoft escalation.",
+      "Monitoring and incident management around the clock for managed environments across Microsoft 365, Azure, and databases, run to agreed SLAs with clear ownership and direct Microsoft escalation.",
     linkLabel: "Managed services",
   },
   {

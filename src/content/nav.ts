@@ -14,7 +14,7 @@ export const serviceLinks: NavLink[] = [
   {
     label: "Managed services",
     href: "/services/managed",
-    description: "24/7 operations run to agreed SLAs",
+    description: "Managed operations run to agreed SLAs",
   },
   {
     label: "Development as a service",

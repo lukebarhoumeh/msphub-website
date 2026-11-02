@@ -46,13 +46,14 @@ export function FeatureCard({ icon, title, children, className, footer }: Featur
   );
 }
 
-type ChipProps = ComponentPropsWithoutRef<"span"> & { tone?: "default" | "orange" };
+type ChipProps = ComponentPropsWithoutRef<"span"> & { tone?: "default" | "orange"; /** Allow the label to wrap on narrow screens. */ wrap?: boolean };
 
-export function Chip({ className, tone = "default", ...rest }: ChipProps) {
+export function Chip({ className, tone = "default", wrap = false, ...rest }: ChipProps) {
   return (
     <span
       className={cn(
-        "inline-flex h-9 items-center gap-2 rounded-full border px-3.5 text-[13.5px] font-medium whitespace-nowrap",
+        "inline-flex items-center gap-2 rounded-full border px-3.5 text-[13.5px] font-medium",
+        wrap ? "h-auto min-h-9 max-w-full py-1.5 whitespace-normal" : "h-9 whitespace-nowrap",
         tone === "orange"
           ? "border-brand-orange/35 bg-brand-orange/8 text-brand-orange"
           : "border-white/12 bg-white/5 text-white/75",
