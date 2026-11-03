@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
-import { routeD } from "@/content/home";
+import { homeAudiences } from "@/content/home";
 import { LeadForm } from "@/components/forms/lead-form";
 import { PageHero } from "@/components/marketing/page-hero";
 import { NeedsConfirm } from "@/components/ui/needs-confirm";
@@ -39,7 +39,7 @@ export default function ContactPage({ searchParams }: PageProps<"/contact">) {
       <Section tone="light" className="pt-0">
         <Container>
           <ul className="grid gap-3 sm:grid-cols-2">
-            {routeD.routes.map((route) => (
+            {[...homeAudiences.map((a) => ({ label: a.label, href: a.href })), { label: "Not sure yet? Send a message", href: "#contact-form" }].map((route) => (
               <li key={route.href}>
                 <Link href={route.href} className="flex min-h-12 items-center border-t border-[#0b1020]/12 pt-3 text-lg font-semibold underline decoration-[#f97316] decoration-2 underline-offset-[5px]">
                   {route.label}
@@ -61,9 +61,12 @@ export default function ContactPage({ searchParams }: PageProps<"/contact">) {
               <dl className="mt-8 grid gap-5 text-[15px]">
                 <div>
                   <dt className="text-xs tracking-[0.12em] text-white/60 uppercase">Sales</dt>
-                  <dd className="mt-1">
+                  <dd className="mt-1 flex flex-col gap-1">
                     <a href={`mailto:${site.salesEmail}`} className="font-medium text-white hover:underline">
                       {site.salesEmail}
+                    </a>
+                    <a href={site.salesPhoneHref} className="font-medium text-white hover:underline">
+                      {site.salesPhone}
                     </a>
                   </dd>
                 </div>

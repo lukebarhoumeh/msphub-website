@@ -2,6 +2,8 @@ import type { MDXProps } from "mdx/types";
 import type { JSX } from "react";
 import { z } from "zod";
 import IntroducingMspHub, { frontmatter as introducingMspHubMeta } from "./introducing-msp-hub.mdx";
+import NceExplained, { frontmatter as nceExplainedMeta } from "./nce-explained.mdx";
+import PartnerTransfers, { frontmatter as partnerTransfersMeta } from "./partner-to-partner-transfers.mdx";
 import UnlockingProductivity, { frontmatter as unlockingProductivityMeta } from "./unlocking-business-productivity-with-microsoft-365.mdx";
 
 /**
@@ -39,6 +41,8 @@ function definePost(slug: string, frontmatter: unknown, Content: (props: MDXProp
 
 /** Newest first. */
 export const posts: Post[] = [
+  definePost("nce-explained", nceExplainedMeta, NceExplained),
+  definePost("partner-to-partner-transfers", partnerTransfersMeta, PartnerTransfers),
   definePost("unlocking-business-productivity-with-microsoft-365", unlockingProductivityMeta, UnlockingProductivity),
   definePost("introducing-msp-hub", introducingMspHubMeta, IntroducingMspHub),
 ].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));

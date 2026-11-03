@@ -599,7 +599,7 @@ main > [data-surface="pearl"]:first-child { --bleed-top: 0px; }
 /* The spine and its numerals share one x. */
 .spine { left: var(--spine-x); }
 .spine-mark {
-  left: calc(var(--spine-x) - 0.5em);
+  left: calc(var(--spine-x) + 10px);
   top: 0;
   transform: translateY(-50%);
   font-size: 120px;

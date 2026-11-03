@@ -53,12 +53,19 @@ export const partnerLinks: NavLink[] = [
   { label: "Apply", href: "/partners/apply", description: "Deal registration and onboarding" },
 ];
 
+export const audienceLinks: NavLink[] = [
+  { label: "MSPs & VARs", href: "/partners/reseller", meta: "Resell" },
+  { label: "Businesses", href: "/for/businesses", meta: "Buy direct" },
+  { label: "Direct-bill CSPs", href: "/partners/platform", meta: "Run HubX" },
+  { label: "Advisors & agents", href: "/partners/agents", meta: "Refer" },
+];
+
 export type PrimaryNavItem = NavLink & { children?: NavLink[] };
 
 export const primaryNav: PrimaryNavItem[] = [
   { label: "What we do", href: "/services", children: whatWeDoLinks },
   { label: "Licensing", href: "/licensing" },
-  { label: "Who we serve", href: "/#who-we-work-with" },
+  { label: "Who we serve", href: "/#who-we-serve", children: audienceLinks },
   { label: "Partners", href: "/partners" },
   { label: "Company", href: "/about", children: companyLinks },
 ];
@@ -93,6 +100,7 @@ export const footerColumns: { heading: string; links: NavLink[] }[] = [
   {
     heading: "Licensing",
     links: [
+      { label: "For businesses", href: "/for/businesses" },
       { label: "Switch to MSP Hub", href: "/licensing/switch" },
       { label: "EA to CSP", href: "/licensing/ea-to-csp" },
       { label: "Beyond Microsoft", href: "/licensing/beyond-microsoft" },

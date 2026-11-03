@@ -1,17 +1,15 @@
 import type { Metadata } from "next";
 import {
-  AudienceChapter,
+  AudienceRow,
   CatalogTicker,
-  DevelopmentChapter,
-  EngineChapter,
-  HubxEvidenceChapter,
+  EnginesBento,
   InkHomeHero,
-  InsightNote,
-  ManagedChapter,
-  OutcomeSequence,
-  ProfessionalChapter,
-  ProofRail,
-  TrustBand,
+  InsightsRow,
+  OutcomesPinned,
+  ProofChapter,
+  ProofStrip,
+  SwitchOffer,
+  WhyDirect,
 } from "@/components/ink/home-sections";
 import { site } from "@/content/site";
 
@@ -25,17 +23,15 @@ export default function HomePage() {
   return (
     <>
       <InkHomeHero />
-      <ProofRail />
+      <ProofStrip />
       <CatalogTicker />
-      <OutcomeSequence />
-      <EngineChapter />
-      <AudienceChapter />
-      <HubxEvidenceChapter />
-      <ProfessionalChapter />
-      <ManagedChapter />
-      <DevelopmentChapter />
-      <TrustBand />
-      <InsightNote />
+      <WhyDirect />
+      <OutcomesPinned />
+      <EnginesBento />
+      <SwitchOffer />
+      <AudienceRow />
+      <ProofChapter />
+      <InsightsRow />
     </>
   );
 }

@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { Mail, MapPin } from "lucide-react";
+import { CalendarDays, Mail, MapPin, Phone } from "lucide-react";
 import { HubXLogo } from "@/components/brand/hubx-logo";
 import { MspHubLogo } from "@/components/brand/msp-hub-logo";
 import { FacebookIcon, InstagramIcon, LinkedInIcon, XIcon, YouTubeIcon } from "@/components/layout/social-icons";
 import { Container } from "@/components/ui/section";
 import { footerColumns, legalLinks } from "@/content/nav";
 import { site } from "@/content/site";
+import { env } from "@/lib/env";
 
 const socials = [
   { label: "LinkedIn", href: site.social.linkedin, Icon: LinkedInIcon },
@@ -19,6 +20,7 @@ const linkClass = "inline-block py-0.5 text-[14.5px] text-white/70 transition ho
 
 /** Site footer per the handoff §4: Company · Services · HubX · Licensing, socials, legal entity, address, phone, legal links. */
 export function Footer() {
+  const bookings = env.bookingsUrl();
   return (
     <footer className="border-t border-white/10 bg-ink-2 pt-16 pb-8">
       <Container>
@@ -41,6 +43,24 @@ export function Footer() {
                 <a href={`mailto:${site.salesEmail}`} className="hover:text-white">
                   {site.salesEmail}
                 </a>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <Phone className="mt-1 size-4 shrink-0 text-[#f97316]" aria-hidden />
+                <a href={site.salesPhoneHref} className="hover:text-white">
+                  {site.salesPhone}
+                </a>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <CalendarDays className="mt-1 size-4 shrink-0 text-[#f97316]" aria-hidden />
+                {bookings ? (
+                  <a href={bookings} target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                    Book a 30-minute demo
+                  </a>
+                ) : (
+                  <Link href="/demo" className="hover:text-white">
+                    Book a 30-minute demo
+                  </Link>
+                )}
               </li>
               <li className="flex items-start gap-2.5">
                 <MapPin className="mt-1 size-4 shrink-0 text-[#f97316]" aria-hidden />
