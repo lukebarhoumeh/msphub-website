@@ -45,7 +45,7 @@ const stagger = ["stagger-1", "stagger-2", "stagger-3", "stagger-4", "stagger-5"
 export default function PartnersPage() {
   return (
     <>
-      <PageHero
+      <PageHero tone="light"
         eyebrow="Partners"
         title="Grow with MSP Hub."
         lead="For MSPs, VARs, agents, and direct-bill CSPs who want Tier-1 Microsoft pricing, a services team behind them, and a platform their customers can see themselves in."

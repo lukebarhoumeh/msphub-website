@@ -51,7 +51,9 @@ export default function QuotePage() {
                 </p>
               </GlassCard>
               <p className="text-sm text-white/70">
-                <NeedsConfirm id="quoteResponse" fallback="Response within one business day." />
+                <NeedsConfirm id="quoteResponse" fallback="The licensing desk replies during business hours.">
+                  Response within one business day.
+                </NeedsConfirm>
               </p>
             </div>
             <div className="glass glass-lg p-7 sm:p-10">

@@ -1,23 +1,37 @@
-export type NavLink = { label: string; href: string; description?: string };
+export type NavLink = { label: string; href: string; description?: string; meta?: string };
+
+export const whatWeDoLinks: NavLink[] = [
+  { label: "HubX", href: "/hubx", meta: "Flagship platform" },
+  { label: "Professional Services", href: "/services/professional" },
+  { label: "Managed Services", href: "/services/managed" },
+  { label: "Development & AI", href: "/services/development" },
+];
+
+export const companyLinks: NavLink[] = [
+  { label: "About", href: "/about" },
+  { label: "Insights", href: "/insights" },
+  { label: "Support", href: "/support" },
+  { label: "Contact", href: "/contact" },
+];
 
 export const serviceLinks: NavLink[] = [
   {
     label: "Services overview",
     href: "/services",
-    description: "Four branches, one delivery team",
+    description: "Three practices, plus licensing",
   },
   {
-    label: "Professional services",
+    label: "Professional Services",
     href: "/services/professional",
     description: "Microsoft 365, Azure, security, data",
   },
   {
-    label: "Managed services",
+    label: "Managed Services",
     href: "/services/managed",
-    description: "Managed operations run to agreed SLAs",
+    description: "Monitoring and incident management",
   },
   {
-    label: "Development as a service",
+    label: "Development & AI",
     href: "/services/development",
     description: "Apps, DevOps, and AI development",
   },
@@ -28,7 +42,7 @@ export const licensingLinks: NavLink[] = [
   { label: "Switch to MSP Hub", href: "/licensing/switch", description: "Send your invoice; nothing is re-bought" },
   { label: "EA to CSP", href: "/licensing/ea-to-csp", description: "Leave an LSP-run Enterprise Agreement" },
   { label: "Beyond Microsoft", href: "/licensing/beyond-microsoft", description: "One partner, one invoice" },
-  { label: "Get a quote", href: "/licensing/quote", description: "Pricing within one business day" },
+  { label: "Get a quote", href: "/licensing/quote", description: "Pricing from the licensing desk" },
 ];
 
 export const partnerLinks: NavLink[] = [
@@ -39,13 +53,14 @@ export const partnerLinks: NavLink[] = [
   { label: "Apply", href: "/partners/apply", description: "Deal registration and onboarding" },
 ];
 
-export const primaryNav: NavLink[] = [
-  { label: "HubX", href: "/hubx" },
-  { label: "Services", href: "/services" },
+export type PrimaryNavItem = NavLink & { children?: NavLink[] };
+
+export const primaryNav: PrimaryNavItem[] = [
+  { label: "What we do", href: "/services", children: whatWeDoLinks },
   { label: "Licensing", href: "/licensing" },
+  { label: "Who we serve", href: "/#who-we-work-with" },
   { label: "Partners", href: "/partners" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Company", href: "/about", children: companyLinks },
 ];
 
 /** Footer per the handoff §4: Company · Services · HubX · Licensing. */

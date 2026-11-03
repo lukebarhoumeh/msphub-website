@@ -1,149 +1,100 @@
 import type { Metadata } from "next";
-import { ArrowRight, Clock, Globe2, Headset, Users } from "lucide-react";
+import Link from "next/link";
 import { LeadForm } from "@/components/forms/lead-form";
-import { HubXPoweredBy } from "@/components/brand/hubx-logo";
-import { SupportModel, TrustStrip } from "@/components/marketing/blocks";
+import { HubXLogo } from "@/components/brand/hubx-logo";
+import { SupportModel } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
-import { GlassCard, IconTile } from "@/components/ui/card";
-import { NeedsConfirm } from "@/components/ui/needs-confirm";
-import { Container, Glow, Section } from "@/components/ui/section";
-import { Display, Eyebrow, Lead, SectionHeading } from "@/components/ui/typography";
-import { branches, serviceBranches } from "@/content/branches";
-import { site } from "@/content/site";
+import { Container, Section } from "@/components/ui/section";
+import { Display, Lead } from "@/components/ui/typography";
+import { serviceBranches } from "@/content/branches";
+import { hubxLockup } from "@/content/hubx";
 
 export const metadata: Metadata = {
   title: "Services — professional, managed, and development services for Microsoft estates",
   description:
-    "Four practices, one delivery team. MSP Hub designs, migrates, runs, and builds on Microsoft 365, Azure, and the data platform, with HubX as the front door to licensing.",
+    "Three practices plus licensing. MSP Hub designs, migrates, runs, and builds on Microsoft estates. HubX is the portal beside the work.",
   alternates: { canonical: "/services" },
 };
 
-const delivery = [
-  {
-    icon: Globe2,
-    title: "Teams across time zones",
-    body: `Delivery teams across ${site.deliveryRegions.join(", ")} keep migrations and managed operations moving.`,
-    confirm: "deliveryRegions" as const,
-  },
-  { icon: Clock, title: "Agreed SLAs", body: "Managed environments run to agreed SLAs, monitored around the clock, with monthly reporting." },
-  { icon: Headset, title: "Direct Microsoft escalation", body: "As a CSP direct-bill partner, MSP Hub escalates straight to Microsoft Premier support." },
-  {
-    icon: Users,
-    title: "A full services bench",
-    body: "Certified cloud architects and engineers across cloud, Microsoft 365, database, and development.",
-    confirm: "servicesHeadcount" as const,
-    todo: "100+ staff on the services team (unverified).",
-  },
-];
+const licensing = {
+  name: "Licensing",
+  href: "/licensing",
+  description: "Microsoft 365, Azure, Copilot, Dynamics 365, and the rest of the catalog, bought direct from a CSP direct-bill partner. Existing subscriptions transfer. Terms carry over.",
+};
 
 export default function ServicesPage() {
-  const hubx = branches[0];
   return (
     <>
       <PageHero
+        tone="light"
         eyebrow="Services"
-        title="Four practices, one delivery team."
-        lead="Engage a single practice or hand over the full stack. The same MSP Hub team designs it, migrates it, runs it, and builds on it, with HubX as the front door to your Microsoft licensing."
+        title="Three practices, plus licensing."
+        lead="Professional services, managed services, and development sit at the same level. Licensing is the path in. HubX is the portal beside the work, not a fourth practice and not the parent."
       >
-        <ButtonLink href="#inquiry">
-          Start a service inquiry
-          <ArrowRight className="size-4" aria-hidden />
-        </ButtonLink>
-        <ButtonLink href="/contact" variant="glass">
-          Book a scoping call
+        <ButtonLink href="#inquiry">Start a service inquiry</ButtonLink>
+        <ButtonLink href="/licensing" variant="glass">
+          Licensing
         </ButtonLink>
       </PageHero>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0" decor={<Glow tone="navy" className="top-0 left-[-300px] h-[700px] w-[900px]" />}>
+      <Section tone="light" className="pt-0">
         <Container>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <GlassCard className="flex flex-col border-brand-orange/30 md:col-span-2 lg:col-span-4 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
-              <div>
-                <span className="inline-flex h-7.5 items-center rounded-full border border-brand-orange/30 bg-brand-orange/12 px-3 text-xs font-semibold tracking-[0.06em] text-brand-orange uppercase">
-                  Licensing · the front door
-                </span>
-                <h2 className="mt-4 text-2xl font-semibold tracking-tight text-white">{hubx.short}</h2>
-                <p className="mt-2.5 max-w-[70ch] text-[15px] leading-relaxed text-white/70">{hubx.description}</p>
-                <p className="mt-3">
-                  <HubXPoweredBy logoClassName="h-5 w-auto" />
-                </p>
-              </div>
-              <ButtonLink href="/hubx" variant="glass" className="mt-6 shrink-0 lg:mt-0">
-                Explore HubX
-              </ButtonLink>
-            </GlassCard>
-            {serviceBranches.map((b) => (
-              <GlassCard key={b.slug} className="flex flex-col gap-5 md:col-span-2 lg:col-span-4 lg:flex-row lg:items-center lg:gap-8">
-                <IconTile icon={b.icon} className="shrink-0" />
-                <div className="flex-1">
-                  <h2 className="text-xl font-semibold tracking-tight text-white">{b.name}</h2>
-                  <p className="mt-1 font-medium text-white/85">{b.short}</p>
-                  <p className="mt-2 max-w-[80ch] text-[15px] leading-relaxed text-white/70">{b.description}</p>
-                </div>
-                <ButtonLink href={b.href} variant="glass" size="sm" className="shrink-0 self-start lg:self-auto">
-                  {b.linkLabel}
-                  <ArrowRight className="size-4" aria-hidden />
-                </ButtonLink>
-              </GlassCard>
+          <div className="grid border-t border-[#0b1020]/10 md:grid-cols-3">
+            {serviceBranches.map((branch) => (
+              <article key={branch.slug} className="flex flex-col gap-4 border-[#0b1020]/10 px-0 py-8 md:px-6 md:not-first:border-l">
+                <h2 className="font-display text-2xl font-bold tracking-[-0.015em]">{branch.name}</h2>
+                <p className="text-[16px] leading-[1.65] text-[#4b5569]">{branch.description}</p>
+                <Link href={branch.href} className="mt-auto inline-flex h-11 items-center font-semibold underline decoration-[#f97316] decoration-2 underline-offset-[5px]">
+                  {branch.linkLabel}
+                </Link>
+              </article>
             ))}
           </div>
+          <article className="border-t border-[#0b1020]/10 py-8">
+            <h2 className="font-display text-2xl font-bold tracking-[-0.015em]">{licensing.name}</h2>
+            <p className="mt-3 max-w-[68ch] text-[16px] leading-[1.65] text-[#4b5569]">{licensing.description}</p>
+            <Link href={licensing.href} className="mt-4 inline-flex h-11 items-center font-semibold underline decoration-[#f97316] decoration-2 underline-offset-[5px]">
+              Explore licensing
+            </Link>
+          </article>
         </Container>
       </Section>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
+      <Section>
         <Container>
-          <SectionHeading eyebrow="Delivery model" title="One team, end to end." />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {delivery.map((d) => (
-              <GlassCard key={d.title}>
-                <IconTile icon={d.icon} className="mb-5" />
-                <h3 className="text-lg font-semibold tracking-tight text-white">{d.title}</h3>
-                <p className="mt-2.5 text-[15px] leading-relaxed text-white/70">
-                  {d.confirm ? (
-                    <NeedsConfirm id={d.confirm} fallback={d.body}>
-                      {d.body} {"todo" in d ? d.todo : null}
-                    </NeedsConfirm>
-                  ) : (
-                    d.body
-                  )}
-                </p>
-              </GlassCard>
-            ))}
+          <div className="grid items-center gap-8 border-t border-white/15 pt-8 lg:grid-cols-[auto_1fr_auto]">
+            <HubXLogo className="h-8 w-auto" />
+            <div>
+              <p className="font-mono text-[11px] tracking-[0.12em] text-[#b8c0d4] uppercase">{hubxLockup}</p>
+              <p className="mt-2 max-w-[62ch] text-[16px] leading-relaxed text-[#b8c0d4]">
+                Customer products, purchasing, renewals, invoices, and service activity in one portal. HubX does not contain the service practices.
+              </p>
+            </div>
+            <ButtonLink href="/hubx" variant="glass">
+              Explore HubX
+            </ButtonLink>
           </div>
         </Container>
       </Section>
 
       <Section tone="light">
         <Container>
-          <SectionHeading tone="light" eyebrow="Support" title="Business hours for licensing and billing. Around the clock for managed environments." />
-          <SupportModel tone="light" />
+          <h2 className="font-display text-[30px] font-bold tracking-[-0.02em] lg:text-[40px]">Business hours for licensing and billing. Around the clock for managed environments.</h2>
+          <SupportModel tone="light" className="mt-8" />
         </Container>
       </Section>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <Container>
-          <TrustStrip />
-        </Container>
-      </Section>
-
-      <Section id="inquiry" className="scroll-mt-20 pt-0 sm:pt-0 lg:pt-0">
-        <Container>
-          <div className="glass glass-lg grid gap-10 p-7 sm:p-10 lg:grid-cols-[1fr_1.3fr] lg:p-14">
-            <div>
-              <Eyebrow>Service inquiry</Eyebrow>
-              <Display className="mt-3.5">Tell us what you&apos;re trying to get done.</Display>
-              <Lead className="mt-4">
-                Pick the practices involved and describe the work. A solutions engineer replies with questions and a
-                proposed scoping call.
-              </Lead>
-              <ul className="mt-6 grid gap-2 text-sm text-white/60">
-                <li>One practice or the whole stack</li>
-                <li>Fixed-scope assessments available</li>
-                <li>Pairs with HubX for licensing</li>
-              </ul>
-            </div>
-            <LeadForm kind="service" />
+      <Section id="inquiry" tone="light" className="scroll-mt-24 pt-0">
+        <Container className="grid max-w-[800px] gap-8 lg:grid-cols-[1fr_1.2fr]">
+          <div>
+            <Display tone="light" size="md">Tell us what you are trying to get done.</Display>
+            <Lead tone="light" className="mt-4">
+              Pick the practices involved. A solutions engineer replies with questions and a proposed scoping call.
+            </Lead>
+          </div>
+          <div data-surface="pearl" className="rounded-[12px] border border-[#0b1020]/10 bg-white p-6 sm:p-8">
+            <LeadForm kind="service" surface="pearl" />
           </div>
         </Container>
       </Section>

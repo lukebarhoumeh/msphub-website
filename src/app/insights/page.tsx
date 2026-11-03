@@ -12,13 +12,10 @@ export const metadata = pageMetadata({
   path: "/insights",
 });
 
-/** Literal class names so Tailwind's scanner emits every stagger step. */
-const stagger = ["stagger-1", "stagger-2", "stagger-3", "stagger-4", "stagger-5"];
-
 export default function InsightsPage() {
   return (
     <>
-      <PageHero eyebrow={insightsPage.eyebrow} title={insightsPage.title} lead={insightsPage.lead} />
+      <PageHero tone="light" eyebrow={insightsPage.eyebrow} title={insightsPage.title} lead={insightsPage.lead} />
 
       {showTodos ? (
         <Section tight className="pt-0 sm:pt-0">
@@ -35,9 +32,9 @@ export default function InsightsPage() {
 
       <Section tone="light">
         <Container>
-          <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post, i) => (
-              <li key={post.slug} className={`motion-safe:animate-fade-up ${stagger[Math.min(i, 4)]}`}>
+          <ul className="divide-y divide-[#0b1020]/10 border-t border-[#0b1020]/10">
+            {posts.map((post) => (
+              <li key={post.slug} className="py-8">
                 <PostCard post={post} />
               </li>
             ))}

@@ -133,7 +133,7 @@ export default function AboutPage() {
               <p className="mt-3 text-[15px] leading-relaxed text-white/70">
                 <NeedsConfirm
                   id="deliveryRegions"
-                  fallback={`Teams across ${site.deliveryRegions.join(", ")} keep migrations and managed operations moving across time zones.`}
+                  fallback="Headquartered in North Palm Beach, Florida."
                 />
               </p>
               <p className="mt-3 text-sm text-white/65">

@@ -78,9 +78,8 @@ export const securityPillars: readonly SecurityPillar[] = [
     icon: ShieldCheck,
     title: "Compliance",
     summary:
-      "HubX is delivered by an ISO/IEC 27001:2022-certified organization. Healthcare clients can sign a HIPAA Business Associate Agreement and a Data Processing Agreement with MSP Hub.",
+      "Healthcare clients can sign a HIPAA Business Associate Agreement and a Data Processing Agreement with MSP Hub.",
     points: [
-      "ISO/IEC 27001:2022 certification of the delivery organization.",
       "HIPAA Business Associate Agreement and Data Processing Agreement available on request.",
       "Licensing and billing support in business hours with Microsoft Premier escalation; 24/7 monitoring and incident management for environments under MSP Hub managed services.",
     ],
@@ -104,7 +103,7 @@ export const securityPage = {
   cta: {
     eyebrow: "Next step",
     title: "Bring your security questionnaire.",
-    lead: "Our solutions architects walk through identity, roles, audit, and Microsoft access live, and send the ISO/IEC 27001:2022 certificate and agreements on request.",
+    lead: "Our solutions architects walk through identity, roles, audit, and Microsoft access live.",
   },
 } as const;
 

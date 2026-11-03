@@ -5,7 +5,7 @@ import { Fragment } from "react";
 import { ArrowRight, Quote } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { Chip, GlassCard } from "@/components/ui/card";
-import { NeedsConfirm } from "@/components/ui/needs-confirm";
+import { NeedsConfirm, showTodos } from "@/components/ui/needs-confirm";
 import { Container, Glow } from "@/components/ui/section";
 import { Display, Eyebrow, Lead } from "@/components/ui/typography";
 import type { ConfirmId } from "@/content/confirmations";
@@ -150,11 +150,16 @@ type CredentialBadgesProps = {
 };
 
 /** Renders only credentials with `active: true` (content/credentials.ts). */
+function publishedCredentials() {
+  return activeCredentials.filter((c) => !c.confirm || showTodos);
+}
+
 export function CredentialBadges({ variant = "chips", className }: CredentialBadgesProps) {
+  const credentials = publishedCredentials();
   if (variant === "cards") {
     return (
       <ul className={cn("grid gap-4 sm:grid-cols-2 lg:grid-cols-3", className)}>
-        {activeCredentials.map((c) => (
+        {credentials.map((c) => (
           <li key={c.id} className="glass flex items-center gap-5 p-5">
             {c.logo ? (
               <Image src={c.logo} alt="" width={960} height={540} className="h-16 w-auto shrink-0 rounded-lg object-cover" />
@@ -165,7 +170,7 @@ export function CredentialBadges({ variant = "chips", className }: CredentialBad
             )}
             <div>
               <p className="font-semibold text-white">
-                {c.confirm ? <NeedsConfirm id={c.confirm} fallback={c.name} /> : c.name}
+                {c.confirm ? <NeedsConfirm id={c.confirm} fallback={null}>{c.name}</NeedsConfirm> : c.name}
               </p>
               {c.qualifier ? <p className="mt-0.5 text-sm text-white/60">{c.qualifier}</p> : null}
             </div>
@@ -176,9 +181,9 @@ export function CredentialBadges({ variant = "chips", className }: CredentialBad
   }
   return (
     <div className={cn("flex flex-wrap gap-2.5", className)}>
-      {activeCredentials.map((c) => (
+      {credentials.map((c) => (
         <Chip key={c.id} tone="orange" wrap>
-          {c.confirm ? <NeedsConfirm id={c.confirm} fallback={c.name} /> : c.name}
+          {c.confirm ? <NeedsConfirm id={c.confirm} fallback={null}>{c.name}</NeedsConfirm> : c.name}
         </Chip>
       ))}
     </div>
@@ -187,6 +192,7 @@ export function CredentialBadges({ variant = "chips", className }: CredentialBad
 
 /** Microsoft Solutions Partner program: enrolled solution areas as "Enrolled" chips, grouped by designation. No scores. */
 export function SolutionAreas({ className }: { className?: string }) {
+  if (!showTodos) return null;
   const groups = Array.from(new Set(enrolledSolutionAreas.map((a) => a.designation)));
   return (
     <div className={cn("glass p-6 sm:p-7", className)}>
@@ -366,7 +372,7 @@ export function TextLink({ href, children, className }: { href: string; children
   return (
     <Link
       href={href}
-      className={cn("inline-flex items-center gap-1.5 text-sm font-medium text-brand-orange hover:text-orange-hover", className)}
+      className={cn("inline-flex h-11 items-center gap-1.5 text-sm font-semibold underline decoration-[#f97316] decoration-2 underline-offset-[5px]", className)}
     >
       {children}
       <ArrowRight className="size-3.5" aria-hidden />

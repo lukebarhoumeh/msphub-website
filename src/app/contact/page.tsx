@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
-import { ArrowRight, CalendarDays, FileText, Mail, Wrench } from "lucide-react";
+import { routeD } from "@/content/home";
 import { LeadForm } from "@/components/forms/lead-form";
 import { PageHero } from "@/components/marketing/page-hero";
-import { GlassCard, IconTile } from "@/components/ui/card";
 import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container, Section } from "@/components/ui/section";
 import { Display, Eyebrow, Lead } from "@/components/ui/typography";
@@ -16,37 +15,6 @@ export const metadata: Metadata = {
     "Schedule a HubX demo, start a service inquiry, request a licensing quote, or send a general message. Every form reaches sales@msphub.com.",
   alternates: { canonical: "/contact" },
 };
-
-const paths = [
-  {
-    icon: CalendarDays,
-    title: "Schedule a HubX demo",
-    body: "A 30-minute walkthrough of the portal with your tenant scenario.",
-    href: "/demo",
-    cta: "Book a demo",
-  },
-  {
-    icon: Wrench,
-    title: "Service inquiry",
-    body: "Professional, managed, or development work. Describe it and we scope it.",
-    href: "/services#inquiry",
-    cta: "Start an inquiry",
-  },
-  {
-    icon: FileText,
-    title: "Licensing quote",
-    body: "Tier-1 direct pricing on Microsoft 365, Azure, and Copilot.",
-    href: "/licensing/quote",
-    cta: "Request a quote",
-  },
-  {
-    icon: Mail,
-    title: "General contact",
-    body: "Sales, support, partnerships, press, or anything else.",
-    href: "#contact-form",
-    cta: "Send a message",
-  },
-];
 
 const validTopics = new Set(["general", "sales", "billing", "transfer", "support", "partnership", "press"]);
 
@@ -62,26 +30,23 @@ export default function ContactPage({ searchParams }: PageProps<"/contact">) {
   return (
     <>
       <PageHero
+        tone="light"
         eyebrow="Contact"
         title="Talk to MSP Hub."
-        lead="Four ways in, one team on the other side. Pick the path that matches what you need; every request lands with our sales team."
+        lead="Start with who you are. We’ll route you to the right licensing, platform, services, or partner conversation. If you already know the question, send it below."
       />
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
+      <Section tone="light" className="pt-0">
         <Container>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {paths.map((p) => (
-              <GlassCard key={p.title} className="flex flex-col">
-                <IconTile icon={p.icon} className="mb-5" />
-                <h2 className="text-lg font-semibold tracking-tight text-white">{p.title}</h2>
-                <p className="mt-2 flex-1 text-[15px] leading-relaxed text-white/70">{p.body}</p>
-                <Link href={p.href} className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-brand-orange hover:text-orange-hover">
-                  {p.cta}
-                  <ArrowRight className="size-3.5" aria-hidden />
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {routeD.routes.map((route) => (
+              <li key={route.href}>
+                <Link href={route.href} className="flex min-h-12 items-center border-t border-[#0b1020]/12 pt-3 text-lg font-semibold underline decoration-[#f97316] decoration-2 underline-offset-[5px]">
+                  {route.label}
                 </Link>
-              </GlassCard>
+              </li>
             ))}
-          </div>
+          </ul>
         </Container>
       </Section>
 
@@ -100,19 +65,6 @@ export default function ContactPage({ searchParams }: PageProps<"/contact">) {
                     <a href={`mailto:${site.salesEmail}`} className="font-medium text-white hover:underline">
                       {site.salesEmail}
                     </a>
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-xs tracking-[0.12em] text-white/60 uppercase">Phone</dt>
-                  <dd className="mt-1 text-white/70">
-                    <NeedsConfirm
-                      id="phone"
-                      fallback={
-                        <a href={site.salesPhoneHref} className="font-medium text-white hover:underline">
-                          {site.salesPhone}
-                        </a>
-                      }
-                    />
                   </dd>
                 </div>
                 <div>

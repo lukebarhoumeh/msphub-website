@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
 import { bodyFont, headingFont, monoFont } from "./fonts";
 import { Analytics } from "@/components/analytics/analytics";
+import { RouteDConversion } from "@/components/ink/route-d";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { IntegrationStatusStrip } from "@/components/layout/integration-status";
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0d14",
+  themeColor: "#0b1020",
   colorScheme: "dark",
 };
 
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main id="main" className="flex-1">
           {children}
         </main>
+        <RouteDConversion />
         <IntegrationStatusStrip />
         <Footer />
         <JsonLd data={[organizationSchema(), webSiteSchema()]} />

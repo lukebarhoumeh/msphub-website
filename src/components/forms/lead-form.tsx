@@ -70,6 +70,8 @@ export type LeadFormProps = {
   successPath?: string;
   /** Extra controls rendered between the kind's fields and the submit row. */
   children?: ReactNode;
+  /** Pearl forms sit on a light page. Ink forms keep the dark field styles. */
+  surface?: "ink" | "pearl";
 };
 
 function defaultsFor(fields: FieldDef[]): Record<string, unknown> {
@@ -103,7 +105,7 @@ const fallbackCopy: Record<LeadFormFallbackReason, string> = {
   network: formMessages.failed,
 };
 
-export function LeadForm({ kind, submitLabel, className, defaultValues, successPath, children }: LeadFormProps) {
+export function LeadForm({ kind, submitLabel, className, defaultValues, successPath, children, surface = "ink" }: LeadFormProps) {
   const def: LeadKindDef = leadKinds[kind];
   const router = useRouter();
   const idPrefix = useId().replace(/[^a-zA-Z0-9]/g, "");
@@ -216,7 +218,7 @@ export function LeadForm({ kind, submitLabel, className, defaultValues, successP
   return (
     <LeadFormContext.Provider value={context}>
       <FormProvider {...form}>
-        <form ref={formRef} onSubmit={onSubmit} noValidate className={cn("grid gap-5", className)} aria-busy={submitting}>
+        <form ref={formRef} onSubmit={onSubmit} noValidate data-surface={surface} className={cn("grid gap-5", className)} aria-busy={submitting}>
           {/* Honeypot: hidden from people, tempting to bots. Not part of the schema. */}
           <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden>
             <label htmlFor={`${idPrefix}-website`}>Website</label>

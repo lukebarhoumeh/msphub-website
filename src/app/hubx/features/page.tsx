@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Breadcrumbs } from "@/components/hubx/breadcrumbs";
-import { FeatureGrid } from "@/components/hubx/feature-grid";
-import { ModuleCard } from "@/components/hubx/module-card";
 import { CtaBand } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
-import { Container, Glow, Section } from "@/components/ui/section";
+import { Container, Section } from "@/components/ui/section";
 import { SectionHeading } from "@/components/ui/typography";
 import { hubxFeaturesPage } from "@/content/hubx";
 import { hubxModules } from "@/content/hubx-modules";
@@ -19,8 +18,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/hubx/features" },
 };
 
+const moduleGroups = [
+  { title: "See the estate", slugs: ["home", "dashboards-reports", "service-desk"] },
+  { title: "Buy and renew", slugs: ["customers", "catalog", "quotations", "billing"] },
+  { title: "Ask and administer", slugs: ["hubai", "administration"] },
+] as const;
+
 export default function HubxFeaturesPage() {
-  const { hero, modules, features, cta } = hubxFeaturesPage;
+  const { hero, modules, cta } = hubxFeaturesPage;
   return (
     <>
       <PageHero eyebrow={hero.eyebrow} title={hero.title} lead={hero.lead}>
@@ -47,18 +52,27 @@ export default function HubxFeaturesPage() {
       <Section tone="light">
         <Container>
           <SectionHeading tone="light" eyebrow={modules.eyebrow} title={modules.title} lead={modules.lead} />
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {hubxModules.map((m) => (
-              <ModuleCard key={m.slug} module={m} />
+          <div className="grid gap-12 lg:grid-cols-3">
+            {moduleGroups.map((group) => (
+              <section key={group.title}>
+                <h3 className="border-t border-[#0b1020]/15 pt-4 font-display text-2xl font-bold">{group.title}</h3>
+                <ul className="mt-4 grid">
+                  {group.slugs.map((slug) => {
+                    const feature = hubxModules.find((item) => item.slug === slug);
+                    if (!feature) return null;
+                    return (
+                      <li key={slug}>
+                        <Link href={feature.href} className="flex min-h-12 items-center text-[17px] font-semibold underline decoration-[#f97316] decoration-2 underline-offset-[5px]">
+                          {feature.name}
+                        </Link>
+                        <p className="mb-3 max-w-[36ch] text-[15px] leading-relaxed text-[#4b5569]">{feature.summary}</p>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
             ))}
           </div>
-        </Container>
-      </Section>
-
-      <Section decor={<Glow tone="navy" className="top-0 right-[-300px] h-[700px] w-[900px]" />}>
-        <Container>
-          <SectionHeading eyebrow={features.eyebrow} title={features.title} lead={features.lead} />
-          <FeatureGrid columns={3} />
         </Container>
       </Section>
 

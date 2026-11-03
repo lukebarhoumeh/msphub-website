@@ -32,7 +32,7 @@ const stagger = ["stagger-1", "stagger-2", "stagger-3", "stagger-4", "stagger-5"
 export default function LicensingPage() {
   return (
     <>
-      <PageHero eyebrow={licensingHub.eyebrow} title={licensingHub.title} lead={licensingHub.lead}>
+      <PageHero tone="light" eyebrow={licensingHub.eyebrow} title={licensingHub.title} lead={licensingHub.lead}>
         <ButtonLink href="/licensing/quote">
           Get a licensing quote
           <ArrowRight className="size-4" aria-hidden />

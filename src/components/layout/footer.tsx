@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
+import { HubXLogo } from "@/components/brand/hubx-logo";
 import { MspHubLogo } from "@/components/brand/msp-hub-logo";
 import { FacebookIcon, InstagramIcon, LinkedInIcon, XIcon, YouTubeIcon } from "@/components/layout/social-icons";
-import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container } from "@/components/ui/section";
 import { footerColumns, legalLinks } from "@/content/nav";
 import { site } from "@/content/site";
@@ -31,27 +31,20 @@ export function Footer() {
             <p className="mt-2 max-w-[38ch] text-[13px] leading-relaxed text-white/60">
               Microsoft CSP direct-bill partner (Tier-1 Direct), North America. HubX, powered by MSP Hub.
             </p>
+            <p className="mt-5 inline-flex items-center gap-2 text-sm text-white/70">
+              <HubXLogo className="h-5 w-auto" />
+              <span>powered by MSP Hub</span>
+            </p>
             <ul className="mt-6 grid gap-2.5 text-[14.5px] text-white/70">
               <li className="flex items-start gap-2.5">
-                <Mail className="mt-1 size-4 shrink-0 text-brand-orange" aria-hidden />
+                <Mail className="mt-1 size-4 shrink-0 text-[#f97316]" aria-hidden />
                 <a href={`mailto:${site.salesEmail}`} className="hover:text-white">
                   {site.salesEmail}
                 </a>
               </li>
               <li className="flex items-start gap-2.5">
-                <Phone className="mt-1 size-4 shrink-0 text-brand-orange" aria-hidden />
-                <NeedsConfirm
-                  id="phone"
-                  fallback={
-                    <a href={site.salesPhoneHref} className="hover:text-white">
-                      {site.salesPhone}
-                    </a>
-                  }
-                />
-              </li>
-              <li className="flex items-start gap-2.5">
-                <MapPin className="mt-1 size-4 shrink-0 text-brand-orange" aria-hidden />
-                <NeedsConfirm id="officePresentation" fallback={<address className="not-italic">{site.hq.address}</address>} />
+                <MapPin className="mt-1 size-4 shrink-0 text-[#f97316]" aria-hidden />
+                <address className="not-italic">{site.hq.address}</address>
               </li>
             </ul>
           </div>

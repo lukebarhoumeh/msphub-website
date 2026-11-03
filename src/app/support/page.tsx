@@ -139,14 +139,11 @@ export default function SupportPage() {
               <a href={`mailto:${site.salesEmail}`} className="font-medium text-white underline-offset-4 hover:underline">
                 {site.salesEmail}
               </a>
-              <NeedsConfirm
-                id="phone"
-                fallback={
-                  <a href={site.salesPhoneHref} className="font-medium text-white underline-offset-4 hover:underline">
-                    {site.salesPhone}
-                  </a>
-                }
-              />
+              <NeedsConfirm id="phone" fallback={null}>
+                <a href={site.salesPhoneHref} className="font-medium text-white underline-offset-4 hover:underline">
+                  {site.salesPhone}
+                </a>
+              </NeedsConfirm>
             </p>
           </CtaBand>
       </Section>

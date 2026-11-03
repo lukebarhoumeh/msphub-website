@@ -7,7 +7,7 @@ import { cn } from "@/lib/cn";
 /** Card for the insights index (light canvas). The whole card is one link target. */
 export function PostCard({ post, className }: { post: Post; className?: string }) {
   return (
-    <article className={cn("card-light relative flex h-full flex-col p-7 transition hover:border-black/15", className)}>
+    <article className={cn("relative grid gap-3", className)}>
       <p className="font-mono text-xs tracking-[0.1em] text-charcoal/80 uppercase">
         <time dateTime={isoPostDate(post.date)}>{formatPostDate(post.date)}</time>
       </p>

@@ -4,7 +4,7 @@ import { cn } from "@/lib/cn";
 export function Container({ className, ...rest }: ComponentPropsWithoutRef<"div">) {
   return (
     <div
-      className={cn("mx-auto w-full max-w-[1200px] px-5 sm:px-6 lg:px-8", className)}
+      className={cn("mx-auto w-[min(1280px,calc(100%-2*var(--page-pad)))]", className)}
       {...rest}
     />
   );
@@ -32,7 +32,7 @@ export function Glow({ tone, className, drift }: GlowProps) {
       className={cn(
         "pointer-events-none absolute rounded-full blur-[60px]",
         glowTones[tone],
-        drift && "motion-safe:animate-glow-drift",
+        drift && "motion-safe:opacity-100",
         className,
       )}
     />
@@ -54,10 +54,11 @@ export function Section({ className, tight, tone = "dark", decor, children, ...r
     <section
       className={cn(
         "relative",
-        tight ? "py-12 sm:py-16" : "py-16 sm:py-20 lg:py-28",
-        tone === "light" && "bg-canvas text-charcoal",
+        tight ? "py-10 sm:py-12" : "py-[clamp(64px,7vw,104px)]",
+        tone === "light" && "bg-pearl text-ink",
         className,
       )}
+      data-surface={tone === "light" ? "pearl" : "ink"}
       {...rest}
     >
       {decor ? (
