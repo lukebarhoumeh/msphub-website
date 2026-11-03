@@ -1,6 +1,6 @@
 import { cn } from "@/lib/cn";
 
-type ArtName = "four-engine-refraction" | "lifecycle-glass-corridor" | "ai-inference-lattice";
+export type ArtName = "four-engine-refraction" | "lifecycle-glass-corridor" | "ai-inference-lattice";
 
 const art = {
   "four-engine-refraction": { width: 1280, height: 720, widths: [800, 1280] },

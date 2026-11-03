@@ -29,6 +29,7 @@ export default function AboutPage() {
   return (
     <>
       <PageHero
+        art="four-engine-refraction"
         eyebrow={`About MSP Hub · Since ${site.founded}`}
         title="One partner for licensing, cloud, security, AI, and managed operations."
         lead="MSP Hub is a Microsoft CSP direct-bill partner (Tier-1 Direct) and IT services company. We built HubX so IT, finance, and purchasing can see and control their Microsoft estate, and we staff the professional, managed, and development teams that run it."

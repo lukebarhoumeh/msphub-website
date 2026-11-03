@@ -9,10 +9,10 @@ import type { ModuleSlug } from "@/content/hubx-modules";
  */
 export const earlyAccess = {
   badge: "Early Access",
-  title: "HubX is in early access.",
-  body: "New capabilities ship continuously while HubX is in early access. The Early Access badge in the product header opens a feedback form; everything we hear there shapes what ships next. Release notes are published on this page.",
+  title: "Generally available. Shaped by the people using it.",
+  body: "HubX is generally available to MSP Hub customers and partners; the platform-partner programme, HubX on your own Partner Center tenant, is in early access. New capabilities ship continuously, the feedback badge in the product header opens a form, and everything we hear there shapes what ships next. Release notes are published on this page.",
   feedback: {
-    inProduct: "Open the Early Access badge in the HubX header to share feedback from inside the product.",
+    inProduct: "Open the feedback badge in the HubX header to share feedback from inside the product.",
     cta: { label: "Share feedback", href: "/contact?topic=support#contact-form" },
   },
 } as const;
@@ -21,7 +21,7 @@ export const whatsNewPage = {
   hero: {
     eyebrow: "What's new · HubX, powered by MSP Hub",
     title: "What's new in HubX.",
-    lead: "Release notes for the portal, plus what is in the product today. HubX is in early access: tell us what to build next from the badge in the product header or the form below.",
+    lead: "Release notes for the portal, plus what is in the product today. Tell us what to build next from the badge in the product header or the form below.",
   },
   releases: { eyebrow: "Release notes", title: "Shipped." },
   now: {
@@ -30,7 +30,7 @@ export const whatsNewPage = {
     lead: "Not a roadmap. Every item below was observed in HubX during the November 2026 walk-through and is documented on the features pages.",
   },
   feedback: {
-    eyebrow: "Early access",
+    eyebrow: "Feedback",
     title: "Shape what ships next.",
   },
   cta: {
@@ -64,7 +64,7 @@ export const releases: readonly Release[] = [
     items: [
       "New name and a full portal redesign: light theme by default, dark theme on the toggle.",
       "Top navigation (Home · Dashboards · Customers · Catalog · Quotations · Reports · Service Desk) with HubAI and global customer search in the header.",
-      "Early Access badge with a feedback form, plus per-page help.",
+      "Feedback badge with a form, plus per-page help.",
     ],
     confirm: "loginContinuity",
     reviewNote: "Confirm that Marketplace users sign in to HubX with their existing accounts before this entry says so.",

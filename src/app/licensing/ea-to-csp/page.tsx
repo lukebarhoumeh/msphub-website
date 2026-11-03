@@ -17,7 +17,7 @@ export const metadata = pageMetadata({
 export default function EaToCspPage() {
   return (
     <>
-      <PageHero eyebrow={eaToCsp.eyebrow} title={eaToCsp.title} lead={eaToCsp.lead}>
+      <PageHero art="lifecycle-glass-corridor" eyebrow={eaToCsp.eyebrow} title={eaToCsp.title} lead={eaToCsp.lead}>
         <ButtonLink href="/licensing/switch#send-invoice">
           Send your EA estate for a comparison
           <ArrowRight className="size-4" aria-hidden />

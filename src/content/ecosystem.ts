@@ -12,22 +12,11 @@ export type EcosystemEntry = {
   logo?: string;
 };
 
-/** Vendors already shown on the previous msphub.com or in the company deck. */
+/** Vendors transacted through the deal desk today (brief 6.2: the wall is pruned to what is actually sold). */
 export const vendors: EcosystemEntry[] = [
   { name: "Microsoft", kind: "vendor" },
   { name: "Cisco Meraki", kind: "vendor" },
   { name: "Fortinet", kind: "vendor" },
-  { name: "Palo Alto Networks", kind: "vendor" },
-  { name: "SentinelOne", kind: "vendor" },
-  { name: "Arctic Wolf", kind: "vendor" },
-  { name: "Barracuda", kind: "vendor" },
-  { name: "Adlumin", kind: "vendor" },
-  { name: "Veeam", kind: "vendor" },
-  { name: "Nutanix", kind: "vendor" },
-  { name: "VMware", kind: "vendor" },
-  { name: "Extreme Networks", kind: "vendor" },
-  { name: "HPE Aruba Networking", kind: "vendor" },
-  { name: "APC by Schneider Electric", kind: "vendor" },
   { name: "Coro", kind: "vendor", note: "Publisher in the HubX catalog" },
 ];
 

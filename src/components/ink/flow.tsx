@@ -109,7 +109,8 @@ export function HeaderThemeObserver() {
         },
         { rootMargin: `0px 0px -${Math.max(0, window.innerHeight - headerHeight())}px 0px`, threshold: 0 },
       );
-      for (const el of main.children) io.observe(el);
+      // Sections only: a sticky sub-nav (HubX) or a script tag must not decide the theme.
+      for (const el of main.querySelectorAll(":scope > section, :scope > div > section")) io.observe(el);
     };
 
     build();

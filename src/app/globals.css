@@ -720,3 +720,8 @@ main > [data-surface="pearl"]:first-child { --bleed-top: 0px; }
   .link-draw:hover { animation: none; }
   .glow-card:hover { transform: none; }
 }
+
+/* Deferred hero art eases in once it mounts. */
+.art-fade { animation: art-fade 900ms ease both; }
+@keyframes art-fade { from { opacity: 0; } to { opacity: 0.6; } }
+@media (prefers-reduced-motion: reduce) { .art-fade { animation: none; } }

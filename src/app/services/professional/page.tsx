@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 import { IllustrativeAsset } from "@/components/ink/illustrative-asset";
-import { CheckList, CtaBand, Steps } from "@/components/marketing/blocks";
+import { RuleList } from "@/components/ink/interior";
+import { CheckList, CtaBand } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PairsWithHubX } from "@/components/marketing/pairs-with-hubx";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -86,7 +87,7 @@ export default function ProfessionalServicesPage() {
             title="Align → Plan → Deliver → Validate & Transition."
             lead="The same model MSP Hub uses in its Modern Work delivery white paper and in every proposal."
           />
-          <Steps steps={professional.engagement} className="md:grid-cols-4" />
+          <RuleList tone="ink" numbered columns={4} titleSize="md" items={professional.engagement} />
           <CheckList items={professional.commitments} className="mt-8 sm:grid-cols-2" />
         </Container>
       </Section>

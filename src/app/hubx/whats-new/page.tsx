@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowRight, MessageSquareText } from "lucide-react";
 import { Breadcrumbs } from "@/components/hubx/breadcrumbs";
-import { EarlyAccessBadge, PointList } from "@/components/hubx/primitives";
+import { PointList } from "@/components/hubx/primitives";
 import { Chapter, InkLink, NextStep, RuleList, inkTone, itemTitle, monoLabel } from "@/components/ink/interior";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
@@ -13,9 +13,9 @@ import { site } from "@/content/site";
 import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = {
-  title: "What's new in HubX — early-access release notes",
+  title: "What's new in HubX — release notes",
   description:
-    "Release notes for HubX, powered by MSP Hub, plus what is in the product today: the October 2026 launch, the modules verified in November 2026, and how to share early-access feedback.",
+    "Release notes for HubX, powered by MSP Hub, plus what is in the product today: the October 2026 launch, the modules verified in November 2026, and how to share feedback.",
   alternates: { canonical: "/hubx/whats-new" },
 };
 
@@ -31,9 +31,6 @@ export default function HubxWhatsNewPage() {
         <ButtonLink href={site.hubxLoginUrl} variant="glass">
           Log in to HubX
         </ButtonLink>
-        <span className="inline-flex h-12 items-center">
-          <EarlyAccessBadge />
-        </span>
       </PageHero>
 
       <section className="bg-[#0b1020] pb-10 text-white">
@@ -96,7 +93,7 @@ export default function HubxWhatsNewPage() {
       </Chapter>
 
       {/* Feedback */}
-      <Chapter tone="ink" size="md" eyebrow={<span className="inline-flex flex-wrap items-center gap-3">{feedback.eyebrow} <EarlyAccessBadge /></span>} title={feedback.title} lead={earlyAccess.body}>
+      <Chapter tone="ink" size="md" eyebrow={feedback.eyebrow} title={feedback.title} lead={earlyAccess.body}>
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-12">
           <p className={cn("flex max-w-[60ch] items-start gap-3 text-[16px] leading-[1.6]", inkTone.ink.muted)}>
             <MessageSquareText className="mt-0.5 size-5 shrink-0 text-[#f97316]" aria-hidden />

@@ -19,17 +19,14 @@ export const formMessages = {
   keptBelow: "Your details are kept below. Email us directly and we'll pick it up from there.",
   emailUs: "Email",
   tryAgain: "Try again",
-  /** Visible when the Turnstile site key is missing on this deployment. */
-  turnstileMissing: "Spam protection (Cloudflare Turnstile) isn't configured on this deployment; submissions still go through.",
   turnstileError: "The spam check couldn't load. You can still submit; we may follow up to confirm.",
 } as const;
 
-/** Qualification types that exist in the HubX catalog (handoff §5.11). */
+/** Qualification types quoted today (handoff §5.11). Government is held until the GCC authorization is confirmed (`confirmations.government`). */
 export const qualificationOptions = [
   { value: "commercial", label: "Commercial" },
   { value: "nonprofit", label: "Nonprofit" },
   { value: "education", label: "Education" },
-  { value: "government", label: "Government" },
 ] as const;
 
 /** Where the estate is bought today (handoff §5.11). */

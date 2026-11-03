@@ -24,14 +24,14 @@ export const hubxPage = {
   tour: {
     eyebrow: "Inside HubX",
     title: "The live product, with demo data.",
-    lead: "Real HubX screens, light theme as the product ships it. Customers, catalog, quotations, dashboards, reports, and HubAI, captured in November 2026.",
+    lead: "Real HubX screens with demo data: customers, catalog, quotations, dashboards, reports, and HubAI.",
     screens: ["homeOverview", "customers", "customerProducts", "catalog", "quotations", "dashboards", "reports"],
     labels: ["Home", "Customers", "Products", "Catalog", "Quotations", "Dashboards", "Reports"],
   },
   modules: {
     eyebrow: "Modules",
     title: "Nine modules. One estate.",
-    lead: "Every module below is in the product today. Pick one to see what it does and what it looks like.",
+    lead: "Every module below is in the product today, with its route, what it does, and where to read more.",
   },
   features: {
     eyebrow: "Capabilities",
@@ -64,7 +64,7 @@ export const hubxFeaturesPage = {
   hero: {
     eyebrow: `Features · ${hubxLockup}`,
     title: "Everything HubX does, module by module.",
-    lead: "Nine modules, verified from the live product in November 2026. Each page shows the real screens with demo data, what you can do there, and the capabilities partners ask about most.",
+    lead: "Nine modules. Each page shows real HubX screens with demo data, what you can do there, and the capabilities partners ask about most.",
   },
   modules: {
     eyebrow: "Modules",

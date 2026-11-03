@@ -35,8 +35,8 @@ export const professional = {
       title: "Data & platform",
       items: [
         "Power Platform / Power BI",
-        "Fabric and Databricks architecture",
-        "SQL and Oracle Database migrations & integrations",
+        "Fabric architecture",
+        "SQL database migrations & integrations",
         "Dataverse & automation",
         "App modernization",
         "Custom .NET development",
@@ -53,8 +53,6 @@ export const professional = {
         ["Landing zone", "Identity, governance, networking, and policy foundations before the first workload."],
         ["DevOps", "Pipelines and infrastructure as code so environments are repeatable."],
         ["VDI", "Azure Virtual Desktop and Windows 365 design and rollout."],
-        ["Penetration testing", "Find the gaps before someone else does."],
-        ["Security & compliance", "Controls mapped to frameworks such as PCI DSS."],
         ["Managed services", "Hand the finished environment to our managed-services team, monitored around the clock."],
       ],
     },
@@ -106,7 +104,7 @@ export const managed = {
   offerings: [
     {
       title: "24/7 monitoring and incident management",
-      body: "Around-the-clock monitoring, alerting, and incident management for the Azure and multi-cloud environments under MSP Hub managed services.",
+      body: "Around-the-clock monitoring, alerting, and incident management for the Microsoft 365 and Azure environments under MSP Hub managed services.",
     },
     {
       title: "Microsoft 365 & desktop modernization",
@@ -127,10 +125,6 @@ export const managed = {
     {
       title: "Direct Microsoft escalation",
       body: "Issues escalate to Microsoft Premier support directly, as a CSP direct-bill partner.",
-    },
-    {
-      title: "Desktop as a Service",
-      body: "Enterprise VDI without the complexity: personal, shared, and pooled Windows or Linux desktops on Oracle Cloud Infrastructure, with hybrid and multi-cloud deployment models and Entra ID single sign-on.",
     },
   ],
   howItWorks: [

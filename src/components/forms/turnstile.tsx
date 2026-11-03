@@ -8,8 +8,9 @@ import { formMessages } from "@/content/forms";
  * Cloudflare Turnstile widget, rendered explicitly so several forms on one
  * page share one script. The site key is public (`NEXT_PUBLIC_TURNSTILE_SITE_KEY`);
  * the server verifies tokens with `TURNSTILE_SECRET_KEY`. Without a site key
- * the component renders an honest notice and the form still submits (the
- * server passes through when its secret is unset).
+ * the component renders nothing and the form still submits (the server
+ * passes through when its secret is unset); the review-build status strip
+ * is where the missing key is reported.
  */
 
 export const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
@@ -117,16 +118,7 @@ export function Turnstile({ onToken, onStateChange, className }: TurnstileProps)
     };
   }, []);
 
-  if (state === "unconfigured") {
-    return (
-      <p className={className} role="note">
-        <span className="inline-flex items-start gap-2 text-[13px] text-white/65">
-          <ShieldAlert className="mt-0.5 size-4 shrink-0 text-amber-300/90" aria-hidden />
-          {formMessages.turnstileMissing}
-        </span>
-      </p>
-    );
-  }
+  if (state === "unconfigured") return null;
 
   return (
     <div className={className}>
