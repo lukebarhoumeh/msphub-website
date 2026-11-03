@@ -11,11 +11,11 @@ const base =
 const variants: Record<Variant, string> = {
   primary:
     "bg-[linear-gradient(135deg,#ffb05c_0%,#f97316_56%,#e8600f_100%)] text-[#0b1020] shadow-[inset_0_1px_0_rgba(255,255,255,.55),0_10px_28px_rgba(249,115,22,.34)] active:shadow-[inset_0_1px_0_rgba(255,255,255,.55),0_6px_16px_rgba(249,115,22,.2)]",
-  glass: "btn-glass border border-white/18 bg-white/8 text-white shadow-none hover:bg-white/12 active:translate-y-0",
+  glass: "btn-glass btn-beam border border-white/18 bg-white/8 text-white shadow-none hover:bg-white/12 active:translate-y-0",
   ghost: "btn-ghost bg-transparent text-white/80 shadow-none hover:text-white active:translate-y-0",
-  outline: "border border-[#0b1020]/15 bg-white text-[#0b1020] shadow-none hover:bg-[#f4f6fb] active:translate-y-0",
+  outline: "btn-beam border border-[#0b1020]/15 bg-white text-[#0b1020] shadow-none hover:bg-[#f4f6fb] active:translate-y-0",
   ink: "bg-[#0b1020] text-white shadow-none active:translate-y-0",
-  frost: "border border-white/70 bg-white/80 text-[#0b1020] shadow-none backdrop-blur-md active:translate-y-0",
+  frost: "btn-beam border border-white/70 bg-white/80 text-[#0b1020] shadow-none backdrop-blur-md active:translate-y-0",
 };
 
 const sizes: Record<Size, string> = {
