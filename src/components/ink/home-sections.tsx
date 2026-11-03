@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { Aurora, BorderBeam, DotField, GhostNumeral, Grain, Horizon, Marquee } from "@/components/ink/atmosphere";
+import { BorderBeam, DotField, GhostNumeral, Marquee } from "@/components/ink/atmosphere";
 import { IllustrativeAsset } from "@/components/ink/illustrative-asset";
 import { AudienceRouter } from "@/components/ink/audience-router";
 import { EngineMatrix } from "@/components/ink/engine-matrix";
 import { EvidenceBezel, EvidenceStage } from "@/components/ink/evidence";
+import { Parallax } from "@/components/ink/flow";
 import { StatRail } from "@/components/ink/interior";
 import { Spotlight } from "@/components/ink/motion";
 import { ButtonLink } from "@/components/ui/button";
@@ -27,11 +28,8 @@ const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as React.CSSProp
 export function InkHomeHero() {
   const crop = captures.customerProductsHome;
   return (
-    <section className="relative overflow-hidden bg-[#0b1020] text-white">
-      <Aurora />
-      <DotField tone="ink" className="opacity-70" />
-      <Grain />
-      <Container className="relative grid items-center gap-12 py-14 lg:min-h-[min(760px,calc(100svh-72px))] lg:grid-cols-12 lg:gap-8 lg:py-20">
+    <section className="relative overflow-x-clip text-white">
+      <Container className="relative grid items-center gap-12 pt-14 pb-28 lg:min-h-[min(760px,calc(100svh-72px))] lg:grid-cols-12 lg:gap-8 lg:pt-20 lg:pb-36">
         <div className="lg:col-span-5">
           <p className="hero-line font-mono text-[11px] tracking-[0.12em] text-[#b8c0d4] uppercase" style={{ "--i": 0 } as React.CSSProperties}>
             {homeHero.eyebrow}
@@ -59,10 +57,12 @@ export function InkHomeHero() {
           </p>
         </div>
         <div className="hero-art relative lg:col-span-7">
-          <Spotlight className="tilt tilt-hero relative overflow-hidden rounded-[22px] border border-white/14 bg-[#12192b]/80 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_40px_90px_rgba(0,0,0,.45)]">
-            <IllustrativeAsset name="four-engine-refraction" priority sizes="(min-width: 1024px) 58vw, 100vw" className="[&_figcaption]:px-3 [&_figcaption]:pb-2" />
-            <BorderBeam duration={11} />
-          </Spotlight>
+          <Parallax range={24}>
+            <Spotlight className="tilt tilt-hero relative overflow-hidden rounded-[22px] border border-white/14 bg-[#12192b]/80 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_40px_90px_rgba(0,0,0,.45)]">
+              <IllustrativeAsset name="four-engine-refraction" priority sizes="(min-width: 1024px) 58vw, 100vw" className="[&_figcaption]:px-3 [&_figcaption]:pb-2" />
+              <BorderBeam duration={11} />
+            </Spotlight>
+          </Parallax>
           <div className="pointer-events-none absolute -bottom-6 left-0 hidden w-[300px] lg:block xl:-left-6 xl:w-[340px]" style={delay(600)} data-reveal="scale">
             <div className="pointer-events-auto rotate-[-3deg]">
               <EvidenceBezel capture={crop} />
@@ -78,7 +78,7 @@ export function InkHomeHero() {
 /** A quiet ticker of the Microsoft families sold through HubX, straight from the licensing content. */
 export function CatalogTicker() {
   return (
-    <section aria-label="Microsoft licensing families" className="relative border-y border-white/10 bg-[#0b1020] text-white">
+    <section aria-label="Microsoft licensing families" className="relative border-y border-white/10 text-white">
       <div className="relative mx-auto w-[min(1280px,calc(100%-2*var(--page-pad)))] py-4">
         <div className="grid items-center gap-4 lg:grid-cols-[auto_minmax(0,1fr)]">
           <p className="shrink-0 font-mono text-[11px] tracking-[0.12em] text-[#8e98ae] uppercase">Sold direct · managed in HubX</p>
@@ -99,9 +99,9 @@ export function CatalogTicker() {
 
 export function ProofRail() {
   return (
-    <section aria-label="Company proof" className="relative bg-[#0b1020] py-14 text-white">
+    <section aria-label="Company proof" className="relative z-20 -mt-20 pb-14 text-white lg:-mt-24">
       <Container>
-        <div data-reveal="scale" style={delay(80)}>
+        <div data-reveal="scale" style={delay(80)} className="shadow-[0_32px_80px_-32px_rgba(0,0,0,.6)]">
           <StatRail tone="ink" items={homeProof} beam />
         </div>
       </Container>
@@ -169,10 +169,7 @@ export function AudienceChapter() {
 
 export function HubxEvidenceChapter() {
   return (
-    <section className="relative overflow-hidden bg-[#0b1020] py-[clamp(72px,8vw,120px)] text-white">
-      <Horizon className="absolute top-0" />
-      <Aurora intensity="soft" />
-      <Grain />
+    <section className="relative overflow-x-clip py-[clamp(72px,8vw,120px)] text-white">
       <Container className="relative">
         <h2 data-reveal className="max-w-[16ch] font-display text-[34px] leading-[1.05] font-bold tracking-[-0.025em] lg:text-[52px]">
           {homeHubx.title}
@@ -211,9 +208,11 @@ export function ProfessionalChapter() {
           </div>
         </div>
         <div className="lg:col-span-7">
-          <div data-reveal="scale" style={delay(120)} className="overflow-hidden rounded-[18px] border border-[#0b1020]/8 bg-white p-2 shadow-[0_24px_64px_rgba(11,16,32,.12)]">
-            <IllustrativeAsset name="lifecycle-glass-corridor" sizes="(min-width: 1024px) 46vw, 100vw" className="[&_figcaption]:px-2 [&_figcaption]:pb-1" />
-          </div>
+          <Parallax range={40}>
+            <div data-reveal="scale" style={delay(120)} className="overflow-hidden rounded-[18px] border border-[#0b1020]/8 bg-white p-2 shadow-[0_24px_64px_rgba(11,16,32,.12)]">
+              <IllustrativeAsset name="lifecycle-glass-corridor" sizes="(min-width: 1024px) 46vw, 100vw" className="[&_figcaption]:px-2 [&_figcaption]:pb-1" />
+            </div>
+          </Parallax>
           <ul className="mt-8 grid gap-2 sm:grid-cols-2">
             {homeProfessional.scope.map((item, index) => (
               <li key={item} data-reveal style={delay(200 + index * 40)} className="flex gap-3 text-[15px] leading-snug">
@@ -230,10 +229,7 @@ export function ProfessionalChapter() {
 
 export function ManagedChapter() {
   return (
-    <section className="relative overflow-hidden bg-[#0b1020] py-[clamp(72px,8vw,120px)] text-white">
-      <Horizon className="absolute top-0" />
-      <DotField tone="ink" className="opacity-50 [mask-image:radial-gradient(ellipse_50%_60%_at_90%_50%,#000_10%,transparent_80%)]" />
-      <Grain />
+    <section className="relative overflow-x-clip py-[clamp(72px,8vw,120px)] text-white">
       <Container className="relative">
         <h2 data-reveal className="max-w-[14ch] font-display text-[34px] leading-[1.08] font-bold tracking-[-0.025em] lg:text-[52px]">
           {homeManaged.title}
@@ -269,9 +265,11 @@ export function DevelopmentChapter() {
     <section className="relative bg-[#f4f6fb] py-[clamp(72px,8vw,120px)] text-[#0b1020]" data-surface="pearl">
       <Container className="grid items-center gap-12 lg:grid-cols-12">
         <div className="order-2 lg:order-1 lg:col-span-6">
-          <div data-reveal="scale" style={delay(120)} className="overflow-hidden rounded-[18px] border border-[#0b1020]/8 bg-white p-2 shadow-[0_24px_64px_rgba(11,16,32,.12)]">
-            <IllustrativeAsset name="ai-inference-lattice" sizes="(min-width: 1024px) 42vw, 100vw" className="[&_figcaption]:px-2 [&_figcaption]:pb-1" />
-          </div>
+          <Parallax range={40}>
+            <div data-reveal="scale" style={delay(120)} className="overflow-hidden rounded-[18px] border border-[#0b1020]/8 bg-white p-2 shadow-[0_24px_64px_rgba(11,16,32,.12)]">
+              <IllustrativeAsset name="ai-inference-lattice" sizes="(min-width: 1024px) 42vw, 100vw" className="[&_figcaption]:px-2 [&_figcaption]:pb-1" />
+            </div>
+          </Parallax>
         </div>
         <div className="order-1 lg:order-2 lg:col-span-6">
           <h2 data-reveal className="font-display text-[34px] leading-[1.08] font-bold tracking-[-0.025em] lg:text-[52px]">
@@ -306,9 +304,7 @@ export function DevelopmentChapter() {
 
 export function TrustBand() {
   return (
-    <section className="relative overflow-hidden bg-[#0b1020] py-12 text-white lg:py-16">
-      <Horizon className="absolute top-0" />
-      <Grain />
+    <section className="relative overflow-x-clip py-12 text-white lg:py-16">
       <Container className="relative">
         <h2 data-reveal className="font-display text-[30px] leading-[1.1] font-bold tracking-[-0.02em] lg:text-[40px]">
           Evidence you can check.

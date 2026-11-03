@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
-import { BorderBeam, Grain, Horizon } from "@/components/ink/atmosphere";
+import { BorderBeam } from "@/components/ink/atmosphere";
 import { Ticker } from "@/components/ink/motion";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/section";
@@ -17,7 +17,8 @@ export type InkTone = "ink" | "pearl";
 
 export const inkTone = {
   ink: {
-    ground: "bg-[#0b1020] text-white",
+    /** Ink sections are transparent: the fixed PageCanvas is the ground. */
+    ground: "text-white",
     text: "text-white",
     muted: "text-[#b8c0d4]",
     faint: "text-[#8e98ae]",
@@ -85,12 +86,6 @@ export function Chapter({
     pad === "normal" ? "py-[clamp(64px,7vw,104px)]" : pad === "tight" ? "pt-0 pb-[clamp(64px,7vw,104px)]" : "pt-0 pb-[clamp(48px,5vw,72px)]";
   return (
     <section data-surface={tone} className={cn("relative scroll-mt-24 overflow-x-clip", t.ground, padding, className)} {...rest}>
-      {tone === "ink" ? (
-        <>
-          {pad === "normal" ? <Horizon className="absolute top-0" /> : null}
-          <Grain />
-        </>
-      ) : null}
       <Container className={cn("relative", containerClassName)}>
         {title || eyebrow || lead ? (
           <div className={cn(!!aside && "lg:flex lg:items-end lg:justify-between lg:gap-10")}>
@@ -128,8 +123,7 @@ export function InkLink({
   children,
   ...rest
 }: { href: string; tone?: InkTone; className?: string; children: ReactNode } & Omit<ComponentPropsWithoutRef<typeof Link>, "href" | "className" | "children">) {
-  const t = inkTone[tone];
-  const classes = cn("inline-flex min-h-11 items-center font-semibold underline decoration-2 underline-offset-[5px]", t.underline, className);
+  const classes = cn("link-draw inline-flex min-h-11 items-center font-semibold", tone === "ink" ? "[--ul:#ffb05c]" : "[--ul:#f97316]", className);
   if (/^https?:\/\//.test(href) || href.startsWith("mailto:")) {
     return (
       <a href={href} className={classes} rel={href.startsWith("http") ? "noopener noreferrer" : undefined}>
@@ -360,8 +354,7 @@ type NextStepProps = {
 export function NextStep({ tone = "ink", eyebrow, title, lead, primary, secondary, children, className, id }: NextStepProps) {
   const t = inkTone[tone];
   return (
-    <section id={id} data-surface={tone} className={cn("relative scroll-mt-24 overflow-hidden", t.ground, className)}>
-      {tone === "ink" ? <Grain /> : null}
+    <section id={id} data-surface={tone} className={cn("relative scroll-mt-24 overflow-x-clip", t.ground, className)}>
       <Container className={cn("relative border-t py-14 lg:py-16", t.rule)}>
         <div data-reveal className="grid items-end gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-12">
           <div>

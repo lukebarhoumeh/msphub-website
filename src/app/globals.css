@@ -519,3 +519,204 @@ body {
   .hero-line { animation: none; }
   .rule-item:hover { transform: none; }
 }
+
+/* ------------------------------------------------------------------ */
+/* One continuous canvas (DESIGN.md §3): grounds, bleeds, spine, header */
+/* ------------------------------------------------------------------ */
+
+:root {
+  --bleed: 200px;
+  --spine-x: max(14px, calc((100vw - 1280px) / 2 - 40px));
+}
+
+/* Dark sections are windows onto the fixed canvas. Only pearl and orange paint a ground. */
+main > section:not([data-surface="pearl"]):not([data-surface="orange"]),
+main > div > section:not([data-surface="pearl"]):not([data-surface="orange"]) {
+  background-color: transparent;
+}
+
+/* Pearl sections: a solid pearl core, fading in from the canvas above and out to the canvas below
+   whenever the neighbour is not pearl. In-flow spacers push the content clear of the gradient. */
+main > [data-surface="pearl"] {
+  --bleed-top: 0px;
+  --bleed-bottom: 0px;
+  position: relative;
+  background-color: transparent;
+  background-image:
+    linear-gradient(180deg, rgba(244, 246, 251, 0), #f4f6fb),
+    linear-gradient(180deg, #f4f6fb, rgba(244, 246, 251, 0)),
+    linear-gradient(#f4f6fb, #f4f6fb);
+  background-size:
+    100% var(--bleed-top),
+    100% var(--bleed-bottom),
+    100% calc(100% - var(--bleed-top) - var(--bleed-bottom));
+  background-position:
+    0 0,
+    0 100%,
+    0 var(--bleed-top);
+  background-repeat: no-repeat;
+}
+main > [data-surface="pearl"]::before,
+main > [data-surface="pearl"]::after {
+  content: "";
+  display: block;
+  height: 0;
+}
+main > [data-surface="pearl"]::before { height: calc(var(--bleed-top) * 0.55); }
+main > [data-surface="pearl"]::after { height: calc(var(--bleed-bottom) * 0.55); }
+main > :not([data-surface="pearl"]) + [data-surface="pearl"] { --bleed-top: var(--bleed); }
+main > [data-surface="pearl"]:has(+ :not([data-surface="pearl"])),
+main > [data-surface="pearl"]:last-child { --bleed-bottom: var(--bleed); }
+/* A pearl hero starts solid under the header. */
+main > [data-surface="pearl"]:first-child { --bleed-top: 0px; }
+
+/* Canvas layers. */
+.canvas-dots {
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.06) 1px, transparent 1.2px);
+  background-size: 28px 28px;
+}
+.canvas-aurora .aurora-blob { opacity: 0.55; }
+.canvas-grain { opacity: 0.035; }
+.canvas-drift {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .canvas-drift { animation: canvas-drift linear both; animation-timeline: scroll(root); }
+    .canvas-drift-a { --drift: -80px; }
+    .canvas-drift-b { --drift: 60px; }
+    .canvas-drift-c { --drift: -40px; }
+  }
+}
+@keyframes canvas-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, var(--drift, -60px), 0); }
+}
+
+/* The spine and its numerals share one x. */
+.spine { left: var(--spine-x); }
+.spine-mark {
+  left: calc(var(--spine-x) - 0.5em);
+  top: 0;
+  transform: translateY(-50%);
+  font-size: 120px;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(249, 115, 22, 0.35);
+  opacity: 0.9;
+}
+[data-surface="pearl"] .spine-mark { -webkit-text-stroke: 1px rgba(11, 16, 32, 0.16); }
+@media (min-width: 1536px) { .spine-mark { font-size: 160px; } }
+
+/* Theme-aware header: dark over the canvas, pearl over pearl and orange. */
+.site-header {
+  --hdr-fg: #ffffff;
+  --hdr-muted: #b8c0d4;
+  --hdr-bg: rgba(11, 16, 32, 0);
+  --hdr-line: rgba(255, 255, 255, 0);
+  color: var(--hdr-fg);
+  background-color: var(--hdr-bg);
+  border-color: var(--hdr-line);
+  transition: color 200ms ease, background-color 200ms ease, border-color 200ms ease;
+}
+.site-header[data-scrolled="true"] {
+  --hdr-bg: rgba(11, 16, 32, 0.6);
+  --hdr-line: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+}
+.site-header[data-header-theme="light"] {
+  --hdr-fg: #0b1020;
+  --hdr-muted: #4b5569;
+  --hdr-bg: rgba(244, 246, 251, 0.72);
+  --hdr-line: rgba(11, 16, 32, 0.1);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+}
+.site-header[data-menu-open="true"] {
+  --hdr-fg: #ffffff;
+  --hdr-muted: #b8c0d4;
+  --hdr-bg: #0b1020;
+  --hdr-line: rgba(255, 255, 255, 0.1);
+}
+.site-header .hdr-link { color: var(--hdr-muted); }
+.site-header .hdr-link:hover,
+.site-header .hdr-link.is-active { color: var(--hdr-fg); }
+.site-header .hdr-toggle { color: var(--hdr-fg); border-color: color-mix(in srgb, var(--hdr-fg) 18%, transparent); }
+.site-header .logo-on-light { display: none; }
+.site-header[data-header-theme="light"]:not([data-menu-open="true"]) .logo-on-dark { display: none; }
+.site-header[data-header-theme="light"]:not([data-menu-open="true"]) .logo-on-light { display: block; }
+@media (prefers-reduced-transparency: reduce) {
+  .site-header[data-scrolled="true"],
+  .site-header[data-header-theme="light"] { backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .site-header[data-scrolled="true"] { --hdr-bg: #12192b; }
+  .site-header[data-header-theme="light"] { --hdr-bg: #f4f6fb; }
+}
+
+/* Buttons: primary presses in; glass and outline grow a travelling beam on hover. */
+.btn-primary:active { transform: scale(0.98); }
+.btn-beam { position: relative; isolation: isolate; }
+.btn-beam::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--beam-from, 0deg), transparent 0 70%, #ffb05c 84%, #f97316 92%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 180ms ease;
+  pointer-events: none;
+}
+.btn-beam:hover::before,
+.btn-beam:focus-visible::before { opacity: 1; }
+
+/* Links: the underline redraws left to right on hover. */
+.link-draw {
+  text-decoration: none;
+  background-image: linear-gradient(var(--ul, #f97316), var(--ul, #f97316));
+  background-size: 100% 2px;
+  background-position: 0 calc(100% - 1px);
+  background-repeat: no-repeat;
+  padding-bottom: 2px;
+}
+.link-draw:hover,
+.link-draw:focus-visible { animation: link-draw 360ms cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes link-draw {
+  from { background-size: 0 2px; }
+  to { background-size: 100% 2px; }
+}
+
+/* Card hover (DESIGN.md §2): lift, glow border, inner highlight. */
+.glow-card { transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1), border-color 180ms ease, box-shadow 180ms ease; }
+.glow-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(249, 115, 22, 0.45);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 0 0 1px rgba(249, 115, 22, 0.12), 0 24px 48px -24px rgba(249, 115, 22, 0.35);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn-beam:hover::before,
+  .btn-beam:focus-visible::before { animation: beam-spin 1.6s linear infinite; }
+}
+@property --beam-from {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes beam-spin {
+  to { --beam-from: 360deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spine, .canvas-drift { animation: none; }
+  .btn-primary:active { transform: none; }
+  .link-draw:hover { animation: none; }
+  .glow-card:hover { transform: none; }
+}

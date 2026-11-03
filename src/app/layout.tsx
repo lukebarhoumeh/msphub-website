@@ -3,6 +3,8 @@ import { Suspense } from "react";
 import { bodyFont, headingFont, monoFont } from "./fonts";
 import { Analytics } from "@/components/analytics/analytics";
 import { ScrollProgress } from "@/components/ink/atmosphere";
+import { PageCanvas } from "@/components/ink/canvas";
+import { HeaderThemeObserver, Spine } from "@/components/ink/flow";
 import { RevealObserver } from "@/components/ink/motion";
 import { RouteDConversion } from "@/components/ink/route-d";
 import { Footer } from "@/components/layout/footer";
@@ -43,9 +45,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
+        <PageCanvas />
         <Header />
         <ScrollProgress />
-        <main id="main" className="flex-1">
+        <Spine />
+        <main id="main" className="relative flex-1">
           {children}
         </main>
         <RouteDConversion />
@@ -53,6 +57,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Footer />
         <JsonLd data={[organizationSchema(), webSiteSchema()]} />
         <RevealObserver />
+        <HeaderThemeObserver />
         {/* Own boundary: the loader reads the pathname, which partially prerendered routes resolve at request time. */}
         <Suspense fallback={null}>
           <Analytics />

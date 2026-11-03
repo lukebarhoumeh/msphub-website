@@ -1,4 +1,4 @@
-import { Aurora, DotField, Grain } from "@/components/ink/atmosphere";
+import { DotField } from "@/components/ink/atmosphere";
 import { Container, Section, type SectionTone } from "@/components/ui/section";
 import { Display, Eyebrow, Lead } from "@/components/ui/typography";
 import { cn } from "@/lib/cn";
@@ -17,27 +17,21 @@ type PageHeroProps = {
   tone?: SectionTone;
 };
 
-/** Interior hero: aurora and grain on ink, a soft haze and dot field on pearl, copy rising in sequence. */
+/** Interior hero: the canvas shows through on ink; a soft haze and dot field on pearl; copy rising in sequence. */
 export function PageHero({ eyebrow, title, lead, children, align = "left", below, aside, className, tone = "dark" }: PageHeroProps) {
   const center = align === "center";
   const light = tone === "light";
   return (
     <Section
       tone={tone}
-      className={cn("overflow-hidden pt-12 pb-12 sm:pt-16 lg:pt-20 lg:pb-16", className)}
+      className={cn("overflow-x-clip pt-12 pb-12 sm:pt-16 lg:pt-20 lg:pb-16", className)}
       decor={
         light ? (
           <>
             <div aria-hidden className="absolute -top-40 right-[-10%] h-[560px] w-[720px] rounded-full bg-[radial-gradient(circle,rgba(249,115,22,.16),transparent_60%)]" />
             <DotField tone="pearl" className="opacity-70" />
           </>
-        ) : (
-          <>
-            <Aurora intensity="soft" />
-            <DotField tone="ink" className="opacity-60" />
-            <Grain />
-          </>
-        )
+        ) : null
       }
     >
       <Container className={cn(center && "text-center", !!aside && "lg:grid lg:grid-cols-12 lg:items-center lg:gap-10")}>

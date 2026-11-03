@@ -25,8 +25,8 @@ export default function HomePage() {
   return (
     <>
       <InkHomeHero />
-      <CatalogTicker />
       <ProofRail />
+      <CatalogTicker />
       <OutcomeSequence />
       <EngineChapter />
       <AudienceChapter />
