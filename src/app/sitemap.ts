@@ -24,6 +24,7 @@ export const sitemapRoutes: SitemapRoute[] = [
   { path: "/services/professional", priority: 0.7, changeFrequency: "monthly" },
   { path: "/services/managed", priority: 0.7, changeFrequency: "monthly" },
   { path: "/services/development", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/for/businesses", priority: 0.8, changeFrequency: "monthly" },
   { path: "/licensing", priority: 0.9, changeFrequency: "monthly" },
   { path: "/licensing/switch", priority: 0.9, changeFrequency: "monthly" },
   { path: "/licensing/ea-to-csp", priority: 0.8, changeFrequency: "monthly" },

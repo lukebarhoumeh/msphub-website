@@ -7,7 +7,8 @@ import { Spotlight } from "@/components/ink/motion";
 import { capturedLabel, captures, truthLabel, type Capture, type CaptureId } from "@/content/evidence";
 import { cn } from "@/lib/cn";
 
-function CropImage({ capture, className, priority = false }: { capture: Capture; className?: string; priority?: boolean }) {
+/** A declared crop as a plain `<img>`; frames in `device-frame.tsx` and the bezel below wrap it. */
+export function CaptureImage({ capture, className, priority = false }: { capture: Capture; className?: string; priority?: boolean }) {
   return (
     // Real captures stay off the Next image optimizer so the crop is not recompressed.
     // eslint-disable-next-line @next/next/no-img-element
@@ -42,7 +43,7 @@ export function EvidenceBezel({ capture, tilt = false, beam = false, priority = 
         className="pointer-events-none absolute -inset-8 -z-10 bg-[radial-gradient(circle,rgba(249,115,22,.34),transparent_68%)]"
       />
       <Spotlight className="overflow-hidden rounded-[18px] border border-white/14 bg-[#12192b] p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_24px_64px_rgba(0,0,0,.28)]">
-        <CropImage capture={capture} priority={priority} />
+        <CaptureImage capture={capture} priority={priority} />
         {beam ? <BorderBeam duration={10} /> : null}
       </Spotlight>
     </div>

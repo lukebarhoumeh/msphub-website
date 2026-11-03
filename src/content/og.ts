@@ -66,6 +66,11 @@ export const ogCopy = {
     title: "Tier-1 direct pricing on Microsoft 365, Azure, and Copilot.",
     alt: "Request a Microsoft licensing quote from MSP Hub",
   },
+  businesses: {
+    eyebrow: "For businesses",
+    title: "Buy, see, and run your Microsoft licensing directly.",
+    alt: "MSP Hub for businesses: Microsoft licensing, HubX, and services from one team",
+  },
   licensing: {
     eyebrow: "Microsoft licensing · CSP direct-bill partner",
     title: "Microsoft licensing, bought direct.",
