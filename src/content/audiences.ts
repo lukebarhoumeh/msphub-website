@@ -14,11 +14,11 @@ export const audiences: Audience[] = [
     id: "msp",
     label: "MSPs & VARs",
     title: "Resell Microsoft at Tier-1 direct pricing without building a licensing desk.",
-    body: "Every customer tenant, order, renewal, invoice, and margin in one console, with MSP Hub's services bench behind you.",
+    body: "Every customer tenant, order, renewal, and invoice in one console, with MSP Hub's services bench behind you.",
     points: [
       "Tier-1 direct pricing on the full Microsoft catalog",
       "Partner-branded customer invoices with your own remittance details",
-      "Margin per customer on every invoice, and what changed since last period",
+      "Renewals, orders, and invoices per customer, with what changed since last period",
       "Partner-to-partner transfers run by MSP Hub's deal desk",
     ],
     cta: { label: "Schedule a HubX demo", href: "/demo" },

@@ -97,7 +97,7 @@ export const hubxHome = {
   proof: {
     eyebrow: hubxLockup,
     title: "The live product, not a mock-up.",
-    lead: "Every customer, subscription, license, invoice, and margin in one portal. These are real HubX screens with demo data.",
+    lead: "Every customer, subscription, license, and invoice in one portal. These are real HubX screens with demo data.",
     screens: ["homeOverview", "customers", "catalog", "quotations", "dashboards"],
     labels: ["Home", "Customers", "Catalog", "Quotations", "Dashboards"],
     links: [
@@ -107,8 +107,8 @@ export const hubxHome = {
   },
   spotlight: {
     eyebrow: "The Microsoft portal",
-    title: "See every license. Control every dollar.",
-    lead: "HubX puts procurement, visibility, and margin in one place, so IT, finance, and purchasing stop reconciling spreadsheets and start making data-driven decisions.",
+    title: "Consolidate licensing. See everything. Reduce waste.",
+    lead: "HubX puts procurement, visibility, and optimization in one place, so IT, finance, and purchasing stop reconciling spreadsheets and start making data-driven decisions.",
     body: "For MSPs and VARs, every customer tenant in one console at Tier-1 direct pricing. Your customers see your brand on invoices and get their own portal access.",
     primary: { label: "Schedule a demo", href: "/demo" },
     secondary: { label: "Explore HubX", href: "/hubx" },

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { HexGrid } from "@/components/ui/hex-grid";
 import { ArrowRight, Building2, Globe2, Layers, Users } from "lucide-react";
-import { HubXLockup, HubXPoweredBy } from "@/components/brand/hubx-logo";
+import { HubXPoweredBy } from "@/components/brand/hubx-logo";
 import { HomeHubxSpotlight, HomeProductProof } from "@/components/hubx/home-sections";
 import { AudienceTabs } from "@/components/marketing/audience-tabs";
 import { BrowserFrame } from "@/components/marketing/browser-frame";
@@ -20,8 +20,9 @@ import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container, Glow, Section } from "@/components/ui/section";
 import { Display, Eyebrow, Lead, SectionHeading } from "@/components/ui/typography";
 import { audiences } from "@/content/audiences";
-import { branches, serviceBranches } from "@/content/branches";
+import { branches } from "@/content/branches";
 import { enrolledSolutionAreas } from "@/content/credentials";
+import { hubxLockup } from "@/content/hubx";
 import { vendors } from "@/content/ecosystem";
 import { screens } from "@/content/screens";
 import { site } from "@/content/site";
@@ -57,7 +58,6 @@ const whyItems = [
 ];
 
 export default function HomePage() {
-  const hubx = branches[0];
   return (
     <>
       {/* Hero */}
@@ -124,8 +124,8 @@ export default function HomePage() {
         <Container>
           <SectionHeading
             eyebrow="Who we serve"
-            title="Three audiences, one partner."
-            lead="MSPs and VARs reselling Microsoft, businesses buying direct, direct-bill CSPs running HubX on their own tenant, and the advisors who bring them in."
+            title="Four audiences, one partner."
+            lead="MSPs and VARs reselling Microsoft, businesses buying direct, direct-bill CSPs running HubX on their own tenant, and the advisors and agents who bring them in."
           />
           <AudienceTabs audiences={audiences} />
         </Container>
@@ -140,48 +140,37 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="What we do"
             title="Four branches. One partner."
-            lead="Engage a single practice or hand over the full stack. The same team designs it, migrates it, and runs it, with HubX as the front door to your Microsoft estate."
+            lead="HubX, professional services, managed services, and development as a service, side by side under MSP Hub. Engage a single branch or hand over the full stack: the same team designs it, migrates it, runs it, and builds on it."
           />
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <GlassCard className="grid gap-7 overflow-hidden p-8 md:col-span-2 lg:grid-cols-[1.1fr_.9fr] lg:items-center lg:p-9">
-              <div>
-                <span className="inline-flex h-7.5 items-center rounded-full border border-brand-orange/30 bg-brand-orange/12 px-3 text-xs font-semibold tracking-[0.06em] text-brand-orange uppercase">
-                  Flagship · the Microsoft portal
-                </span>
-                <HubXLockup logoClassName="h-10 w-auto" className="mt-5 mb-4" />
-                <h3 className="text-2xl font-semibold tracking-tight text-white">{hubx.short}</h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-white/70">{hubx.description}</p>
-                <TextLink href={hubx.href} className="mt-5">
-                  {hubx.linkLabel}
-                </TextLink>
-              </div>
-              <div className="hidden lg:block">
-                <BrowserFrame screen={screens.dashboardsDark} caption={false} sizes="400px" />
-              </div>
-            </GlassCard>
-
-            {serviceBranches.map((b) => (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {branches.map((b) => (
               <FeatureCard
                 key={b.slug}
                 icon={b.icon}
                 title={b.name}
                 footer={<TextLink href={b.href}>{b.linkLabel}</TextLink>}
               >
-                {b.description}
+                {b.slug === "hubx" ? (
+                  <span className="mb-3 inline-flex h-7 items-center rounded-full border border-brand-orange/30 bg-brand-orange/12 px-2.5 font-mono text-[10.5px] font-semibold tracking-[0.08em] text-brand-orange uppercase">
+                    Flagship platform
+                  </span>
+                ) : null}
+                <span className="block">{b.description}</span>
+                {b.slug === "hubx" ? <span className="mt-2 block text-sm text-white/60">{hubxLockup}</span> : null}
               </FeatureCard>
             ))}
 
-            <GlassCard className="flex flex-col justify-between border-brand-orange/30 bg-[linear-gradient(160deg,rgba(249,115,22,.16),rgba(249,115,22,.04))]">
+            <GlassCard className="flex flex-col justify-between gap-6 border-brand-orange/30 bg-[linear-gradient(160deg,rgba(249,115,22,.16),rgba(249,115,22,.04))] md:col-span-2 lg:col-span-4 lg:flex-row lg:items-center">
               <div>
                 <Eyebrow>Not sure where to start?</Eyebrow>
                 <h3 className="mt-3.5 font-display text-[1.625rem] leading-tight tracking-[-0.01em] text-white">
                   Book a 30-minute scoping call.
                 </h3>
-                <p className="mt-2.5 text-[15px] text-white/70">
+                <p className="mt-2.5 max-w-[70ch] text-[15px] text-white/70">
                   One practice or the whole stack. We map your estate and show exactly where MSP Hub fits. No obligation.
                 </p>
               </div>
-              <ButtonLink href="/contact" className="mt-6 self-start">
+              <ButtonLink href="/contact" className="shrink-0 self-start lg:self-auto">
                 Book a call
               </ButtonLink>
             </GlassCard>

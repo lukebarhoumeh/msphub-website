@@ -14,6 +14,8 @@ type FeatureGridProps = {
   compact?: boolean;
   /** Render the tiles as section anchors (on the module page) instead of links to it. */
   anchors?: boolean;
+  /** "all" hides partner-economics tiles (margin, forecast, partner invoicing) for mixed-audience pages. */
+  audience?: "partner" | "all";
   className?: string;
 };
 
@@ -24,11 +26,12 @@ const columnClasses = {
 } as const;
 
 /** The twelve "cool things" (handoff §6.3) as tiles with Lucide icons, each linking to its module page. */
-export function FeatureGrid({ features = hubxFeatures, tone = "dark", columns = 3, compact = false, anchors = false, className }: FeatureGridProps) {
+export function FeatureGrid({ features = hubxFeatures, tone = "dark", columns = 3, compact = false, anchors = false, audience, className }: FeatureGridProps) {
   const dark = tone === "dark";
+  const visible = audience === "all" ? features.filter((f) => f.audience !== "partner") : features;
   return (
     <ul className={cn("grid gap-4", columnClasses[columns], className)}>
-      {features.map((f) => {
+      {visible.map((f, index) => {
         const mod = getModule(f.module);
         const surface = cn(
           "group relative flex h-full flex-col transition-[border-color,transform] duration-200",
@@ -40,7 +43,7 @@ export function FeatureGrid({ features = hubxFeatures, tone = "dark", columns = 
             <div className="flex items-start justify-between gap-3">
               <IconTile icon={f.icon} />
               <span className={cn("font-mono text-xs tracking-[0.08em]", dark ? "text-white/60" : "text-charcoal/80")}>
-                {String(f.rank).padStart(2, "0")}
+                {String(audience === "all" ? index + 1 : f.rank).padStart(2, "0")}
               </span>
             </div>
             <h3 className={cn("mt-4 font-semibold tracking-tight", compact ? "text-[15px]" : "text-lg", dark ? "text-white" : "text-charcoal")}>

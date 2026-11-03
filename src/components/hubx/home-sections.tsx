@@ -60,7 +60,7 @@ export function HomeHubxSpotlight() {
               </div>
             </div>
           </div>
-          <FeatureGrid compact columns={4} className="mt-10" />
+          <FeatureGrid compact columns={3} audience="all" className="mt-10" />
         </div>
       </Container>
     </Section>

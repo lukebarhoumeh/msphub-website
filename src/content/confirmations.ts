@@ -13,20 +13,10 @@ export type Confirmation = {
 };
 
 export const confirmations = {
-  licensesNumber: {
-    kind: "decision",
-    label: "Licenses managed",
-    detail: "500K+ (Aug 2026 materials) vs 600K+ (previous site). One number everywhere.",
-  },
   servicesHeadcount: {
     kind: "confirm",
     label: "Services headcount",
     detail: "“100+ staff on the services team” is unverified; hidden in production until confirmed.",
-  },
-  companiesNumber: {
-    kind: "decision",
-    label: "Companies served",
-    detail: "478+ is the current figure; lock it.",
   },
   isoEntity: {
     kind: "confirm",

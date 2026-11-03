@@ -12,7 +12,7 @@ import type { ConfirmId } from "@/content/confirmations";
 import { activeCredentials, enrolledSolutionAreas } from "@/content/credentials";
 import type { EcosystemEntry } from "@/content/ecosystem";
 import { site, testimonials } from "@/content/site";
-import { stats } from "@/content/stats";
+import { getStat, stats } from "@/content/stats";
 import { cn } from "@/lib/cn";
 
 type KpiTileProps = {
@@ -116,11 +116,13 @@ export function Timeline({ items, className, columns = 4 }: { items: TimelineIte
 
 /** Trust strip per the handoff §5.1: heritage, status, locked stats, and active credentials. */
 export function TrustStrip({ className }: { className?: string }) {
+  const companies = getStat("companies");
+  const licenses = getStat("licenses");
   const items: { label: string; confirm?: ConfirmId }[] = [
     { label: `Since ${site.founded}` },
     { label: "Microsoft CSP direct-bill partner" },
-    { label: "478+ companies served", confirm: "companiesNumber" },
-    { label: "500K+ Microsoft licenses managed", confirm: "licensesNumber" },
+    { label: `${companies.value}${companies.suffix ?? ""} companies served`, confirm: companies.confirm },
+    { label: `${licenses.value}${licenses.suffix ?? ""} Microsoft licenses managed`, confirm: licenses.confirm },
   ];
   return (
     <div className={cn("glass glass-soft grid gap-6 px-7 py-6 lg:grid-cols-[1.3fr_1fr] lg:items-start [&>*]:min-w-0", className)}>

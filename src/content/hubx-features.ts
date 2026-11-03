@@ -25,6 +25,8 @@ export type HubxFeature = {
   rank: number;
   id: string;
   title: string;
+  /** "partner" tiles carry partner economics and stay off mixed-audience pages such as the home page. */
+  audience?: "partner" | "all";
   body: string;
   icon: LucideIcon;
   module: ModuleSlug;
@@ -36,6 +38,7 @@ export const hubxFeatures: readonly HubxFeature[] = [
   {
     rank: 1,
     id: "margin-on-every-invoice",
+    audience: "partner",
     title: "Margin on every invoice",
     body: "Partner cost, customer price, and gross margin per customer on the invoice statement itself, with what changed since last period.",
     icon: Receipt,
@@ -44,6 +47,7 @@ export const hubxFeatures: readonly HubxFeature[] = [
   {
     rank: 2,
     id: "forecast-you-choose",
+    audience: "partner",
     title: "Forecast you choose the basis of",
     body: "Contracted run-rate or trailing twelve-month growth, for the next 3, 6, or 12 months. Revenue and gross margin.",
     icon: TrendingUp,
@@ -89,6 +93,7 @@ export const hubxFeatures: readonly HubxFeature[] = [
   {
     rank: 7,
     id: "partner-branded-invoicing",
+    audience: "partner",
     title: "Partner-branded customer invoicing",
     body: "HubX generates your customers' invoices with your own wire, ACH, or check details per billing book.",
     icon: Banknote,

@@ -65,8 +65,8 @@ export const screens = {
     image: s04,
     theme: "light",
     short: "Customers",
-    alt: "HubX customer list with revenue, margin and forecast insights",
-    caption: "Customers: revenue, margin, and forecast insights with GDAP and transfer tabs",
+    alt: "HubX customer list with revenue and forecast insights",
+    caption: "Customers: revenue and forecast insights with GDAP and transfer tabs",
     path: "/customers",
   },
   customerProducts: {
@@ -119,8 +119,8 @@ export const screens = {
     image: s10,
     theme: "light",
     short: "Dashboards",
-    alt: "HubX custom dashboard with revenue, margin and license charts",
-    caption: "Dashboards: revenue, margin, subscriptions, and license charts",
+    alt: "HubX custom dashboard with revenue and license charts",
+    caption: "Dashboards: revenue, subscriptions, and license charts",
     path: "/dashboards",
   },
   hubai: {
