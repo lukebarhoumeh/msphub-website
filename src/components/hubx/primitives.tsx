@@ -5,22 +5,15 @@ import { cn } from "@/lib/cn";
 
 export type HubxTone = "dark" | "light";
 
-/** Check-bullet list that follows the section tone (CheckList in blocks is dark-only). */
+/** Orange-dot bullet list that follows the section tone (the home page's scope lists). */
 export function PointList({ items, tone = "dark", className, dense = false }: { items: readonly string[]; tone?: HubxTone; className?: string; dense?: boolean }) {
   const dark = tone === "dark";
   return (
     <ul className={cn("grid", dense ? "gap-2" : "gap-2.5", className)}>
       {items.map((item) => (
-        <li key={item} className={cn("flex items-start gap-3", dense ? "text-sm" : "text-[15px]", dark ? "text-white/75" : "text-charcoal/85")}>
-          <span
-            aria-hidden
-            className="mt-[3px] grid size-[18px] shrink-0 place-items-center rounded-full border border-brand-orange/45 bg-brand-orange/15"
-          >
-            <svg viewBox="0 0 24 24" className="size-2.5 text-brand-orange" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 13l4 4L19 7" />
-            </svg>
-          </span>
-          {item}
+        <li key={item} className={cn("flex items-start gap-3 leading-snug", dense ? "text-[14.5px]" : "text-[15px] lg:text-[16px]", dark ? "text-white" : "text-[#0b1020]")}>
+          <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-[#f97316]" />
+          <span>{item}</span>
         </li>
       ))}
     </ul>

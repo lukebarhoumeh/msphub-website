@@ -1,15 +1,15 @@
-import { HubXPoweredBy } from "@/components/brand/hubx-logo";
 import { LeadForm } from "@/components/forms/lead-form";
+import { ChipRow, DotList, Panel, StatRail, inkTone, monoLabel } from "@/components/ink/interior";
 import { InvoiceUpload } from "@/components/licensing/invoice-upload";
-import { CheckList, TrustStrip } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
-import { Chip, GlassCard } from "@/components/ui/card";
 import { NeedsConfirm } from "@/components/ui/needs-confirm";
-import { Container, Section } from "@/components/ui/section";
-import { Display, Eyebrow, Lead } from "@/components/ui/typography";
+import { Container } from "@/components/ui/section";
 import { licenseOptions } from "@/content/forms";
+import { homeProof } from "@/content/home";
+import { hubxLockup } from "@/content/hubx";
 import { quotePage } from "@/content/licensing";
 import { pageMetadata } from "@/lib/metadata";
+import { cn } from "@/lib/cn";
 
 export const metadata = pageMetadata({
   title: "Licensing quote — Tier-1 direct pricing on Microsoft 365, Azure, and Copilot",
@@ -23,57 +23,47 @@ export default function QuotePage() {
   return (
     <>
       <PageHero eyebrow={quotePage.eyebrow} title={quotePage.title} lead={quotePage.lead}>
-        <div className="flex flex-wrap gap-2">
-          {licenseOptions.map((sku) => (
-            <Chip key={sku} mono>
-              {sku}
-            </Chip>
-          ))}
-        </div>
+        <ChipRow tone="ink" mono items={licenseOptions} label="Licensing families" />
       </PageHero>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
+      <section data-surface="ink" className="bg-[#0b1020] pb-[clamp(64px,7vw,104px)] text-white">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-14">
-            <div className="space-y-6">
-              <GlassCard>
-                <Eyebrow>Why buy through MSP Hub</Eyebrow>
-                <CheckList className="mt-4" items={quotePage.why} />
-                <p className="mt-5">
-                  <HubXPoweredBy logoClassName="h-5 w-auto" />
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:gap-16">
+            <div>
+              <div className="border-t border-white/15 pt-5">
+                <p className={cn(monoLabel, inkTone.ink.faint)}>Why buy through MSP Hub</p>
+                <DotList tone="ink" className="mt-4" items={quotePage.why} />
+                <p className={cn(monoLabel, "mt-6", inkTone.ink.muted)}>{hubxLockup}</p>
+              </div>
+              <div className="mt-8 border-t border-white/15 pt-5">
+                <p className={cn(monoLabel, inkTone.ink.faint)}>Already buying Microsoft?</p>
+                <p className={cn("mt-3 max-w-[46ch] text-[16px] leading-[1.6]", inkTone.ink.muted)}>
+                  Attach your current invoice and the deal desk returns a line-by-line comparison and a transfer plan. Existing subscriptions move by
+                  partner-to-partner transfer; nothing is re-bought.
                 </p>
-              </GlassCard>
-              <GlassCard>
-                <Eyebrow>Already buying Microsoft?</Eyebrow>
-                <p className="mt-3 text-[15px] leading-relaxed text-white/70">
-                  Attach your current invoice and the deal desk returns a line-by-line comparison and a transfer plan. Existing subscriptions
-                  move by partner-to-partner transfer; nothing is re-bought.
-                </p>
-              </GlassCard>
-              <p className="text-sm text-white/70">
+              </div>
+              <p className={cn("mt-8 text-sm", inkTone.ink.muted)}>
                 <NeedsConfirm id="quoteResponse" fallback="The licensing desk replies during business hours.">
                   Response within one business day.
                 </NeedsConfirm>
               </p>
             </div>
-            <div className="glass glass-lg p-7 sm:p-10">
-              <Display size="md" className="mb-2">
-                Request a quote
-              </Display>
-              <Lead className="mb-7 text-base">Approximate numbers are fine; we refine them with you.</Lead>
+            <Panel tone="ink" className="sm:p-10">
+              <h2 className="font-display text-[30px] leading-[1.1] font-bold tracking-[-0.02em]">Request a quote</h2>
+              <p className={cn("mt-3 mb-7 text-[16px] leading-[1.6]", inkTone.ink.muted)}>Approximate numbers are fine; we refine them with you.</p>
               <LeadForm kind="quote">
                 <InvoiceUpload kind="quote" />
               </LeadForm>
-            </div>
+            </Panel>
           </div>
         </Container>
-      </Section>
+      </section>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
+      <section aria-label="Company proof" data-surface="pearl" className="bg-[#f4f6fb] py-[clamp(48px,5vw,72px)] text-[#0b1020]">
         <Container>
-          <TrustStrip />
+          <StatRail tone="pearl" items={homeProof} />
         </Container>
-      </Section>
+      </section>
     </>
   );
 }

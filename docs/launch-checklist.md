@@ -2,6 +2,8 @@
 
 Status after Phase 6 (Nov 2, 2026): the full site is on `main` and live at https://msphub-website.vercel.app (noindex until cutover). Build, lint, and typecheck are green; all 38 sitemap routes return 200 with title, description, canonical, Open Graph image, and JSON-LD; every legacy URL redirects (308) or answers 410; axe-core reports zero violations on every route at 1440 and 390; Lighthouse mobile on production: `/` 95 · `/hubx` 100 · `/licensing/switch` 99 performance, 100 accessibility, 100 best practices (SEO 69 only because of the intentional pre-launch noindex; 100 on a launch-state build). Production shows zero review chips; every `NeedsConfirm` has a production-safe fallback (enforced by TypeScript).
 
+Update (Nov 3, 2026, PR #13): partners, licensing, HubX capability grids, and About now share the Ink & Glass interior system (`src/components/ink/interior.tsx`: chapters, rule lists, fact rows, stat rail, text-chip rows, rule accordion, next-step band). Real HubX screens on those pages are the declared crops from `content/evidence.ts`; the browser-frame carousel captures are no longer used there. Lighthouse mobile, local production build (`next build` + `next start`, Lighthouse 13.6): `/`, `/hubx`, `/licensing`, `/licensing/switch`, `/partners`, `/about`, `/hubx/features/customers` all 100 performance, 100 accessibility, 100 best practices, SEO 69 (pre-launch noindex; 100 on a launch-state build); LCP 0.9 s, CLS 0 on every route. Re-measure on the Vercel deployment after merge; local numbers run faster than production.
+
 ## A. Luke must supply
 
 ### Environment variables (set in Vercel → Project → Settings → Environment Variables; none are set today, every integration runs in its honest fallback)

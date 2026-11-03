@@ -1,12 +1,11 @@
 import { Suspense } from "react";
 import { LeadForm } from "@/components/forms/lead-form";
-import { CheckList } from "@/components/marketing/blocks";
+import { DotList, Panel, RuleList, inkTone, monoLabel } from "@/components/ink/interior";
 import { PageHero } from "@/components/marketing/page-hero";
-import { GlassCard } from "@/components/ui/card";
-import { Container, Section } from "@/components/ui/section";
-import { Display, Eyebrow, Lead } from "@/components/ui/typography";
+import { Container } from "@/components/ui/section";
 import { applyPage, partnerEnablement, programIds, type PartnerProgramId } from "@/content/partners";
 import { pageMetadata } from "@/lib/metadata";
+import { cn } from "@/lib/cn";
 
 export const metadata = pageMetadata({
   title: "Apply to partner with MSP Hub",
@@ -27,45 +26,31 @@ export default function PartnerApplyPage({ searchParams }: PageProps<"/partners/
     <>
       <PageHero eyebrow={applyPage.eyebrow} title={applyPage.title} lead={applyPage.lead} />
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
+      <section data-surface="ink" className="bg-[#0b1020] pb-[clamp(64px,7vw,104px)] text-white">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-14">
-            <div className="space-y-6">
-              <div>
-                <Eyebrow>What happens next</Eyebrow>
-                <Display className="mt-3.5" size="md">
-                  Apply, onboard, transact.
-                </Display>
-                <Lead className="mt-3 text-base">The same path for every program. Deal registration is a form to the partner team.</Lead>
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:gap-16">
+            <div>
+              <p className={cn(monoLabel, inkTone.ink.muted)}>What happens next</p>
+              <h2 className="mt-4 font-display text-[30px] leading-[1.1] font-bold tracking-[-0.02em] lg:text-[40px]">Apply, onboard, transact.</h2>
+              <p className={cn("mt-4 max-w-[46ch] text-[17px] leading-[1.6]", inkTone.ink.muted)}>
+                The same path for every program. Deal registration is a form to the partner team.
+              </p>
+              <RuleList tone="ink" numbered columns={1} titleSize="md" className="mt-8 gap-y-6" items={applyPage.nextSteps} />
+              <div className="mt-10 border-t border-white/15 pt-5">
+                <p className={cn(monoLabel, inkTone.ink.faint)}>Enablement</p>
+                <DotList tone="ink" className="mt-4" items={partnerEnablement} />
               </div>
-              <ol className="grid gap-3">
-                {applyPage.nextSteps.map((step, i) => (
-                  <li key={step.title} className="glass flex gap-4 p-5">
-                    <span className="font-display text-[2rem] leading-none text-brand-orange">{i + 1}</span>
-                    <div>
-                      <h3 className="font-semibold text-white">{step.title}</h3>
-                      <p className="mt-1 text-[14.5px] leading-relaxed text-white/70">{step.body}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-              <GlassCard>
-                <p className="font-mono text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">Enablement</p>
-                <CheckList items={partnerEnablement} className="mt-4" />
-              </GlassCard>
             </div>
-            <div className="glass glass-lg p-7 sm:p-10">
-              <Display size="md" className="mb-2">
-                Partner application
-              </Display>
-              <Lead className="mb-7 text-base">Pick the program, tell us about your customers, and we take it from there.</Lead>
+            <Panel tone="ink" className="sm:p-10">
+              <h2 className="font-display text-[30px] leading-[1.1] font-bold tracking-[-0.02em]">Partner application</h2>
+              <p className={cn("mt-3 mb-7 text-[16px] leading-[1.6]", inkTone.ink.muted)}>Pick the program, tell us about your customers, and we take it from there.</p>
               <Suspense fallback={<LeadForm kind="partner" />}>
                 <ApplyForm searchParams={searchParams} />
               </Suspense>
-            </div>
+            </Panel>
           </div>
         </Container>
-      </Section>
+      </section>
     </>
   );
 }

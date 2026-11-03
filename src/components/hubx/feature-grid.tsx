@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import type { HubxTone } from "@/components/hubx/primitives";
-import { IconTile } from "@/components/ui/card";
+import { inkTone, itemTitle, monoLabel } from "@/components/ink/interior";
 import { featureHref, hubxFeatures, type HubxFeature } from "@/content/hubx-features";
 import { getModule } from "@/content/hubx-modules";
 import { cn } from "@/lib/cn";
@@ -25,45 +24,38 @@ const columnClasses = {
   4: "sm:grid-cols-2 lg:grid-cols-4",
 } as const;
 
-/** The twelve "cool things" (handoff §6.3) as tiles with Lucide icons, each linking to its module page. */
+/**
+ * The twelve capabilities (handoff §6.3) as rule-separated tiles in the Ink &
+ * Glass voice: mono rank, display title, one line of body, and the module the
+ * capability lives in. Each tile links to its module page.
+ */
 export function FeatureGrid({ features = hubxFeatures, tone = "dark", columns = 3, compact = false, anchors = false, audience, className }: FeatureGridProps) {
-  const dark = tone === "dark";
+  const t = inkTone[tone === "dark" ? "ink" : "pearl"];
   const visible = audience === "all" ? features.filter((f) => f.audience !== "partner") : features;
   return (
-    <ul className={cn("grid gap-4", columnClasses[columns], className)}>
+    <ul className={cn("grid gap-x-8", compact ? "gap-y-8" : "gap-y-10", columnClasses[columns], className)}>
       {visible.map((f, index) => {
         const mod = getModule(f.module);
-        const surface = cn(
-          "group relative flex h-full flex-col transition-[border-color,transform] duration-200",
-          dark ? "glass hover:border-white/25" : "card-light hover:border-black/20",
-          compact ? "p-5" : "p-6 sm:p-7",
-        );
+        const rank = String(audience === "all" ? index + 1 : f.rank).padStart(2, "0");
+        const moduleName = mod ? (mod.short === "Admin" ? "Security" : mod.name) : null;
         const body = (
           <>
-            <div className="flex items-start justify-between gap-3">
-              <IconTile icon={f.icon} />
-              <span className={cn("font-mono text-xs tracking-[0.08em]", dark ? "text-white/60" : "text-charcoal/80")}>
-                {String(audience === "all" ? index + 1 : f.rank).padStart(2, "0")}
-              </span>
-            </div>
-            <h3 className={cn("mt-4 font-semibold tracking-tight", compact ? "text-[15px]" : "text-lg", dark ? "text-white" : "text-charcoal")}>
+            <p className={cn(monoLabel, "flex items-center justify-between gap-3", t.faint)}>
+              <span>{rank}</span>
+              {moduleName ? <span className="truncate text-right normal-case tracking-[0.04em]">{moduleName}</span> : null}
+            </p>
+            <h3 className={cn("mt-3", compact ? "font-display text-xl font-bold tracking-[-0.01em]" : itemTitle, !anchors && "underline decoration-2 underline-offset-[5px]", !anchors && t.underline)}>
               {f.title}
             </h3>
-            <p className={cn("mt-1.5 leading-relaxed", compact ? "text-sm" : "text-[15px]", dark ? "text-white/70" : "text-charcoal/80")}>{f.body}</p>
-            {!anchors && mod ? (
-              <span className={cn("mt-auto flex items-center gap-1.5 pt-4 text-xs font-semibold", dark ? "text-white/70 group-hover:text-white" : "text-charcoal/80 group-hover:text-charcoal")}>
-                {mod.short === "Admin" ? "Security" : mod.name}
-                <ArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-px group-hover:-translate-y-px" aria-hidden />
-              </span>
-            ) : null}
+            <p className={cn("mt-3 max-w-[40ch] leading-[1.6]", compact ? "text-[15px]" : "text-[16px]", t.muted)}>{f.body}</p>
           </>
         );
         return (
-          <li key={f.id} id={anchors ? f.id : undefined} className={cn(anchors && "scroll-mt-28")}>
+          <li key={f.id} id={anchors ? f.id : undefined} className={cn("border-t pt-5", t.rule, anchors && "scroll-mt-28")}>
             {anchors ? (
-              <article className={surface}>{body}</article>
+              <article>{body}</article>
             ) : (
-              <Link href={featureHref(f)} className={cn(surface, "rounded-[var(--radius-card)] focus-visible:outline-offset-4")}>
+              <Link href={featureHref(f)} className="block focus-visible:outline-offset-4">
                 {body}
               </Link>
             )}

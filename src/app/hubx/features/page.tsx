@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Breadcrumbs } from "@/components/hubx/breadcrumbs";
-import { CtaBand } from "@/components/marketing/blocks";
+import { NextStep } from "@/components/ink/interior";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
 import { Container, Section } from "@/components/ui/section";
@@ -38,7 +38,7 @@ export default function HubxFeaturesPage() {
         </ButtonLink>
       </PageHero>
 
-      <Section tight className="pt-0 sm:pt-0">
+      <section className="bg-[#0b1020] pb-10 text-white">
         <Container>
           <Breadcrumbs
             items={[
@@ -47,7 +47,7 @@ export default function HubxFeaturesPage() {
             ]}
           />
         </Container>
-      </Section>
+      </section>
 
       <Section tone="light">
         <Container>
@@ -76,15 +76,14 @@ export default function HubxFeaturesPage() {
         </Container>
       </Section>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <CtaBand
-          eyebrow={cta.eyebrow}
-          title={cta.title}
-          lead={cta.lead}
-          primary={{ label: "Schedule a demo", href: "/demo" }}
-          secondary={[{ label: "HubX security", href: "/hubx/security" }]}
-        />
-      </Section>
+      <NextStep
+        tone="ink"
+        eyebrow={cta.eyebrow}
+        title={cta.title}
+        lead={cta.lead}
+        primary={{ label: "Schedule a demo", href: "/demo" }}
+        secondary={[{ label: "HubX security", href: "/hubx/security" }]}
+      />
     </>
   );
 }

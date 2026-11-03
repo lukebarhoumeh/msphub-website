@@ -1,16 +1,11 @@
 import { ArrowRight } from "lucide-react";
-import { CheckList, CtaBand, Steps } from "@/components/marketing/blocks";
+import { Chapter, DotList, NextStep, RuleList, inkTone, monoLabel } from "@/components/ink/interior";
 import { FaqSection } from "@/components/marketing/faq-section";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
-import { FeatureCard, GlassCard } from "@/components/ui/card";
 import { NeedsConfirm } from "@/components/ui/needs-confirm";
-import { Container, Glow, Section } from "@/components/ui/section";
-import { SectionHeading } from "@/components/ui/typography";
 import { partnerEnablement, partnerPrograms, type ProgramDetail } from "@/content/partners";
-
-/** Literal class names so Tailwind's scanner emits every stagger step. */
-const stagger = ["stagger-1", "stagger-2", "stagger-3", "stagger-4", "stagger-5"];
+import { cn } from "@/lib/cn";
 
 /** Shared layout for the three partner program pages; all copy comes from `content/partners.ts`. */
 export function ProgramPage({ program }: { program: ProgramDetail }) {
@@ -27,88 +22,54 @@ export function ProgramPage({ program }: { program: ProgramDetail }) {
         </ButtonLink>
       </PageHero>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0" decor={<Glow tone="navy" className="top-0 right-[-300px] h-[700px] w-[900px]" />}>
-        <Container>
-          <SectionHeading eyebrow="Who it's for" title="Built for the way you already sell." />
-          <div className="grid gap-4 md:grid-cols-3">
-            {program.forWhom.map((f, i) => (
-              <GlassCard key={f.title} className={`motion-safe:animate-fade-up ${stagger[i]}`}>
-                <h3 className="text-lg font-semibold tracking-tight text-white">{f.title}</h3>
-                <p className="mt-2.5 text-[15px] leading-relaxed text-white/70">{f.body}</p>
-              </GlassCard>
-            ))}
-          </div>
-        </Container>
-      </Section>
+      <Chapter tone="ink" pad="flush-top" size="md" title="Built for the way you already sell.">
+        <RuleList tone="ink" columns={3} titleSize="md" items={program.forWhom} />
+      </Chapter>
 
-      <Section tone="light">
-        <Container>
-          <SectionHeading tone="light" eyebrow="What's included" title="What the program gives you." />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {program.includes.map((item) => (
-              <FeatureCard key={item.title} title={item.title} tone="light">
-                {item.body}
-              </FeatureCard>
-            ))}
-          </div>
-          <GlassCard tone="light" className="mt-6 p-6">
-            <p className="font-mono text-xs font-semibold tracking-[0.12em] text-charcoal uppercase">Commercial terms</p>
-            <p className="mt-2 text-[15px] leading-relaxed text-charcoal/85">
-              {program.economics.confirm ? (
-                <NeedsConfirm id={program.economics.confirm} fallback={program.economics.body} />
-              ) : (
-                program.economics.body
-              )}
-            </p>
-          </GlassCard>
-        </Container>
-      </Section>
+      <Chapter tone="pearl" title="What the program gives you.">
+        <RuleList tone="pearl" columns={3} titleSize="md" items={program.includes} />
+        <div className="mt-12 grid gap-4 border-t border-[#0b1020]/15 pt-6 lg:grid-cols-[180px_minmax(0,1fr)]">
+          <p className={cn(monoLabel, inkTone.pearl.faint)}>Commercial terms</p>
+          <p className={cn("max-w-[64ch] text-[16px] leading-[1.6]", inkTone.pearl.muted)}>
+            {program.economics.confirm ? <NeedsConfirm id={program.economics.confirm} fallback={program.economics.body} /> : program.economics.body}
+          </p>
+        </div>
+      </Chapter>
 
-      <Section>
-        <Container>
-          <SectionHeading eyebrow="How it works" title="From application to the first billing run." />
-          <Steps steps={program.steps} className={program.steps.length === 4 ? "md:grid-cols-2 lg:grid-cols-4" : undefined} />
-          <GlassCard className="mt-4">
-            <p className="font-mono text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">Enablement</p>
-            <CheckList items={partnerEnablement} className="mt-4 sm:grid-cols-2" />
-          </GlassCard>
-        </Container>
-      </Section>
+      <Chapter tone="ink" title="From application to the first billing run.">
+        <RuleList tone="ink" numbered columns={program.steps.length === 4 ? 4 : 3} titleSize="md" items={program.steps} />
+        <div className="mt-12 grid gap-6 border-t border-white/15 pt-6 lg:grid-cols-[180px_minmax(0,1fr)]">
+          <p className={cn(monoLabel, inkTone.ink.faint)}>Enablement</p>
+          <DotList tone="ink" columns={2} items={partnerEnablement} />
+        </div>
+      </Chapter>
 
-      <Section tone="light">
-        <Container>
-          <SectionHeading tone="light" eyebrow="Questions" title="Program questions, answered." align="center" />
-          <FaqSection items={program.faq} tone="light" />
-        </Container>
-      </Section>
+      <Chapter tone="pearl" size="md" title="Program questions, answered.">
+        <FaqSection items={program.faq} tone="light" variant="rule" className="max-w-[860px]" />
+      </Chapter>
 
-      <Section>
-        <Container>
-          <SectionHeading eyebrow="Other programs" title="Not the right fit? Two more ways to partner." />
-          <div className="grid gap-4 md:grid-cols-2">
-            {others.map((p) => (
-              <GlassCard key={p.id} className="flex flex-col">
-                <p className="font-mono text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">{p.who}</p>
-                <h3 className="mt-3 font-display text-[1.5rem] leading-tight tracking-[-0.01em] text-white">{p.name}</h3>
-                <CheckList items={p.gets.slice(0, 3)} className="mt-4 flex-1" />
-                <ButtonLink href={p.href} variant="glass" size="sm" className="mt-6 self-start">
-                  {p.name}
-                  <ArrowRight className="size-4" aria-hidden />
-                </ButtonLink>
-              </GlassCard>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <CtaBand
-          title="Apply to partner with MSP Hub."
-          lead="Tell us about your business and your customers. The partner team replies with next steps and a call."
-          primary={{ label: program.cta.label, href: program.cta.href }}
-          secondary={[{ label: "Schedule a HubX demo", href: "/demo" }]}
+      <Chapter tone="pearl" pad="tight" size="md" title="Two more ways to partner.">
+        <RuleList
+          tone="pearl"
+          columns={2}
+          titleSize="md"
+          items={others.map((p) => ({
+            id: `program-${p.id}`,
+            label: p.who,
+            title: p.name,
+            children: <DotList tone="pearl" items={p.gets.slice(0, 3)} />,
+            link: { label: p.name, href: p.href },
+          }))}
         />
-      </Section>
+      </Chapter>
+
+      <NextStep
+        tone="ink"
+        title="Apply to partner with MSP Hub."
+        lead="Tell us about your business and your customers. The partner team replies with next steps and a call."
+        primary={{ label: program.cta.label, href: program.cta.href }}
+        secondary={[{ label: "Schedule a HubX demo", href: "/demo" }]}
+      />
     </>
   );
 }

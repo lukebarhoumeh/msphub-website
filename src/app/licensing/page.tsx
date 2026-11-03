@@ -1,13 +1,13 @@
 import { ArrowRight, ExternalLink } from "lucide-react";
-import { BrowserFrame } from "@/components/marketing/browser-frame";
-import { CtaBand, TextLink, TrustStrip } from "@/components/marketing/blocks";
+import { EvidenceFigure } from "@/components/ink/evidence";
+import { Chapter, ChipRow, FactRows, InkLink, NextStep, RuleList, StatRail, inkTone, itemTitle, monoLabel } from "@/components/ink/interior";
 import { FaqSection } from "@/components/marketing/faq-section";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
-import { Chip, GlassCard } from "@/components/ui/card";
 import { NeedsConfirm } from "@/components/ui/needs-confirm";
-import { Container, Glow, Section } from "@/components/ui/section";
-import { Display, Eyebrow, Lead, SectionHeading } from "@/components/ui/typography";
+import { Container } from "@/components/ui/section";
+import { captures } from "@/content/evidence";
+import { homeProof } from "@/content/home";
 import {
   billingFacts,
   catalogFamilies,
@@ -17,17 +17,14 @@ import {
   licensingMotions,
   qualifications,
 } from "@/content/licensing";
-import { screens } from "@/content/screens";
 import { pageMetadata } from "@/lib/metadata";
+import { cn } from "@/lib/cn";
 
 export const metadata = pageMetadata({
   title: "Microsoft licensing from a CSP direct-bill partner — Microsoft 365, Azure, Copilot, Dynamics 365",
   description: "Buy Microsoft licensing direct from MSP Hub, a Microsoft CSP direct-bill partner (Tier-1 Direct): 7,600+ SKUs, transfers that keep your terms, EA to CSP, and every subscription managed in HubX.",
   path: "/licensing",
 });
-
-/** Literal class names so Tailwind's scanner emits every stagger step. */
-const stagger = ["stagger-1", "stagger-2", "stagger-3", "stagger-4", "stagger-5"];
 
 export default function LicensingPage() {
   return (
@@ -37,172 +34,144 @@ export default function LicensingPage() {
           Get a licensing quote
           <ArrowRight className="size-4" aria-hidden />
         </ButtonLink>
-        <ButtonLink href="/licensing/switch" variant="glass">
+        <ButtonLink href="/licensing/switch" variant="outline">
           Switch to MSP Hub
         </ButtonLink>
       </PageHero>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0" decor={<Glow tone="navy" className="top-0 right-[-300px] h-[700px] w-[900px]" />}>
-        <Container>
-          <SectionHeading eyebrow="What the deal desk does" title="Five ways in. One licensing desk." />
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {licensingMotions.map((m, i) => (
-              <GlassCard key={m.title} className={`flex flex-col motion-safe:animate-fade-up ${stagger[Math.min(i, 4)]}`}>
-                <span className="font-mono text-xs font-semibold tracking-[0.08em] text-brand-orange">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="mt-3 text-lg font-semibold tracking-tight text-white">{m.title}</h3>
-                <p className="mt-2.5 flex-1 text-[15px] leading-relaxed text-white/70">{m.body}</p>
-                <TextLink href={m.href} className="mt-5">
-                  {m.linkLabel}
-                </TextLink>
-              </GlassCard>
-            ))}
-            <GlassCard className="flex flex-col justify-between border-brand-orange/30 bg-[linear-gradient(160deg,rgba(249,115,22,.16),rgba(249,115,22,.04))]">
-              <div>
-                <Eyebrow>Not sure which?</Eyebrow>
-                <h3 className="mt-3.5 font-display text-[1.625rem] leading-tight tracking-[-0.01em] text-white">Send what you have.</h3>
-                <p className="mt-2.5 text-[15px] text-white/70">
-                  A current invoice, a license export, or just the SKUs you think you run. The licensing desk sorts out the rest.
-                </p>
-              </div>
-              <ButtonLink href="/licensing/quote" className="mt-6 self-start">
-                Request a quote
-              </ButtonLink>
-            </GlassCard>
+      <Chapter tone="pearl" pad="flush-top" title="Five ways in. One licensing desk." headingWidth="max-w-[18ch]">
+        <RuleList
+          tone="pearl"
+          numbered
+          columns={3}
+          items={licensingMotions.map((motion) => ({ title: motion.title, body: motion.body, link: { label: motion.linkLabel, href: motion.href } }))}
+        />
+        <div className="mt-12 grid gap-6 border-t border-[#0b1020]/15 pt-6 lg:grid-cols-[180px_minmax(0,1fr)_auto] lg:items-start">
+          <p className={cn(monoLabel, inkTone.pearl.faint)}>Not sure which?</p>
+          <div>
+            <h3 className={itemTitle}>Send what you have.</h3>
+            <p className={cn("mt-3 max-w-[52ch] text-[16px] leading-[1.65]", inkTone.pearl.muted)}>
+              A current invoice, a license export, or just the SKUs you think you run. The licensing desk sorts out the rest.
+            </p>
           </div>
-        </Container>
-      </Section>
+          <ButtonLink href="/licensing/quote" variant="outline" className="self-start">
+            Request a quote
+          </ButtonLink>
+        </div>
+      </Chapter>
 
-      <Section tone="light">
-        <Container>
-          <SectionHeading
-            tone="light"
-            eyebrow="Catalog"
-            title="7,600+ SKUs. Every Microsoft cloud family, direct."
-            lead={licensingHub.catalogClaim}
-          />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {catalogFamilies.map((f) => (
-              <GlassCard key={f.name} tone="light" className="p-6">
-                <h3 className="text-lg font-semibold tracking-tight text-charcoal">{f.name}</h3>
-                <ul className="mt-3 flex flex-wrap gap-2">
-                  {f.items.map((item) => (
-                    <li key={item}>
-                      <Chip tone="light" wrap mono className="text-charcoal/85">
-                        {item}
-                      </Chip>
-                    </li>
-                  ))}
-                </ul>
-              </GlassCard>
-            ))}
+      <Chapter tone="ink" id="catalog" title="7,600+ SKUs. Every Microsoft cloud family, direct." lead={licensingHub.catalogClaim} headingWidth="max-w-[20ch]">
+        <RuleList
+          tone="ink"
+          columns={3}
+          titleSize="md"
+          items={catalogFamilies.map((family) => ({
+            title: family.name,
+            children: <ChipRow tone="ink" mono items={family.items} />,
+          }))}
+        />
+        <div className="mt-14 grid gap-10 border-t border-white/15 pt-8 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <p className={cn(monoLabel, inkTone.ink.faint)}>Qualification types</p>
+            <dl className="mt-5 grid gap-5">
+              {qualifications.map((q) => (
+                <div key={q.id}>
+                  <dt className="font-semibold">{q.label}</dt>
+                  <dd className={cn("mt-1 text-[15px] leading-[1.6]", inkTone.ink.muted)}>{q.body}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className={cn("mt-5 text-[14px] leading-[1.6]", inkTone.ink.muted)}>
+              HubX shows each customer only the offers they are qualified to buy.{" "}
+              <NeedsConfirm id="government" fallback={null}>
+                Government estates: hold until authorization is confirmed.
+              </NeedsConfirm>
+            </p>
           </div>
-
-          <div className="mt-10 grid gap-4 lg:grid-cols-[1.1fr_1fr]">
-            <GlassCard tone="light" className="p-7">
-              <p className="font-mono text-xs font-semibold tracking-[0.12em] text-charcoal uppercase">Qualification types</p>
-              <dl className="mt-4 grid gap-4 sm:grid-cols-3">
-                {qualifications.map((q) => (
-                  <div key={q.id}>
-                    <dt className="font-semibold text-charcoal">{q.label}</dt>
-                    <dd className="mt-1 text-[14.5px] leading-relaxed text-charcoal/80">{q.body}</dd>
-                  </div>
-                ))}
-              </dl>
-              <p className="mt-4 text-[13px] text-charcoal/80">
-                HubX shows each customer only the offers they are qualified to buy. <NeedsConfirm id="government" fallback={null}>Government estates: hold until authorization is confirmed.</NeedsConfirm>
-              </p>
-            </GlassCard>
-            <GlassCard tone="light" className="p-7">
-              <p className="font-mono text-xs font-semibold tracking-[0.12em] text-charcoal uppercase">Commitment terms</p>
-              <dl className="mt-4 grid gap-4">
-                {commitmentTerms.map((t) => (
-                  <div key={t.term} className="flex gap-4">
-                    <dt className="w-20 shrink-0 font-semibold text-charcoal">{t.term}</dt>
-                    <dd className="text-[14.5px] leading-relaxed text-charcoal/80">{t.body}</dd>
-                  </div>
-                ))}
-              </dl>
-              <p className="mt-4 text-[13px] text-charcoal/80">
-                License-based subscriptions follow the New Commerce Experience (NCE); Azure consumption runs through an Azure plan. Existing
-                subscriptions transfer with their terms.
-              </p>
-            </GlassCard>
+          <div>
+            <p className={cn(monoLabel, inkTone.ink.faint)}>Commitment terms</p>
+            <dl className="mt-5 grid gap-5">
+              {commitmentTerms.map((term) => (
+                <div key={term.term} className="grid gap-1 sm:grid-cols-[110px_1fr] sm:gap-4">
+                  <dt className="font-semibold">{term.term}</dt>
+                  <dd className={cn("text-[15px] leading-[1.6]", inkTone.ink.muted)}>{term.body}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className={cn("mt-5 text-[14px] leading-[1.6]", inkTone.ink.muted)}>
+              License-based subscriptions follow the New Commerce Experience (NCE); Azure consumption runs through an Azure plan. Existing subscriptions
+              transfer with their terms.
+            </p>
           </div>
-        </Container>
-      </Section>
+        </div>
+      </Chapter>
 
-      <Section decor={<Glow tone="orange" className="top-[-100px] left-[-250px] h-[700px] w-[700px] opacity-60" />}>
-        <Container>
-          <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
-            <div>
-              <Eyebrow>{licensingHub.whyDirect.title}</Eyebrow>
-              <Display className="mt-3.5">No distributor in the price. None in the escalation path.</Display>
-              <Lead className="mt-4">{licensingHub.whyDirect.body}</Lead>
-              <a
-                href={licensingHub.whyDirect.citation.href}
-                rel="noopener noreferrer"
-                className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-white/80 underline-offset-4 hover:text-white hover:underline"
-              >
-                {licensingHub.whyDirect.citation.label}
-                <ExternalLink className="size-3.5" aria-hidden />
-              </a>
-            </div>
-            <GlassCard className="p-7">
-              <p className="font-mono text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">How billing works</p>
-              <dl className="mt-4 grid gap-4">
-                {billingFacts.map((b) => (
-                  <div key={b.label} className="grid gap-1 border-b border-white/10 pb-4 last:border-b-0 last:pb-0 sm:grid-cols-[150px_1fr] sm:gap-4">
-                    <dt className="text-sm font-medium text-white/60">{b.label}</dt>
-                    <dd className="text-[15px] text-white">{b.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            </GlassCard>
+      <Chapter tone="pearl" title="No distributor in the price. None in the escalation path." headingWidth="max-w-[20ch]">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-6">
+            <p className={cn(monoLabel, inkTone.pearl.faint)}>{licensingHub.whyDirect.title}</p>
+            <p className={cn("mt-4 max-w-[54ch] text-[17px] leading-[1.65]", inkTone.pearl.muted)}>{licensingHub.whyDirect.body}</p>
+            <InkLink href={licensingHub.whyDirect.citation.href} tone="pearl" className="mt-4 gap-1.5 text-[15px]">
+              {licensingHub.whyDirect.citation.label}
+              <ExternalLink className="size-3.5" aria-hidden />
+            </InkLink>
           </div>
-        </Container>
-      </Section>
+          <div className="lg:col-span-6">
+            <p className={cn(monoLabel, inkTone.pearl.faint)}>How billing works</p>
+            <FactRows tone="pearl" className="mt-4" rows={billingFacts.map((fact) => ({ label: fact.label, value: fact.value }))} />
+          </div>
+        </div>
+      </Chapter>
 
-      <Section tone="light">
-        <Container>
-          <SectionHeading
-            tone="light"
-            eyebrow="Managed in HubX"
-            title="Every subscription, term, and renewal per SKU."
-            lead="Licensing bought through MSP Hub is managed in HubX, powered by MSP Hub: status, quantity, term and billing frequency, purchase and expiration dates, auto-renew, and the invoices behind them."
-          />
-          <BrowserFrame screen={screens.customerProducts} sizes="(min-width: 1024px) 1100px, 100vw" viewport="scroll" />
-          <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <ButtonLink href="/hubx" variant="outline">
+      <Chapter
+        tone="ink"
+        title="Every subscription, term, and renewal per SKU."
+        lead="Licensing bought through MSP Hub is managed in HubX, powered by MSP Hub: status, quantity, term and billing frequency, purchase and expiration dates, auto-renew, and the invoices behind them."
+        headingWidth="max-w-[18ch]"
+      >
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-12">
+          <div className="lg:col-span-7">
+            <EvidenceFigure capture={captures.customerProductsHubx} tone="ink" />
+          </div>
+          <div className="lg:col-span-5">
+            <RuleList
+              tone="ink"
+              columns={1}
+              titleSize="md"
+              className="gap-y-6"
+              items={[
+                { title: "Status and quantity", body: "Active or expired per SKU, with the purchased quantity and category." },
+                { title: "Term and billing", body: "Monthly, annual, or triennial terms and how each line is billed." },
+                { title: "Purchase, expiration, and renewal", body: "Purchase and expiration dates and the auto-renew setting on every line, with the invoices behind them." },
+              ]}
+            />
+            <ButtonLink href="/hubx" variant="glass" className="mt-8">
               Explore HubX
             </ButtonLink>
           </div>
-        </Container>
-      </Section>
+        </div>
+      </Chapter>
 
-      <Section>
+      <Chapter tone="pearl" size="md" title="Licensing, answered.">
+        <FaqSection items={licensingFaq} tone="light" variant="rule" className="max-w-[860px]" />
+      </Chapter>
+
+      <section aria-label="Company proof" data-surface="pearl" className="bg-[#f4f6fb] pb-[clamp(64px,7vw,104px)] text-[#0b1020]">
         <Container>
-          <SectionHeading eyebrow="Questions" title="Licensing, answered." align="center" />
-          <FaqSection items={licensingFaq} />
+          <StatRail tone="pearl" items={homeProof} />
         </Container>
-      </Section>
+      </section>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <Container>
-          <TrustStrip />
-        </Container>
-      </Section>
-
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <CtaBand
-          title="Get a licensing quote."
-          lead="Tell us what you run and who you buy from today. A licensing specialist replies with pricing, the right plan mix, and a transfer plan if you already own the subscriptions."
-          primary={{ label: "Request a quote", href: "/licensing/quote" }}
-          secondary={[
-            { label: "Send us your invoice", href: "/licensing/switch" },
-            { label: "Talk to licensing", href: "/contact?topic=sales#contact-form" },
-          ]}
-        />
-      </Section>
+      <NextStep
+        tone="ink"
+        title="Get a licensing quote."
+        lead="Tell us what you run and who you buy from today. A licensing specialist replies with pricing, the right plan mix, and a transfer plan if you already own the subscriptions."
+        primary={{ label: "Request a quote", href: "/licensing/quote" }}
+        secondary={[
+          { label: "Send us your invoice", href: "/licensing/switch" },
+          { label: "Talk to licensing", href: "/contact?topic=sales#contact-form" },
+        ]}
+      />
     </>
   );
 }
