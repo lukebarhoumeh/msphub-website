@@ -1,19 +1,17 @@
 import type { Metadata } from "next";
-import { ArrowRight, Cable, Headset, ShieldCheck } from "lucide-react";
-import { HubXLockup } from "@/components/brand/hubx-logo";
+import { ArrowRight } from "lucide-react";
 import { FaqSection } from "@/components/hubx/faq-section";
 import { FeatureGrid } from "@/components/hubx/feature-grid";
 import { HubAiConversation } from "@/components/hubx/hubai-conversation";
 import { ModuleExplorer } from "@/components/hubx/module-explorer";
-import { JsonLd, ToneLink } from "@/components/hubx/primitives";
+import { JsonLd } from "@/components/hubx/primitives";
 import { EvidenceFigure, EvidenceStage } from "@/components/ink/evidence";
-import { CheckList, CtaBand, Steps, Testimonials, TextLink } from "@/components/marketing/blocks";
+import { Chapter, ChipRow, DotList, InkLink, NextStep, RuleList, inkTone, monoLabel } from "@/components/ink/interior";
 import { PageHero } from "@/components/marketing/page-hero";
+import { Testimonials } from "@/components/marketing/blocks";
 import { ButtonLink } from "@/components/ui/button";
-import { Chip, FeatureCard, GlassCard } from "@/components/ui/card";
 import { NeedsConfirm } from "@/components/ui/needs-confirm";
-import { Container, Glow, Section } from "@/components/ui/section";
-import { Display, Eyebrow, SectionHeading } from "@/components/ui/typography";
+import { Container } from "@/components/ui/section";
 import { hubAiFeatures } from "@/content/hubai-demo";
 import { hubxAudiences, hubxIntegrations, hubxPage, hubxSteps, hubxTagline, licensingCatalog } from "@/content/hubx";
 import { hubxFaq } from "@/content/hubx-faq";
@@ -21,6 +19,7 @@ import { captures, hubxEvidence } from "@/content/evidence";
 import { hubxModules } from "@/content/hubx-modules";
 import { site } from "@/content/site";
 import { siteUrl } from "@/lib/site";
+import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = {
   title: "HubX, powered by MSP Hub — the Microsoft portal for licensing, procurement, and spend",
@@ -46,12 +45,7 @@ export default function HubXPage() {
   const { hero, audiences, tour, modules, features, steps, hubai, trust, licensing, faq, cta } = hubxPage;
   return (
     <>
-      <PageHero
-        align="center"
-        eyebrow={hero.eyebrow}
-        title={hero.title}
-        lead={hero.lead}
-      >
+      <PageHero eyebrow={hero.eyebrow} title={hero.title} lead={hero.lead}>
         <ButtonLink href={hero.primary.href}>
           {hero.primary.label}
           <ArrowRight className="size-4" aria-hidden />
@@ -61,190 +55,142 @@ export default function HubXPage() {
         </ButtonLink>
       </PageHero>
 
-      <Section tight className="pt-0 sm:pt-0">
-        <Container className="flex flex-col items-center gap-5 text-center">
-          <HubXLockup align="center" logoClassName="h-12 w-auto sm:h-14" />
-          <p className="max-w-[60ch] text-sm text-white/70">{hubxTagline} Delivered by MSP Hub&apos;s services team.</p>
-          <div className="flex flex-wrap justify-center gap-2">
-            {hero.chips.map((chip) => (
-              <Chip key={chip} wrap>
-                {chip}
-              </Chip>
-            ))}
-          </div>
+      <section className="bg-[#0b1020] pb-14 text-white">
+        <Container className="grid gap-5 border-t border-white/15 pt-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+          <p className={cn("max-w-[60ch] text-[16px] leading-[1.6]", inkTone.ink.muted)}>
+            <span className="font-semibold text-white">{hubxTagline}</span> Delivered by MSP Hub&apos;s services team.
+          </p>
+          <ChipRow tone="ink" items={hero.chips} label="HubX at a glance" />
         </Container>
-      </Section>
+      </section>
 
       {/* Who it's for */}
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <Container>
-          <SectionHeading eyebrow={audiences.eyebrow} title={audiences.title} />
-          <div className="grid gap-4 lg:grid-cols-3">
-            {hubxAudiences.map((a) => (
-              <GlassCard key={a.id} className="p-8">
-                <p className="font-mono text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">{a.who}</p>
-                <h3 className="mt-3 font-display text-[1.625rem] leading-tight tracking-[-0.01em] text-white">{a.title}</h3>
-                <p className="mt-2.5 text-[15px] leading-relaxed text-white/70">{a.body}</p>
-                <CheckList items={a.points} className="mt-5" />
-              </GlassCard>
-            ))}
-          </div>
-          <p className="mt-4 text-sm text-white/60">
-            <NeedsConfirm id="whiteLabel" fallback="Your customers see your brand on invoices and get their own portal access." />
-          </p>
-        </Container>
-      </Section>
+      <Chapter tone="ink" pad="tight" id="who-its-for" title={audiences.title} headingWidth="max-w-[18ch]">
+        <RuleList
+          tone="ink"
+          columns={3}
+          items={hubxAudiences.map((audience) => ({
+            id: `audience-${audience.id}`,
+            label: audience.who,
+            title: audience.title,
+            body: audience.body,
+            children: <DotList tone="ink" size="sm" items={audience.points} />,
+          }))}
+        />
+        <p className={cn("mt-8 text-[15px]", inkTone.ink.muted)}>
+          <NeedsConfirm id="whiteLabel" fallback="Your customers see your brand on invoices and get their own portal access." />
+        </p>
+      </Chapter>
 
-      {/* Product tour + modules (light canvas: the product is light-theme by default) */}
-      <Section tone="light">
-        <Container>
-          <SectionHeading tone="light" eyebrow={tour.eyebrow} title={tour.title} lead={tour.lead} />
-          <EvidenceStage ids={hubxEvidence} tone="pearl" />
-        </Container>
-        <Container className="mt-20 sm:mt-24" id="modules">
-          <SectionHeading tone="light" eyebrow={modules.eyebrow} title={modules.title} lead={modules.lead} />
-          <ModuleExplorer />
-        </Container>
-      </Section>
+      {/* Product tour + modules (pearl: the product is light-theme by default) */}
+      <Chapter tone="pearl" eyebrow={tour.eyebrow} title={tour.title} lead={tour.lead} headingWidth="max-w-[20ch]">
+        <EvidenceStage ids={hubxEvidence} tone="pearl" />
+      </Chapter>
+      <Chapter tone="pearl" pad="tight" id="modules" eyebrow={modules.eyebrow} title={modules.title} lead={modules.lead}>
+        <ModuleExplorer />
+      </Chapter>
 
-      {/* The twelve cool things */}
-      <Section id="capabilities" decor={<Glow tone="navy" className="top-0 right-[-300px] h-[700px] w-[900px]" />}>
-        <Container>
-          <SectionHeading eyebrow={features.eyebrow} title={features.title} lead={features.lead} />
-          <FeatureGrid columns={3} />
-        </Container>
-      </Section>
+      {/* The twelve capabilities */}
+      <Chapter tone="ink" id="capabilities" title={features.title} lead={features.lead} headingWidth="max-w-[22ch]">
+        <FeatureGrid columns={3} />
+      </Chapter>
 
       {/* How it works */}
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <Container>
-          <SectionHeading
-            eyebrow={steps.eyebrow}
-            title={<NeedsConfirm id="onboardingWording" fallback="Live in one billing cycle." />}
-            lead={steps.lead}
-          />
-          <Steps steps={hubxSteps} className="md:grid-cols-2 lg:grid-cols-4" />
-        </Container>
-      </Section>
+      <Chapter tone="ink" pad="tight" eyebrow={steps.eyebrow} title={<NeedsConfirm id="onboardingWording" fallback="Live in one billing cycle." />} lead={steps.lead}>
+        <RuleList tone="ink" numbered columns={4} titleSize="md" items={hubxSteps} />
+      </Chapter>
 
-      {/* HubAI (light: the captures are light-theme) */}
-      <Section tone="light" id="hubai">
-        <Container>
-          <SectionHeading tone="light" eyebrow={hubai.eyebrow} title={hubai.title} lead={hubai.lead} />
-          <div className="grid items-start gap-8 lg:grid-cols-[1.05fr_1fr] lg:gap-10 [&>*]:min-w-0">
-            <HubAiConversation tone="light" />
-            <EvidenceFigure capture={captures.hubaiHome} tone="pearl" />
-          </div>
-          <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {hubAiFeatures.map((f, i) => (
-              <li key={f.title} className="card-light p-5">
-                <span className="font-mono text-xs tracking-[0.08em] text-charcoal/80">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="mt-2 font-semibold text-charcoal">{f.title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-charcoal/80">{f.body}</p>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-8">
-            <ToneLink href="/hubx/features/hubai" tone="light">
-              More about HubAI
-            </ToneLink>
-          </div>
-        </Container>
-      </Section>
+      {/* HubAI (pearl: the captures are light-theme) */}
+      <Chapter tone="pearl" id="hubai" eyebrow={hubai.eyebrow} title={hubai.title} lead={hubai.lead} headingWidth="max-w-[20ch]">
+        <div className="grid items-start gap-8 lg:grid-cols-[1.05fr_1fr] lg:gap-10 [&>*]:min-w-0">
+          <HubAiConversation tone="light" />
+          <EvidenceFigure capture={captures.hubaiHome} tone="pearl" />
+        </div>
+        <RuleList tone="pearl" numbered columns={4} titleSize="md" className="mt-12" items={hubAiFeatures} />
+        <InkLink href="/hubx/features/hubai" tone="pearl" className="mt-8">
+          More about HubAI
+        </InkLink>
+      </Chapter>
 
       {/* Integrations & trust */}
-      <Section>
-        <Container>
-          <SectionHeading eyebrow={trust.eyebrow} title={trust.title} />
-          <div className="grid gap-4 md:grid-cols-3">
-            <FeatureCard icon={Cable} title="Integrations">
-              <ul className="grid gap-2">
-                {hubxIntegrations.map((i) => (
-                  <li key={i}>{i}</li>
-                ))}
-              </ul>
-              <p className="mt-3">
-                <NeedsConfirm id="integrations" fallback="API-first platform; integrations on request." />
-              </p>
-            </FeatureCard>
-            <FeatureCard icon={ShieldCheck} title="Security and compliance" footer={<TextLink href="/hubx/security">HubX security</TextLink>}>
-              Single sign-on with your own identity provider, roles, and audit logs on every organization and customer.
-              Microsoft access is handled through the CSP program&apos;s own mechanisms.{" "}
-              <NeedsConfirm id="isoEntity" fallback={null}>
-                ISO/IEC 27001:2022 certification is not published until the certificate entity is confirmed.
+      <Chapter tone="ink" eyebrow={trust.eyebrow} title={trust.title} headingWidth="max-w-[18ch]">
+        <RuleList
+          tone="ink"
+          columns={3}
+          titleSize="md"
+          items={[
+            {
+              title: "Integrations",
+              children: (
+                <>
+                  <DotList tone="ink" size="sm" items={hubxIntegrations} />
+                  <p className={cn("mt-4 text-[15px]", inkTone.ink.muted)}>
+                    <NeedsConfirm id="integrations" fallback="API-first platform; integrations on request." />
+                  </p>
+                </>
+              ),
+            },
+            {
+              title: "Security and compliance",
+              body: (
+                <>
+                  Single sign-on with your own identity provider, roles, and audit logs on every organization and customer. Microsoft access is handled
+                  through the CSP program&apos;s own mechanisms.{" "}
+                  <NeedsConfirm id="isoEntity" fallback={null}>
+                    ISO/IEC 27001:2022 certification is not published until the certificate entity is confirmed.
+                  </NeedsConfirm>
+                </>
+              ),
+              link: { label: "HubX security", href: "/hubx/security" },
+            },
+            {
+              title: "Direct Microsoft escalation",
+              body: "As a CSP direct-bill partner, MSP Hub escalates to Microsoft Premier support directly. No distributor layer between you and a fix.",
+            },
+          ]}
+        />
+      </Chapter>
+
+      {/* Licensing */}
+      <Chapter tone="ink" pad="tight" id="licensing" eyebrow={licensing.eyebrow} title={licensing.title} headingWidth="max-w-[18ch]">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-12">
+          <ChipRow tone="ink" items={licensingCatalog} label="Microsoft licensing families" />
+          <div className="flex flex-col items-start gap-3">
+            <ButtonLink href="/licensing/quote">Get a licensing quote</ButtonLink>
+            <ButtonLink href="/contact" variant="glass">
+              Talk to licensing
+            </ButtonLink>
+            <p className={cn("text-[13px]", inkTone.ink.muted)}>
+              <NeedsConfirm id="quoteResponse" fallback="The licensing desk replies during business hours.">
+                Response within one business day.
               </NeedsConfirm>
-            </FeatureCard>
-            <FeatureCard icon={Headset} title="Direct Microsoft escalation">
-              As a CSP direct-bill partner, MSP Hub escalates to Microsoft Premier support directly. No distributor layer
-              between you and a fix.
-            </FeatureCard>
+            </p>
           </div>
-        </Container>
-      </Section>
-
-      {/* Licensing teaser */}
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <Container>
-          <div className="glass glass-lg grid gap-7 p-8 sm:p-9 lg:grid-cols-[1fr_auto] lg:items-center">
-            <div>
-              <Eyebrow>{licensing.eyebrow}</Eyebrow>
-              <Display className="mt-3.5">{licensing.title}</Display>
-              <div className="mt-5 flex flex-wrap gap-2.5">
-                {licensingCatalog.map((family) => (
-                  <Chip key={family}>{family}</Chip>
-                ))}
-              </div>
-            </div>
-            <div className="flex flex-col items-start gap-3">
-              <ButtonLink href="/licensing/quote">Get a licensing quote</ButtonLink>
-              <ButtonLink href="/contact" variant="glass">
-                Talk to licensing
-              </ButtonLink>
-              <p className="text-xs text-white/60">
-                <NeedsConfirm id="quoteResponse" fallback="The licensing desk replies during business hours.">
-                  Response within one business day.
-                </NeedsConfirm>
-              </p>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <Container>
+        </div>
+        <div className="mt-10">
           <Testimonials />
-        </Container>
-      </Section>
+        </div>
+      </Chapter>
 
       {/* FAQ */}
-      <Section className="pt-0 sm:pt-0 lg:pt-0" id="faq">
-        <Container>
-          <SectionHeading eyebrow={faq.eyebrow} title={faq.title} align="center" />
-          <FaqSection items={hubxFaq} />
-        </Container>
-      </Section>
+      <Chapter tone="pearl" id="faq" size="md" eyebrow={faq.eyebrow} title={faq.title}>
+        <FaqSection items={hubxFaq} tone="light" variant="rule" className="max-w-[860px]" />
+      </Chapter>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <CtaBand
-          eyebrow={cta.eyebrow}
-          title={cta.title}
-          lead={cta.lead}
-          primary={{ label: "Schedule a demo", href: "/demo" }}
-          secondary={[{ label: "Talk to sales", href: "/contact" }]}
-        >
-          <p className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-white/70">
-            <a href={`mailto:${site.salesEmail}`} className="font-medium text-white underline-offset-4 hover:underline">
-              {site.salesEmail}
+      <NextStep tone="ink" eyebrow={cta.eyebrow} title={cta.title} lead={cta.lead} primary={{ label: "Schedule a demo", href: "/demo" }} secondary={[{ label: "Talk to sales", href: "/contact" }]}>
+        <p className={cn("mt-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-[15px]", inkTone.ink.muted)}>
+          <a href={`mailto:${site.salesEmail}`} className="font-semibold text-white underline decoration-[#ffb05c] decoration-2 underline-offset-[5px]">
+            {site.salesEmail}
+          </a>
+          <span>
+            Already a customer?{" "}
+            <a href={site.hubxLoginUrl} rel="noopener" className="font-semibold text-white underline decoration-[#ffb05c] decoration-2 underline-offset-[5px]">
+              Log in to HubX
             </a>
-            <span>
-              Already a customer?{" "}
-              <a href={site.hubxLoginUrl} rel="noopener" className="font-medium text-white underline-offset-4 hover:underline">
-                Log in to HubX
-              </a>
-            </span>
-          </p>
-        </CtaBand>
-      </Section>
+          </span>
+        </p>
+        <p className={cn(monoLabel, "mt-6", inkTone.ink.faint)}>Real HubX screens on this page are declared crops with demo data.</p>
+      </NextStep>
 
       <JsonLd data={productJsonLd} />
     </>

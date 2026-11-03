@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { CredentialBadges, CtaBand, SolutionAreas, StatBand, SupportModel, Testimonials, Timeline } from "@/components/marketing/blocks";
+import { EngineSymbol } from "@/components/ink/engine-symbol";
+import { Chapter, Milestones, NextStep, RuleList, StatRail, inkTone, itemTitle, monoLabel } from "@/components/ink/interior";
+import { SolutionAreas, SupportModel, Testimonials } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
-import { GlassCard } from "@/components/ui/card";
-import { NeedsConfirm } from "@/components/ui/needs-confirm";
-import { Container, Glow, Section } from "@/components/ui/section";
-import { Display, Eyebrow, Lead, SectionHeading } from "@/components/ui/typography";
+import { NeedsConfirm, showTodos } from "@/components/ui/needs-confirm";
+import { Container } from "@/components/ui/section";
+import { activeCredentials } from "@/content/credentials";
+import { homeEngines } from "@/content/home";
 import { companyStory, leadership, site, timeline } from "@/content/site";
+import { publishedStats, stats } from "@/content/stats";
+import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = {
   title: "About MSP Hub — Microsoft CSP direct-bill partner and IT services company since 1999",
@@ -17,7 +21,11 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
+/** Credentials with an open confirmation stay off production until Luke confirms them. */
+const credentials = activeCredentials.filter((c) => !c.confirm || showTodos);
+
 export default function AboutPage() {
+  const hidden = stats.filter((s) => !s.publish);
   return (
     <>
       <PageHero
@@ -34,141 +42,147 @@ export default function AboutPage() {
         </ButtonLink>
       </PageHero>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
+      <section aria-label="Company proof" className="bg-[#0b1020] pb-14 text-white">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
-            <div>
-              <Eyebrow>Who we are</Eyebrow>
-              <Display className="mt-3.5">{companyStory.headline}</Display>
-            </div>
-            <div className="space-y-5">
-              <Lead>{companyStory.lead}</Lead>
+          <StatRail tone="ink" items={publishedStats.map((s) => ({ id: s.id, value: `${s.value}${s.suffix ?? ""}`, label: s.label }))} />
+          {hidden.map((s) => (
+            <p key={s.id} className={cn("mt-3 text-[13px]", inkTone.ink.muted)}>
+              <NeedsConfirm id={s.confirm ?? "servicesHeadcount"} fallback={null}>
+                Hidden until confirmed: {s.value}
+                {s.suffix} {s.label.toLowerCase()}.
+              </NeedsConfirm>
+            </p>
+          ))}
+        </Container>
+      </section>
+
+      <Chapter tone="pearl" title={companyStory.headline} headingWidth="max-w-[20ch]">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-7">
+            <p className="max-w-[58ch] text-[19px] leading-[1.55] font-medium">{companyStory.lead}</p>
+            <div className="mt-6 grid max-w-[62ch] gap-5">
               {companyStory.body.map((paragraph) => (
-                <p key={paragraph.slice(0, 24)} className="text-[15px] leading-relaxed text-white/70">
+                <p key={paragraph.slice(0, 24)} className={cn("text-[16px] leading-[1.65] lg:text-[17px]", inkTone.pearl.muted)}>
                   {paragraph}
                 </p>
               ))}
             </div>
           </div>
-        </Container>
-      </Section>
-
-      <Section className="pt-0 sm:pt-0 lg:pt-0" decor={<Glow tone="blue" className="top-[-100px] left-[30%] h-[600px] w-[800px] opacity-60" />}>
-        <Container>
-          <SectionHeading eyebrow="By the numbers" title="What we run today." />
-          <StatBand />
-        </Container>
-      </Section>
-
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <Container>
-          <SectionHeading eyebrow="History" title="From an MSP's own tool to HubX." />
-          <Timeline
-            columns={6}
-            items={timeline.map((t) => ({
-              when: "confirm" in t ? <NeedsConfirm id={t.confirm} fallback={t.when} /> : t.when,
-              title: t.title,
-              body: t.body,
-            }))}
-          />
-        </Container>
-      </Section>
-
-      <Section className="pt-0 sm:pt-0 lg:pt-0" decor={<Glow tone="navy" className="top-0 right-[-300px] h-[700px] w-[900px]" />}>
-        <Container>
-          <SectionHeading eyebrow="Credentials" title="Certified, direct, and recognized." />
-          <CredentialBadges variant="cards" />
-          <SolutionAreas className="mt-4" />
-        </Container>
-      </Section>
-
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <Container>
-          <SectionHeading eyebrow="Support model" title="Business hours for licensing. Around the clock for managed environments." />
-          <SupportModel />
-        </Container>
-      </Section>
-
-      <Section tone="light">
-        <Container>
-          <SectionHeading
-            tone="light"
-            eyebrow="Leadership"
-            title="The team driving MSP Hub's platform, partner channel, and Microsoft cloud delivery."
-          />
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {leadership.map((p) => (
-              <li key={p.slug} className="card-light flex flex-col p-5">
-                <Image
-                  src={p.photo}
-                  alt={`${p.name}, ${p.title}`}
-                  width={360}
-                  height={360}
-                  sizes="(min-width: 1024px) 200px, (min-width: 640px) 45vw, 90vw"
-                  className="aspect-square w-full rounded-[10px] object-cover"
-                />
-                <p className="mt-4 font-mono text-[11px] font-semibold tracking-[0.12em] text-charcoal/80 uppercase">{p.title}</p>
-                <h3 className="mt-1.5 text-lg font-semibold tracking-tight text-charcoal">{p.name}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal/80">{p.bio}</p>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-4 text-xs text-charcoal/70">
-            <NeedsConfirm id="teamPhotos" fallback={null}>
-              Portraits cropped from the leadership slide; hi-res originals to follow.
-            </NeedsConfirm>{" "}
-            <NeedsConfirm id="leadership" fallback={null} />
-          </p>
-        </Container>
-      </Section>
-
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <Container>
-          <div className="grid gap-4 lg:grid-cols-2">
-            <GlassCard className="p-8">
-              <Eyebrow>Locations</Eyebrow>
-              <h3 className="mt-3.5 text-2xl font-semibold tracking-tight text-white">
-                Headquartered in {site.hq.city}.
-              </h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-white/70">
-                <NeedsConfirm
-                  id="deliveryRegions"
-                  fallback="Headquartered in North Palm Beach, Florida."
-                />
-              </p>
-              <p className="mt-3 text-sm text-white/65">
-                <NeedsConfirm id="officePresentation" fallback={null}>
-                  Full address shown in the footer and legal pages only.
-                </NeedsConfirm>
-              </p>
-            </GlassCard>
-            <GlassCard className="p-8">
-              <Eyebrow>Heritage</Eyebrow>
-              <h3 className="mt-3.5 text-2xl font-semibold tracking-tight text-white">Formerly READY Networks.</h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-white/70">
-                The ReadyNetworks name carried the company from 1999 to the July 2025 rebrand. The people, the Microsoft
-                relationship, and the platform engineering continue as MSP Hub.
-              </p>
-            </GlassCard>
+          <div className="lg:col-span-5">
+            <p className={cn(monoLabel, inkTone.pearl.faint)}>Four sibling branches</p>
+            <ul className="mt-4 grid">
+              {homeEngines.map((engine) => (
+                <li key={engine.id} className="flex items-center gap-4 border-t border-[#0b1020]/10 py-3">
+                  <EngineSymbol engine={engine.id} />
+                  <span className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <span className="font-display text-xl font-bold tracking-[-0.01em]">{engine.name}</span>
+                    {engine.meta ? <span className={cn(monoLabel, inkTone.pearl.faint)}>{engine.meta}</span> : null}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <Testimonials className="mt-4" />
-        </Container>
-      </Section>
+        </div>
+      </Chapter>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <CtaBand
-          title="Talk to MSP Hub."
-          lead="Partners, customers, advisors, and press: one inbox, a real reply."
-          primary={{ label: "Contact us", href: "/contact" }}
-          secondary={[{ label: "Schedule a HubX demo", href: "/demo" }]}
-        >
-          <p className="mt-8 text-sm text-white/70">
-            <a href={`mailto:${site.salesEmail}`} className="font-medium text-white underline-offset-4 hover:underline">
-              {site.salesEmail}
-            </a>
-          </p>
-        </CtaBand>
-      </Section>
+      <Chapter tone="ink" title="From an MSP's own tool to HubX." headingWidth="max-w-[16ch]">
+        <Milestones
+          tone="ink"
+          items={timeline.map((t) => ({
+            when: "confirm" in t ? <NeedsConfirm id={t.confirm} fallback={t.when} /> : t.when,
+            title: t.title,
+            body: t.body,
+          }))}
+        />
+      </Chapter>
+
+      <Chapter tone="ink" pad="tight" size="md" title="Certified, direct, and recognized.">
+        <RuleList
+          tone="ink"
+          columns={3}
+          titleSize="md"
+          items={credentials.map((c) => ({
+            id: `credential-${c.id}`,
+            label: c.issuer === "microsoft" ? "Microsoft" : c.issuer === "iso" ? "Certification" : "Award",
+            title: c.confirm ? <NeedsConfirm id={c.confirm} fallback={null}>{c.name}</NeedsConfirm> : c.name,
+            body: c.qualifier,
+            children: c.logo ? (
+              <Image src={c.logo} alt="" width={960} height={540} className="h-16 w-auto rounded-lg object-cover" />
+            ) : undefined,
+          }))}
+        />
+        <SolutionAreas className="mt-10" />
+      </Chapter>
+
+      <Chapter tone="pearl" size="md" title="Business hours for licensing. Around the clock for managed environments." headingWidth="max-w-[26ch]">
+        <SupportModel tone="light" variant="rule" />
+      </Chapter>
+
+      <Chapter tone="pearl" pad="tight" title="The team driving MSP Hub's platform, partner channel, and Microsoft cloud delivery." headingWidth="max-w-[26ch]">
+        <ul className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
+          {leadership.map((person) => (
+            <li key={person.slug} className="flex flex-col border-t border-[#0b1020]/15 pt-5">
+              <Image
+                src={person.photo}
+                alt={`${person.name}, ${person.title}`}
+                width={360}
+                height={360}
+                sizes="(min-width: 1024px) 220px, (min-width: 640px) 45vw, 90vw"
+                className="aspect-square w-full rounded-[12px] object-cover"
+              />
+              <p className={cn(monoLabel, "mt-5", inkTone.pearl.faint)}>{person.title}</p>
+              <h3 className="mt-2 font-display text-xl font-bold tracking-[-0.01em]">{person.name}</h3>
+              <p className={cn("mt-2 text-[15px] leading-[1.6]", inkTone.pearl.muted)}>{person.bio}</p>
+            </li>
+          ))}
+        </ul>
+        <p className={cn("mt-6 text-[13px]", inkTone.pearl.faint)}>
+          <NeedsConfirm id="teamPhotos" fallback={null}>
+            Portraits cropped from the leadership slide; hi-res originals to follow.
+          </NeedsConfirm>{" "}
+          <NeedsConfirm id="leadership" fallback={null} />
+        </p>
+      </Chapter>
+
+      <Chapter tone="pearl" pad="tight">
+        <div className="grid gap-10 border-t border-[#0b1020]/15 pt-8 lg:grid-cols-2 lg:gap-12">
+          <div>
+            <p className={cn(monoLabel, inkTone.pearl.faint)}>Locations</p>
+            <h2 className={cn(itemTitle, "mt-3")}>Headquartered in {site.hq.city}.</h2>
+            <p className={cn("mt-3 max-w-[46ch] text-[16px] leading-[1.65]", inkTone.pearl.muted)}>
+              <NeedsConfirm id="deliveryRegions" fallback={`Teams across ${site.deliveryRegions[0]}, ${site.deliveryRegions[1]}, and ${site.deliveryRegions[2]}.`} />
+            </p>
+            <p className={cn("mt-3 text-[14px]", inkTone.pearl.faint)}>
+              <NeedsConfirm id="officePresentation" fallback={null}>
+                Full address shown in the footer and legal pages only.
+              </NeedsConfirm>
+            </p>
+          </div>
+          <div>
+            <p className={cn(monoLabel, inkTone.pearl.faint)}>Heritage</p>
+            <h2 className={cn(itemTitle, "mt-3")}>Formerly READY Networks.</h2>
+            <p className={cn("mt-3 max-w-[46ch] text-[16px] leading-[1.65]", inkTone.pearl.muted)}>
+              The ReadyNetworks name carried the company from 1999 to the July 2025 rebrand. The people, the Microsoft relationship, and the platform
+              engineering continue as MSP Hub.
+            </p>
+          </div>
+        </div>
+        <Testimonials className="mt-10" />
+      </Chapter>
+
+      <NextStep
+        tone="ink"
+        title="One inbox, a real reply."
+        lead="Partners, customers, advisors, and press all reach the same team."
+        primary={{ label: "Contact us", href: "/contact" }}
+        secondary={[{ label: "Schedule a HubX demo", href: "/demo" }]}
+      >
+        <p className={cn("mt-6 text-[15px]", inkTone.ink.muted)}>
+          <a href={`mailto:${site.salesEmail}`} className="font-semibold text-white underline decoration-[#ffb05c] decoration-2 underline-offset-[5px]">
+            {site.salesEmail}
+          </a>
+        </p>
+      </NextStep>
     </>
   );
 }

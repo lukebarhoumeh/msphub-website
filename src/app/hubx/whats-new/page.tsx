@@ -1,17 +1,16 @@
 import type { Metadata } from "next";
 import { ArrowRight, MessageSquareText } from "lucide-react";
 import { Breadcrumbs } from "@/components/hubx/breadcrumbs";
-import { EarlyAccessBadge, PointList, ToneLink } from "@/components/hubx/primitives";
-import { CtaBand } from "@/components/marketing/blocks";
+import { EarlyAccessBadge, PointList } from "@/components/hubx/primitives";
+import { Chapter, InkLink, NextStep, RuleList, inkTone, itemTitle, monoLabel } from "@/components/ink/interior";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
-import { GlassCard, IconTile } from "@/components/ui/card";
 import { NeedsConfirm } from "@/components/ui/needs-confirm";
-import { Container, Glow, Section } from "@/components/ui/section";
-import { Display, Eyebrow, Lead, SectionHeading } from "@/components/ui/typography";
+import { Container } from "@/components/ui/section";
 import { getModule } from "@/content/hubx-modules";
 import { earlyAccess, inProductNow, releases, whatsNewPage } from "@/content/hubx-whats-new";
 import { site } from "@/content/site";
+import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = {
   title: "What's new in HubX — early-access release notes",
@@ -37,7 +36,7 @@ export default function HubxWhatsNewPage() {
         </span>
       </PageHero>
 
-      <Section tight className="pt-0 sm:pt-0">
+      <section className="bg-[#0b1020] pb-10 text-white">
         <Container>
           <Breadcrumbs
             items={[
@@ -46,103 +45,73 @@ export default function HubxWhatsNewPage() {
             ]}
           />
         </Container>
-      </Section>
+      </section>
 
       {/* Release notes */}
-      <Section className="pt-0 sm:pt-0 lg:pt-0" decor={<Glow tone="navy" className="top-0 left-[-300px] h-[700px] w-[900px]" />}>
-        <Container>
-          <SectionHeading eyebrow={releasesCopy.eyebrow} title={releasesCopy.title} />
-          <ol className="grid gap-4">
-            {releases.map((r) => (
-              <li key={r.id} id={r.id} className="scroll-mt-28">
-                <GlassCard className="grid gap-6 p-7 sm:p-8 lg:grid-cols-[200px_1fr] lg:gap-10">
-                  <div>
-                    <time dateTime={r.dateTime} className="font-mono text-xs font-semibold tracking-[0.12em] text-brand-orange uppercase">
-                      {r.date}
-                    </time>
-                    <h3 className="mt-2 font-display text-2xl leading-tight text-white">{r.title}</h3>
-                  </div>
-                  <div>
-                    <p className="text-[15px] leading-relaxed text-white/75">
-                      {r.confirm ? (
-                        <NeedsConfirm id={r.confirm} fallback={r.summary}>
-                          {r.summary} {r.reviewNote}
-                        </NeedsConfirm>
-                      ) : (
-                        r.summary
-                      )}
-                    </p>
-                    <PointList items={r.items} className="mt-5" />
-                  </div>
-                </GlassCard>
-              </li>
-            ))}
-          </ol>
-          <p className="mt-4 text-sm text-white/60">Release notes are added here as HubX ships updates.</p>
-        </Container>
-      </Section>
+      <Chapter tone="ink" pad="tight" eyebrow={releasesCopy.eyebrow} title={releasesCopy.title}>
+        <ol className="grid gap-10">
+          {releases.map((release) => (
+            <li key={release.id} id={release.id} className="grid scroll-mt-28 gap-6 border-t border-white/15 pt-6 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
+              <div>
+                <time dateTime={release.dateTime} className={cn(monoLabel, "flex items-center gap-2", inkTone.ink.faint)}>
+                  <span aria-hidden className="size-1.5 rounded-full bg-[#f97316]" />
+                  {release.date}
+                </time>
+                <h3 className={cn(itemTitle, "mt-3")}>{release.title}</h3>
+              </div>
+              <div>
+                <p className={cn("max-w-[60ch] text-[16px] leading-[1.65]", inkTone.ink.muted)}>
+                  {release.confirm ? (
+                    <NeedsConfirm id={release.confirm} fallback={release.summary}>
+                      {release.summary} {release.reviewNote}
+                    </NeedsConfirm>
+                  ) : (
+                    release.summary
+                  )}
+                </p>
+                <PointList items={release.items} className="mt-5" />
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p className={cn("mt-8 text-[15px]", inkTone.ink.muted)}>Release notes are added here as HubX ships updates.</p>
+      </Chapter>
 
       {/* In the product today */}
-      <Section tone="light">
-        <Container>
-          <SectionHeading tone="light" eyebrow={now.eyebrow} title={now.title} lead={now.lead} />
-          <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {inProductNow.map((group) => {
-              const mod = getModule(group.module);
-              return (
-                <li key={group.module} className="card-light flex flex-col p-6">
-                  <div className="flex items-center gap-3">
-                    {mod ? <IconTile icon={mod.icon} /> : null}
-                    <h3 className="text-lg font-semibold tracking-tight text-charcoal">{group.label}</h3>
-                  </div>
-                  <PointList items={group.items} tone="light" className="mt-4" dense />
-                  {mod ? (
-                    <ToneLink href={mod.href} tone="light" className="mt-auto pt-5">
-                      {mod.href.startsWith("/hubx/features/") ? `About ${mod.name}` : "Security and administration"}
-                    </ToneLink>
-                  ) : null}
-                </li>
-              );
-            })}
-          </ul>
-        </Container>
-      </Section>
+      <Chapter tone="pearl" eyebrow={now.eyebrow} title={now.title} lead={now.lead} headingWidth="max-w-[20ch]">
+        <RuleList
+          tone="pearl"
+          columns={3}
+          titleSize="md"
+          items={inProductNow.map((group) => {
+            const mod = getModule(group.module);
+            return {
+              id: `now-${group.module}`,
+              title: group.label,
+              children: <PointList items={group.items} tone="light" dense />,
+              link: mod ? { label: mod.href.startsWith("/hubx/features/") ? `About ${mod.name}` : "Security and administration", href: mod.href } : undefined,
+            };
+          })}
+        />
+      </Chapter>
 
       {/* Feedback */}
-      <Section>
-        <Container>
-          <div className="glass glass-lg grid gap-8 p-8 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
-            <div className="max-w-[60ch]">
-              <div className="flex flex-wrap items-center gap-3">
-                <Eyebrow>{feedback.eyebrow}</Eyebrow>
-                <EarlyAccessBadge />
-              </div>
-              <Display className="mt-3.5">{feedback.title}</Display>
-              <Lead className="mt-4">{earlyAccess.body}</Lead>
-              <p className="mt-4 flex items-start gap-3 text-[15px] text-white/75">
-                <MessageSquareText className="mt-0.5 size-5 shrink-0 text-brand-orange" aria-hidden />
-                {earlyAccess.feedback.inProduct}
-              </p>
-            </div>
-            <div className="flex flex-col items-start gap-3">
-              <ButtonLink href={earlyAccess.feedback.cta.href}>{earlyAccess.feedback.cta.label}</ButtonLink>
-              <a href={site.hubxLoginUrl} rel="noopener" className="text-sm font-medium text-white/70 underline-offset-4 hover:text-white hover:underline">
-                Open HubX
-              </a>
-            </div>
+      <Chapter tone="ink" size="md" eyebrow={<span className="inline-flex flex-wrap items-center gap-3">{feedback.eyebrow} <EarlyAccessBadge /></span>} title={feedback.title} lead={earlyAccess.body}>
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-start lg:gap-12">
+          <p className={cn("flex max-w-[60ch] items-start gap-3 text-[16px] leading-[1.6]", inkTone.ink.muted)}>
+            <MessageSquareText className="mt-0.5 size-5 shrink-0 text-[#f97316]" aria-hidden />
+            {earlyAccess.feedback.inProduct}
+          </p>
+          <div className="flex flex-col items-start gap-3">
+            <ButtonLink href={earlyAccess.feedback.cta.href}>{earlyAccess.feedback.cta.label}</ButtonLink>
+            <InkLink href={site.hubxLoginUrl} tone="ink" className="text-[15px]">
+              Open HubX
+            </InkLink>
           </div>
-        </Container>
-      </Section>
+        </div>
+      </Chapter>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <CtaBand
-          eyebrow={cta.eyebrow}
-          title={cta.title}
-          lead={cta.lead}
-          primary={{ label: "Schedule a demo", href: "/demo" }}
-          secondary={[{ label: "All features", href: "/hubx/features" }]}
-        />
-      </Section>
+      <NextStep tone="pearl" eyebrow={cta.eyebrow} title={cta.title} lead={cta.lead} primary={{ label: "Schedule a demo", href: "/demo" }} secondary={[{ label: "All features", href: "/hubx/features" }]} />
     </>
   );
 }

@@ -402,13 +402,18 @@ export function CheckList({ items, className, tone = "dark" }: { items: readonly
 }
 
 /** Support model statement (handoff §3 #1): 24/7 is managed-services monitoring only. */
-export function SupportModel({ className, tone = "dark" }: { className?: string; tone?: "dark" | "light" }) {
+export function SupportModel({ className, tone = "dark", variant = "card" }: { className?: string; tone?: "dark" | "light"; variant?: "card" | "rule" }) {
   const dark = tone === "dark";
-  const card = dark ? "glass p-6" : "card-light p-6";
-  const term = cn("font-mono text-xs font-semibold tracking-[0.12em] uppercase", dark ? "text-brand-orange" : "text-charcoal");
-  const body = cn("mt-2 text-[15px]", dark ? "text-white/75" : "text-charcoal/85");
+  const rule = variant === "rule";
+  const card = rule ? cn("border-t pt-5", dark ? "border-white/15" : "border-[#0b1020]/15") : dark ? "glass p-6" : "card-light p-6";
+  const term = rule
+    ? cn("font-mono text-[11px] tracking-[0.12em] uppercase", dark ? "text-[#8e98ae]" : "text-[#4b5569]")
+    : cn("font-mono text-xs font-semibold tracking-[0.12em] uppercase", dark ? "text-brand-orange" : "text-charcoal");
+  const body = rule
+    ? cn("mt-3 text-[16px] leading-[1.65]", dark ? "text-white" : "text-[#0b1020]")
+    : cn("mt-2 text-[15px]", dark ? "text-white/75" : "text-charcoal/85");
   return (
-    <dl className={cn("grid gap-4 sm:grid-cols-3", className)}>
+    <dl className={cn("grid", rule ? "gap-x-8 gap-y-8" : "gap-4", "sm:grid-cols-3", className)}>
       <div className={card}>
         <dt className={term}>Licensing & billing support</dt>
         <dd className={body}>

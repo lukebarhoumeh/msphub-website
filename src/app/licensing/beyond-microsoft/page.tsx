@@ -1,13 +1,12 @@
 import { ArrowRight } from "lucide-react";
-import { CtaBand, LogoCloud, Steps } from "@/components/marketing/blocks";
+import { Chapter, ChipRow, NextStep, RuleList, inkTone, monoLabel } from "@/components/ink/interior";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
-import { Chip, GlassCard } from "@/components/ui/card";
-import { Container, Glow, Section } from "@/components/ui/section";
-import { SectionHeading } from "@/components/ui/typography";
+import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { alliances, vendors } from "@/content/ecosystem";
 import { beyondMicrosoft } from "@/content/licensing";
 import { pageMetadata } from "@/lib/metadata";
+import { cn } from "@/lib/cn";
 
 export const metadata = pageMetadata({
   title: "Beyond Microsoft — Google Workspace, Adobe, Cisco Meraki, Fortinet, Coro, Citrix, Dell and Lenovo through one partner",
@@ -20,76 +19,63 @@ const distribution = alliances.filter((a) => a.kind === "distribution");
 export default function BeyondMicrosoftPage() {
   return (
     <>
-      <PageHero eyebrow={beyondMicrosoft.eyebrow} title={beyondMicrosoft.title} lead={beyondMicrosoft.lead}>
+      <PageHero tone="light" eyebrow={beyondMicrosoft.eyebrow} title={beyondMicrosoft.title} lead={beyondMicrosoft.lead}>
         <ButtonLink href="/contact?topic=sales#contact-form">
           Talk to the deal desk
           <ArrowRight className="size-4" aria-hidden />
         </ButtonLink>
-        <ButtonLink href="/licensing" variant="glass">
+        <ButtonLink href="/licensing" variant="outline">
           Microsoft licensing
         </ButtonLink>
       </PageHero>
 
-      <Section tone="light">
-        <Container>
-          <SectionHeading
-            tone="light"
-            eyebrow="What we procure"
-            title="The vendors you already run, from the desk that quotes your Microsoft."
-          />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {beyondMicrosoft.categories.map((c) => (
-              <GlassCard key={c.title} tone="light" className="flex flex-col p-6">
-                <h3 className="text-lg font-semibold tracking-tight text-charcoal">{c.title}</h3>
-                <ul className="mt-3 flex flex-wrap gap-2">
-                  {c.vendors.map((v) => (
-                    <li key={v}>
-                      <Chip tone="light" className="font-semibold">
-                        {v}
-                      </Chip>
-                    </li>
-                  ))}
-                </ul>
-                <p className="mt-4 text-[14.5px] leading-relaxed text-charcoal/80">{c.body}</p>
-              </GlassCard>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      <Section decor={<Glow tone="navy" className="top-0 right-[-300px] h-[700px] w-[900px]" />}>
-        <Container>
-          <SectionHeading eyebrow="How it works" title="One quote, one partner, one invoice." />
-          <Steps steps={beyondMicrosoft.howItWorks} />
-        </Container>
-      </Section>
-
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <Container>
-          <div className="grid gap-4 lg:grid-cols-2">
-            <GlassCard>
-              <p className="mb-4 font-mono text-xs tracking-[0.12em] text-white/60 uppercase">Distribution</p>
-              <LogoCloud items={distribution} confirm="allianceLogos" />
-              <p className="mt-4 text-[14.5px] leading-relaxed text-white/70">
-                Hardware, Google Workspace, Adobe, and the broader vendor catalog are procured through MSP Hub&apos;s distribution relationships.
-              </p>
-            </GlassCard>
-            <GlassCard>
-              <p className="mb-4 font-mono text-xs tracking-[0.12em] text-white/60 uppercase">Vendor ecosystem</p>
-              <LogoCloud items={vendors} confirm="vendorLogos" />
-            </GlassCard>
-          </div>
-        </Container>
-      </Section>
-
-      <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <CtaBand
-          title="Send the deal desk your renewal calendar."
-          lead="Microsoft and everything around it, quoted by one desk and delivered by one team."
-          primary={{ label: "Talk to the deal desk", href: "/contact?topic=sales#contact-form" }}
-          secondary={[{ label: "Get a Microsoft licensing quote", href: "/licensing/quote" }]}
+      <Chapter tone="pearl" pad="flush-top" title="The vendors you already run, from the desk that quotes your Microsoft." headingWidth="max-w-[24ch]">
+        <RuleList
+          tone="pearl"
+          columns={3}
+          titleSize="md"
+          items={beyondMicrosoft.categories.map((category) => ({
+            title: category.title,
+            body: category.body,
+            children: <ChipRow tone="pearl" items={category.vendors} />,
+          }))}
         />
-      </Section>
+      </Chapter>
+
+      <Chapter tone="ink" title="One quote, one partner, one invoice." headingWidth="max-w-[18ch]">
+        <RuleList tone="ink" numbered columns={3} titleSize="md" items={beyondMicrosoft.howItWorks} />
+        <div className="mt-14 grid gap-10 border-t border-white/15 pt-8 lg:grid-cols-2 lg:gap-12">
+          <div>
+            <p className={cn(monoLabel, inkTone.ink.faint)}>Distribution</p>
+            <ChipRow tone="ink" className="mt-4" label="Distribution relationships" items={distribution.map((d) => ({ label: d.name, title: d.note }))} />
+            <p className={cn("mt-4 max-w-[48ch] text-[15px] leading-[1.6]", inkTone.ink.muted)}>
+              Hardware, Google Workspace, Adobe, and the broader vendor catalog are procured through MSP Hub&apos;s distribution relationships.
+            </p>
+            <p className={cn("mt-3 text-[13px]", inkTone.ink.faint)}>
+              <NeedsConfirm id="allianceLogos" fallback={null}>
+                Names shown as text until logo files and written permission are in hand.
+              </NeedsConfirm>
+            </p>
+          </div>
+          <div>
+            <p className={cn(monoLabel, inkTone.ink.faint)}>Vendor ecosystem</p>
+            <ChipRow tone="ink" className="mt-4" label="Vendors" items={vendors.map((v) => ({ label: v.name, title: v.note }))} />
+            <p className={cn("mt-3 text-[13px]", inkTone.ink.faint)}>
+              <NeedsConfirm id="vendorLogos" fallback={null}>
+                Names shown as text until logo files and written permission are in hand.
+              </NeedsConfirm>
+            </p>
+          </div>
+        </div>
+      </Chapter>
+
+      <NextStep
+        tone="pearl"
+        title="Send the deal desk your renewal calendar."
+        lead="Microsoft and everything around it, quoted by one desk and delivered by one team."
+        primary={{ label: "Talk to the deal desk", href: "/contact?topic=sales#contact-form" }}
+        secondary={[{ label: "Get a Microsoft licensing quote", href: "/licensing/quote" }]}
+      />
     </>
   );
 }
