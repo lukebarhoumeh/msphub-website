@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import { BorderBeam, Grain, Horizon } from "@/components/ink/atmosphere";
+import { Ticker } from "@/components/ink/motion";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/section";
 import { cn } from "@/lib/cn";
@@ -43,6 +45,9 @@ export const chapterTitle = "font-display text-[34px] leading-[1.08] font-bold t
 export const chapterTitleSm = "font-display text-[30px] leading-[1.1] font-bold tracking-[-0.02em] lg:text-[40px]";
 export const itemTitle = "font-display text-2xl font-bold tracking-[-0.015em]";
 
+/** Reveal delay helper: `style={reveal(120)}` on a `data-reveal` element. */
+export const reveal = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as React.CSSProperties;
+
 type ChapterProps = Omit<ComponentPropsWithoutRef<"section">, "title"> & {
   tone?: InkTone;
   /** Mono wayfinding label above the title; no orange rule. */
@@ -79,16 +84,32 @@ export function Chapter({
   const padding =
     pad === "normal" ? "py-[clamp(64px,7vw,104px)]" : pad === "tight" ? "pt-0 pb-[clamp(64px,7vw,104px)]" : "pt-0 pb-[clamp(48px,5vw,72px)]";
   return (
-    <section data-surface={tone} className={cn("scroll-mt-24 overflow-x-clip", t.ground, padding, className)} {...rest}>
-      <Container className={containerClassName}>
+    <section data-surface={tone} className={cn("relative scroll-mt-24 overflow-x-clip", t.ground, padding, className)} {...rest}>
+      {tone === "ink" ? (
+        <>
+          {pad === "normal" ? <Horizon className="absolute top-0" /> : null}
+          <Grain />
+        </>
+      ) : null}
+      <Container className={cn("relative", containerClassName)}>
         {title || eyebrow || lead ? (
           <div className={cn(!!aside && "lg:flex lg:items-end lg:justify-between lg:gap-10")}>
             <div>
-              {eyebrow ? <p className={cn(monoLabel, t.muted)}>{eyebrow}</p> : null}
-              {title ? (
-                <h2 className={cn(size === "lg" ? chapterTitle : chapterTitleSm, headingWidth, !!eyebrow && "mt-4", "text-balance")}>{title}</h2>
+              {eyebrow ? (
+                <p data-reveal className={cn(monoLabel, t.muted)}>
+                  {eyebrow}
+                </p>
               ) : null}
-              {lead ? <p className={cn("mt-5 max-w-[58ch] text-[17px] leading-[1.6] lg:text-[19px]", t.muted)}>{lead}</p> : null}
+              {title ? (
+                <h2 data-reveal style={reveal(60)} className={cn(size === "lg" ? chapterTitle : chapterTitleSm, headingWidth, !!eyebrow && "mt-4", "text-balance")}>
+                  {title}
+                </h2>
+              ) : null}
+              {lead ? (
+                <p data-reveal style={reveal(140)} className={cn("mt-5 max-w-[58ch] text-[17px] leading-[1.6] lg:text-[19px]", t.muted)}>
+                  {lead}
+                </p>
+              ) : null}
             </div>
             {aside ? <div className="mt-6 shrink-0 lg:mt-0">{aside}</div> : null}
           </div>
@@ -163,7 +184,13 @@ export function RuleList({ items, tone = "pearl", columns = 3, numbered = false,
       {items.map((item, index) => {
         const label = numbered ? String(index + 1).padStart(2, "0") : item.label;
         return (
-          <li key={item.id ?? (typeof item.title === "string" ? item.title : index)} id={item.id} className={cn("flex flex-col border-t pt-5", t.rule, item.id && "scroll-mt-28")}>
+          <li
+            key={item.id ?? (typeof item.title === "string" ? item.title : index)}
+            id={item.id}
+            data-reveal
+            style={reveal(Math.min(index, 7) * 70)}
+            className={cn("rule-item flex flex-col border-t pt-5", t.rule, item.id && "scroll-mt-28")}
+          >
             {label ? <p className={cn(monoLabel, t.faint)}>{label}</p> : null}
             <h3 className={cn(titleSize === "lg" ? itemTitle : "font-display text-xl font-bold tracking-[-0.01em]", !!label && "mt-3")}>{item.title}</h3>
             {item.body ? <p className={cn("mt-3 max-w-[44ch] text-[16px] leading-[1.65] lg:text-[17px]", t.muted)}>{item.body}</p> : null}
@@ -213,7 +240,7 @@ export function FactRows({ rows, tone = "pearl", className }: { rows: readonly {
   return (
     <dl className={cn("grid", className)}>
       {rows.map((row, index) => (
-        <div key={index} className={cn("grid gap-1 border-t py-4 sm:grid-cols-[180px_1fr] sm:gap-6", t.ruleSoft)}>
+        <div key={index} data-reveal style={reveal(index * 50)} className={cn("rule-item grid gap-1 border-t py-4 sm:grid-cols-[180px_1fr] sm:gap-6", t.ruleSoft)}>
           <dt className={cn(monoLabel, "pt-1", t.faint)}>{row.label}</dt>
           <dd className={cn("text-[16px] leading-[1.6]", t.text)}>{row.value}</dd>
         </div>
@@ -222,18 +249,32 @@ export function FactRows({ rows, tone = "pearl", className }: { rows: readonly {
   );
 }
 
-/** The proof rail: big figures in one panel. */
-export function StatRail({ items, tone = "ink", className }: { items: readonly { id?: string; value: ReactNode; label: ReactNode }[]; tone?: InkTone; className?: string }) {
+/** The proof rail: big figures in one panel, counting up when they come into view. */
+export function StatRail({
+  items,
+  tone = "ink",
+  beam = false,
+  className,
+}: {
+  items: readonly { id?: string; value: ReactNode; label: ReactNode }[];
+  tone?: InkTone;
+  /** A light travelling the panel edge. */
+  beam?: boolean;
+  className?: string;
+}) {
   const t = inkTone[tone];
   const cols = items.length >= 4 ? "lg:grid-cols-4" : items.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-2";
   return (
-    <ul className={cn("grid overflow-hidden rounded-[18px] border sm:grid-cols-2", cols, t.panel, className)}>
+    <ul className={cn("relative grid overflow-hidden rounded-[18px] border sm:grid-cols-2", cols, t.panel, className)}>
       {items.map((item, index) => (
         <li key={item.id ?? index} className={cn("border-b px-5 py-5 sm:border-r lg:border-b-0 lg:py-6 lg:last:border-r-0", t.ruleSoft)}>
-          <p className="font-display text-[28px] font-bold tracking-[-0.02em] tabular-nums">{item.value}</p>
+          <p className="font-display text-[28px] font-bold tracking-[-0.02em] tabular-nums lg:text-[32px]">
+            {typeof item.value === "string" ? <Ticker value={item.value} /> : item.value}
+          </p>
           <p className={cn("mt-1 max-w-[24ch] text-sm leading-snug", t.muted)}>{item.label}</p>
         </li>
       ))}
+      {beam ? <BorderBeam duration={12} /> : null}
     </ul>
   );
 }
@@ -319,9 +360,10 @@ type NextStepProps = {
 export function NextStep({ tone = "ink", eyebrow, title, lead, primary, secondary, children, className, id }: NextStepProps) {
   const t = inkTone[tone];
   return (
-    <section id={id} data-surface={tone} className={cn("scroll-mt-24", t.ground, className)}>
-      <Container className={cn("border-t py-14 lg:py-16", t.rule)}>
-        <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-12">
+    <section id={id} data-surface={tone} className={cn("relative scroll-mt-24 overflow-hidden", t.ground, className)}>
+      {tone === "ink" ? <Grain /> : null}
+      <Container className={cn("relative border-t py-14 lg:py-16", t.rule)}>
+        <div data-reveal className="grid items-end gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-12">
           <div>
             {eyebrow ? <p className={cn(monoLabel, t.muted)}>{eyebrow}</p> : null}
             <h2 className={cn(chapterTitleSm, "max-w-[22ch] text-balance", !!eyebrow && "mt-4")}>{title}</h2>
@@ -347,8 +389,8 @@ export function Milestones({ items, tone = "pearl", className }: { items: readon
   const t = inkTone[tone];
   return (
     <ol className={cn("grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 xl:gap-5", className)}>
-      {items.map((item) => (
-        <li key={item.title} className={cn("border-t pt-4", t.rule)}>
+      {items.map((item, index) => (
+        <li key={item.title} data-reveal style={reveal(index * 80)} className={cn("rule-item border-t pt-4", t.rule)}>
           <p className={cn(monoLabel, "flex items-center gap-2", t.faint)}>
             <span aria-hidden className="size-1.5 rounded-full bg-[#f97316]" />
             {item.when}

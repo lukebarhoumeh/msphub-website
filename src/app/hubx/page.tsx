@@ -5,7 +5,7 @@ import { FeatureGrid } from "@/components/hubx/feature-grid";
 import { HubAiConversation } from "@/components/hubx/hubai-conversation";
 import { ModuleExplorer } from "@/components/hubx/module-explorer";
 import { JsonLd } from "@/components/hubx/primitives";
-import { EvidenceFigure, EvidenceStage } from "@/components/ink/evidence";
+import { EvidenceBezel, EvidenceCaption, EvidenceFigure, EvidenceStage } from "@/components/ink/evidence";
 import { Chapter, ChipRow, DotList, InkLink, NextStep, RuleList, inkTone, monoLabel } from "@/components/ink/interior";
 import { PageHero } from "@/components/marketing/page-hero";
 import { Testimonials } from "@/components/marketing/blocks";
@@ -45,7 +45,19 @@ export default function HubXPage() {
   const { hero, audiences, tour, modules, features, steps, hubai, trust, licensing, faq, cta } = hubxPage;
   return (
     <>
-      <PageHero eyebrow={hero.eyebrow} title={hero.title} lead={hero.lead}>
+      <PageHero
+        eyebrow={hero.eyebrow}
+        title={hero.title}
+        lead={hero.lead}
+        aside={
+          <figure className="m-0 flex flex-col items-center lg:items-end">
+            <EvidenceBezel capture={captures.homeOverview} tilt beam priority className="max-w-[460px]" />
+            <div className="w-full max-w-[460px] text-white">
+              <EvidenceCaption capture={captures.homeOverview} />
+            </div>
+          </figure>
+        }
+      >
         <ButtonLink href={hero.primary.href}>
           {hero.primary.label}
           <ArrowRight className="size-4" aria-hidden />

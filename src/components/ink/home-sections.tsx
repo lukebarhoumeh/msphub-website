@@ -1,11 +1,14 @@
 import Link from "next/link";
+import { Aurora, BorderBeam, DotField, GhostNumeral, Grain, Horizon, Marquee } from "@/components/ink/atmosphere";
 import { IllustrativeAsset } from "@/components/ink/illustrative-asset";
 import { AudienceRouter } from "@/components/ink/audience-router";
 import { EngineMatrix } from "@/components/ink/engine-matrix";
-import { EvidenceStage } from "@/components/ink/evidence";
+import { EvidenceBezel, EvidenceStage } from "@/components/ink/evidence";
+import { StatRail } from "@/components/ink/interior";
+import { Spotlight } from "@/components/ink/motion";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/section";
-import { homeEvidence } from "@/content/evidence";
+import { captures, homeEvidence, truthLabel } from "@/content/evidence";
 import {
   homeDevelopment,
   homeHero,
@@ -16,23 +19,34 @@ import {
   homeProof,
   homeTrust,
 } from "@/content/home";
+import { licensingCatalog } from "@/content/hubx";
 import { getPost, formatPostDate, isoPostDate } from "@/content/insights";
 
+const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as React.CSSProperties;
+
 export function InkHomeHero() {
+  const crop = captures.customerProductsHome;
   return (
-    <section className="bg-[#0b1020] text-white">
-      <Container className="grid items-center gap-10 py-12 lg:min-h-[min(720px,calc(100svh-72px))] lg:grid-cols-12 lg:gap-6 lg:py-16">
+    <section className="relative overflow-hidden bg-[#0b1020] text-white">
+      <Aurora />
+      <DotField tone="ink" className="opacity-70" />
+      <Grain />
+      <Container className="relative grid items-center gap-12 py-14 lg:min-h-[min(760px,calc(100svh-72px))] lg:grid-cols-12 lg:gap-8 lg:py-20">
         <div className="lg:col-span-5">
-          <p className="font-mono text-[11px] tracking-[0.12em] text-[#b8c0d4] uppercase">{homeHero.eyebrow}</p>
+          <p className="hero-line font-mono text-[11px] tracking-[0.12em] text-[#b8c0d4] uppercase" style={{ "--i": 0 } as React.CSSProperties}>
+            {homeHero.eyebrow}
+          </p>
           <h1 className="mt-5 font-display text-[44px] leading-[1.02] font-extrabold tracking-[-0.03em] sm:text-[48px] lg:text-[72px] lg:leading-[0.98]">
             {homeHero.title.map((line, index) => (
-              <span key={line} className="block">
+              <span key={line} className="hero-line" style={{ "--i": index + 1 } as React.CSSProperties}>
                 {index === homeHero.title.length - 1 ? <span className="ink-gradient-text">{line}</span> : line}
               </span>
             ))}
           </h1>
-          <p className="mt-6 max-w-[38ch] text-[17px] leading-[1.6] text-[#b8c0d4] lg:max-w-[46ch] lg:text-[19px]">{homeHero.lead}</p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+          <p className="hero-line mt-6 max-w-[38ch] text-[17px] leading-[1.6] text-[#b8c0d4] lg:max-w-[46ch] lg:text-[19px]" style={{ "--i": 6 } as React.CSSProperties}>
+            {homeHero.lead}
+          </p>
+          <div className="hero-line mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap" style={{ "--i": 7 } as React.CSSProperties}>
             <ButtonLink href={homeHero.primary.href} className="sheen-once">
               {homeHero.primary.label}
             </ButtonLink>
@@ -40,28 +54,56 @@ export function InkHomeHero() {
               {homeHero.secondary.label}
             </ButtonLink>
           </div>
-          <p className="mt-6 text-[15px] text-[#b8c0d4]">{homeHero.platforms}</p>
+          <p className="hero-line mt-6 text-[15px] text-[#b8c0d4]" style={{ "--i": 8 } as React.CSSProperties}>
+            {homeHero.platforms}
+          </p>
         </div>
-        <div className="hero-art lg:col-span-7">
-          <IllustrativeAsset name="four-engine-refraction" priority sizes="(min-width: 1024px) 58vw, 100vw" />
+        <div className="hero-art relative lg:col-span-7">
+          <Spotlight className="tilt tilt-hero relative overflow-hidden rounded-[22px] border border-white/14 bg-[#12192b]/80 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_40px_90px_rgba(0,0,0,.45)]">
+            <IllustrativeAsset name="four-engine-refraction" priority sizes="(min-width: 1024px) 58vw, 100vw" className="[&_figcaption]:px-3 [&_figcaption]:pb-2" />
+            <BorderBeam duration={11} />
+          </Spotlight>
+          <div className="pointer-events-none absolute -bottom-6 left-0 hidden w-[300px] lg:block xl:-left-6 xl:w-[340px]" style={delay(600)} data-reveal="scale">
+            <div className="pointer-events-auto rotate-[-3deg]">
+              <EvidenceBezel capture={crop} />
+              <p className="mt-2 font-mono text-[11px] tracking-[0.12em] text-[#b8c0d4] uppercase">{truthLabel}</p>
+            </div>
+          </div>
         </div>
       </Container>
     </section>
   );
 }
 
+/** A quiet ticker of the Microsoft families sold through HubX, straight from the licensing content. */
+export function CatalogTicker() {
+  return (
+    <section aria-label="Microsoft licensing families" className="relative border-y border-white/10 bg-[#0b1020] text-white">
+      <div className="relative mx-auto w-[min(1280px,calc(100%-2*var(--page-pad)))] py-4">
+        <div className="grid items-center gap-4 lg:grid-cols-[auto_minmax(0,1fr)]">
+          <p className="shrink-0 font-mono text-[11px] tracking-[0.12em] text-[#8e98ae] uppercase">Sold direct · managed in HubX</p>
+          <div className="relative min-w-0 [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
+            <Marquee duration={70}>
+              {licensingCatalog.map((family) => (
+                <span key={family} className="inline-flex h-9 shrink-0 items-center rounded-full border border-white/13 bg-white/5 px-3.5 font-mono text-[12.5px] whitespace-nowrap text-white/85">
+                  {family}
+                </span>
+              ))}
+            </Marquee>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function ProofRail() {
   return (
-    <section aria-label="Company proof" className="bg-[#0b1020] pb-14 text-white">
+    <section aria-label="Company proof" className="relative bg-[#0b1020] py-14 text-white">
       <Container>
-        <ul className="grid overflow-hidden rounded-[18px] border border-white/13 bg-[linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.04))] shadow-[inset_0_1px_0_rgba(255,255,255,.16)] sm:grid-cols-2 lg:grid-cols-4">
-          {homeProof.map((item) => (
-            <li key={item.id} className="border-b border-white/10 px-5 py-5 sm:border-r lg:border-b-0 lg:py-6 lg:last:border-r-0">
-              <p className="font-display text-[28px] font-bold tracking-[-0.02em] tabular-nums">{item.value}</p>
-              <p className="mt-1 max-w-[24ch] text-sm leading-snug text-[#b8c0d4]">{item.label}</p>
-            </li>
-          ))}
-        </ul>
+        <div data-reveal="scale" style={delay(80)}>
+          <StatRail tone="ink" items={homeProof} beam />
+        </div>
       </Container>
     </section>
   );
@@ -69,14 +111,16 @@ export function ProofRail() {
 
 export function OutcomeSequence() {
   return (
-    <section className="bg-[#f4f6fb] py-[clamp(64px,7vw,104px)] text-[#0b1020]">
-      <Container>
-        <h2 className="max-w-[16ch] font-display text-[34px] leading-[1.08] font-bold tracking-[-0.025em] lg:text-[52px]">
+    <section className="relative bg-[#f4f6fb] py-[clamp(64px,7vw,104px)] text-[#0b1020]" data-surface="pearl">
+      <DotField tone="pearl" className="opacity-50 [mask-image:radial-gradient(ellipse_60%_50%_at_85%_20%,#000_10%,transparent_80%)]" />
+      <Container className="relative">
+        <h2 data-reveal className="max-w-[16ch] font-display text-[34px] leading-[1.08] font-bold tracking-[-0.025em] lg:text-[52px]">
           Three outcomes. One partner.
         </h2>
         <ol className="mt-12 grid gap-10 lg:grid-cols-3 lg:gap-8">
-          {homeOutcomes.map((item) => (
-            <li key={item.n} className="border-t border-[#0b1020]/15 pt-5">
+          {homeOutcomes.map((item, index) => (
+            <li key={item.n} data-reveal style={delay(index * 90)} className="rule-item relative border-t border-[#0b1020]/15 pt-5">
+              <GhostNumeral>{item.n}</GhostNumeral>
               <p className="font-mono text-[11px] tracking-[0.12em] text-[#4b5569] uppercase">{item.n}</p>
               <h3 className="mt-3 font-display text-2xl font-bold tracking-[-0.015em]">
                 <Link href={item.href} className="underline decoration-[#f97316] decoration-2 underline-offset-[5px]">
@@ -87,7 +131,7 @@ export function OutcomeSequence() {
             </li>
           ))}
         </ol>
-        <div aria-hidden className="outcome-line mt-12 h-px origin-left bg-[#f97316]" />
+        <div aria-hidden className="outcome-line mt-12 h-px origin-left bg-[linear-gradient(90deg,#f97316,rgba(249,115,22,0))]" />
       </Container>
     </section>
   );
@@ -95,12 +139,12 @@ export function OutcomeSequence() {
 
 export function EngineChapter() {
   return (
-    <section id="engines" className="scroll-mt-24 bg-[#f4f6fb] pb-[clamp(64px,7vw,104px)] text-[#0b1020]">
+    <section id="engines" className="scroll-mt-24 bg-[#f4f6fb] pb-[clamp(64px,7vw,104px)] text-[#0b1020]" data-surface="pearl">
       <Container>
-        <h2 className="max-w-[18ch] font-display text-[34px] leading-[1.08] font-bold tracking-[-0.025em] lg:text-[52px]">
+        <h2 data-reveal className="max-w-[18ch] font-display text-[34px] leading-[1.08] font-bold tracking-[-0.025em] lg:text-[52px]">
           Four engines. One accountable partner.
         </h2>
-        <div className="mt-10">
+        <div data-reveal style={delay(120)} className="mt-10">
           <EngineMatrix />
         </div>
       </Container>
@@ -110,10 +154,12 @@ export function EngineChapter() {
 
 export function AudienceChapter() {
   return (
-    <section id="who-we-work-with" className="scroll-mt-24 bg-[#f4f6fb] pb-[clamp(64px,7vw,96px)] text-[#0b1020]">
+    <section id="who-we-work-with" className="scroll-mt-24 bg-[#f4f6fb] pb-[clamp(64px,7vw,96px)] text-[#0b1020]" data-surface="pearl">
       <Container>
-        <h2 className="font-display text-[34px] leading-[1.08] font-bold tracking-[-0.025em] lg:text-[52px]">Who we work with</h2>
-        <div className="mt-10">
+        <h2 data-reveal className="font-display text-[34px] leading-[1.08] font-bold tracking-[-0.025em] lg:text-[52px]">
+          Who we work with
+        </h2>
+        <div data-reveal style={delay(120)} className="mt-10">
           <AudienceRouter />
         </div>
       </Container>
@@ -123,11 +169,18 @@ export function AudienceChapter() {
 
 export function HubxEvidenceChapter() {
   return (
-    <section className="bg-[#0b1020] py-[clamp(72px,8vw,120px)] text-white">
-      <Container>
-        <h2 className="max-w-[16ch] font-display text-[34px] leading-[1.05] font-bold tracking-[-0.025em] lg:text-[52px]">{homeHubx.title}</h2>
-        <p className="mt-5 max-w-[54ch] text-[17px] leading-[1.6] text-[#b8c0d4] lg:text-[19px]">{homeHubx.lead}</p>
-        <div className="mt-12">
+    <section className="relative overflow-hidden bg-[#0b1020] py-[clamp(72px,8vw,120px)] text-white">
+      <Horizon className="absolute top-0" />
+      <Aurora intensity="soft" />
+      <Grain />
+      <Container className="relative">
+        <h2 data-reveal className="max-w-[16ch] font-display text-[34px] leading-[1.05] font-bold tracking-[-0.025em] lg:text-[52px]">
+          {homeHubx.title}
+        </h2>
+        <p data-reveal style={delay(80)} className="mt-5 max-w-[54ch] text-[17px] leading-[1.6] text-[#b8c0d4] lg:text-[19px]">
+          {homeHubx.lead}
+        </p>
+        <div data-reveal="scale" style={delay(160)} className="mt-12">
           <EvidenceStage ids={homeEvidence} />
         </div>
       </Container>
@@ -137,27 +190,33 @@ export function HubxEvidenceChapter() {
 
 export function ProfessionalChapter() {
   return (
-    <section className="bg-[#f4f6fb] py-[clamp(72px,8vw,120px)] text-[#0b1020]">
+    <section className="relative bg-[#f4f6fb] py-[clamp(72px,8vw,120px)] text-[#0b1020]" data-surface="pearl">
       <Container className="grid items-start gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <h2 className="font-display text-[34px] leading-[1.08] font-bold tracking-[-0.025em] lg:text-[52px]">{homeProfessional.title}</h2>
+          <h2 data-reveal className="font-display text-[34px] leading-[1.08] font-bold tracking-[-0.025em] lg:text-[52px]">
+            {homeProfessional.title}
+          </h2>
           <ol className="mt-8 grid gap-4">
             {homeProfessional.process.map((step, index) => (
-              <li key={step} className="flex items-baseline gap-4 border-t border-[#0b1020]/12 pt-3">
+              <li key={step} data-reveal="left" style={delay(100 + index * 70)} className="rule-item flex items-baseline gap-4 border-t border-[#0b1020]/12 pt-3">
                 <span className="font-mono text-[11px] tracking-[0.12em] text-[#4b5569]">{String(index + 1).padStart(2, "0")}</span>
                 <span className="font-display text-2xl font-bold tracking-[-0.015em]">{step}</span>
               </li>
             ))}
           </ol>
-          <ButtonLink href={homeProfessional.href} variant="outline" className="mt-8">
-            Professional Services
-          </ButtonLink>
+          <div data-reveal style={delay(420)}>
+            <ButtonLink href={homeProfessional.href} variant="outline" className="mt-8">
+              Professional Services
+            </ButtonLink>
+          </div>
         </div>
         <div className="lg:col-span-7">
-          <IllustrativeAsset name="lifecycle-glass-corridor" sizes="(min-width: 1024px) 46vw, 100vw" />
+          <div data-reveal="scale" style={delay(120)} className="overflow-hidden rounded-[18px] border border-[#0b1020]/8 bg-white p-2 shadow-[0_24px_64px_rgba(11,16,32,.12)]">
+            <IllustrativeAsset name="lifecycle-glass-corridor" sizes="(min-width: 1024px) 46vw, 100vw" className="[&_figcaption]:px-2 [&_figcaption]:pb-1" />
+          </div>
           <ul className="mt-8 grid gap-2 sm:grid-cols-2">
-            {homeProfessional.scope.map((item) => (
-              <li key={item} className="flex gap-3 text-[15px] leading-snug">
+            {homeProfessional.scope.map((item, index) => (
+              <li key={item} data-reveal style={delay(200 + index * 40)} className="flex gap-3 text-[15px] leading-snug">
                 <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-[#f97316]" />
                 {item}
               </li>
@@ -171,27 +230,35 @@ export function ProfessionalChapter() {
 
 export function ManagedChapter() {
   return (
-    <section className="bg-[#0b1020] py-[clamp(72px,8vw,120px)] text-white">
-      <Container>
-        <h2 className="max-w-[14ch] font-display text-[34px] leading-[1.08] font-bold tracking-[-0.025em] lg:text-[52px]">{homeManaged.title}</h2>
+    <section className="relative overflow-hidden bg-[#0b1020] py-[clamp(72px,8vw,120px)] text-white">
+      <Horizon className="absolute top-0" />
+      <DotField tone="ink" className="opacity-50 [mask-image:radial-gradient(ellipse_50%_60%_at_90%_50%,#000_10%,transparent_80%)]" />
+      <Grain />
+      <Container className="relative">
+        <h2 data-reveal className="max-w-[14ch] font-display text-[34px] leading-[1.08] font-bold tracking-[-0.025em] lg:text-[52px]">
+          {homeManaged.title}
+        </h2>
         <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {homeManaged.process.map((step, index) => (
-            <li key={step} className="border-t border-white/15 pt-4">
+            <li key={step} data-reveal style={delay(100 + index * 80)} className="rule-item relative border-t border-white/15 pt-4">
+              <GhostNumeral className="text-[88px]">{String(index + 1).padStart(2, "0")}</GhostNumeral>
               <p className="font-mono text-[11px] tracking-[0.12em] text-[#8e98ae]">{String(index + 1).padStart(2, "0")}</p>
               <p className="mt-2 font-display text-2xl font-bold">{step}</p>
             </li>
           ))}
         </ol>
         <ul className="mt-12 grid max-w-[70ch] gap-4">
-          {homeManaged.points.map((point) => (
-            <li key={point} className="text-[17px] leading-[1.6] text-[#b8c0d4]">
+          {homeManaged.points.map((point, index) => (
+            <li key={point} data-reveal style={delay(200 + index * 60)} className="text-[17px] leading-[1.6] text-[#b8c0d4]">
               {point}
             </li>
           ))}
         </ul>
-        <ButtonLink href={homeManaged.href} variant="glass" className="mt-8">
-          Managed Services
-        </ButtonLink>
+        <div data-reveal style={delay(480)}>
+          <ButtonLink href={homeManaged.href} variant="glass" className="mt-8">
+            Managed Services
+          </ButtonLink>
+        </div>
       </Container>
     </section>
   );
@@ -199,32 +266,38 @@ export function ManagedChapter() {
 
 export function DevelopmentChapter() {
   return (
-    <section className="bg-[#f4f6fb] py-[clamp(72px,8vw,120px)] text-[#0b1020]">
+    <section className="relative bg-[#f4f6fb] py-[clamp(72px,8vw,120px)] text-[#0b1020]" data-surface="pearl">
       <Container className="grid items-center gap-12 lg:grid-cols-12">
         <div className="order-2 lg:order-1 lg:col-span-6">
-          <IllustrativeAsset name="ai-inference-lattice" sizes="(min-width: 1024px) 42vw, 100vw" />
+          <div data-reveal="scale" style={delay(120)} className="overflow-hidden rounded-[18px] border border-[#0b1020]/8 bg-white p-2 shadow-[0_24px_64px_rgba(11,16,32,.12)]">
+            <IllustrativeAsset name="ai-inference-lattice" sizes="(min-width: 1024px) 42vw, 100vw" className="[&_figcaption]:px-2 [&_figcaption]:pb-1" />
+          </div>
         </div>
         <div className="order-1 lg:order-2 lg:col-span-6">
-          <h2 className="font-display text-[34px] leading-[1.08] font-bold tracking-[-0.025em] lg:text-[52px]">{homeDevelopment.title}</h2>
+          <h2 data-reveal className="font-display text-[34px] leading-[1.08] font-bold tracking-[-0.025em] lg:text-[52px]">
+            {homeDevelopment.title}
+          </h2>
           <ol className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
             {homeDevelopment.process.map((step, index) => (
-              <li key={step} className="font-display text-xl font-bold">
+              <li key={step} data-reveal style={delay(100 + index * 60)} className="font-display text-xl font-bold">
                 <span className="mr-2 font-mono text-[11px] font-medium tracking-[0.12em] text-[#4b5569]">{String(index + 1).padStart(2, "0")}</span>
                 {step}
               </li>
             ))}
           </ol>
           <ul className="mt-8 grid gap-2">
-            {homeDevelopment.scope.map((item) => (
-              <li key={item} className="flex gap-3 text-[16px] leading-snug">
+            {homeDevelopment.scope.map((item, index) => (
+              <li key={item} data-reveal style={delay(240 + index * 40)} className="flex gap-3 text-[16px] leading-snug">
                 <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-[#f97316]" />
                 {item}
               </li>
             ))}
           </ul>
-          <ButtonLink href={homeDevelopment.href} variant="outline" className="mt-8">
-            Development & AI
-          </ButtonLink>
+          <div data-reveal style={delay(460)}>
+            <ButtonLink href={homeDevelopment.href} variant="outline" className="mt-8">
+              Development & AI
+            </ButtonLink>
+          </div>
         </div>
       </Container>
     </section>
@@ -233,12 +306,16 @@ export function DevelopmentChapter() {
 
 export function TrustBand() {
   return (
-    <section className="bg-[#0b1020] py-12 text-white lg:py-16">
-      <Container>
-        <h2 className="font-display text-[30px] leading-[1.1] font-bold tracking-[-0.02em] lg:text-[40px]">Evidence you can check.</h2>
+    <section className="relative overflow-hidden bg-[#0b1020] py-12 text-white lg:py-16">
+      <Horizon className="absolute top-0" />
+      <Grain />
+      <Container className="relative">
+        <h2 data-reveal className="font-display text-[30px] leading-[1.1] font-bold tracking-[-0.02em] lg:text-[40px]">
+          Evidence you can check.
+        </h2>
         <ul className="mt-8 grid gap-4 lg:grid-cols-5">
-          {homeTrust.map((item) => (
-            <li key={item} className="border-t border-white/15 pt-4 text-[15px] leading-snug text-[#b8c0d4]">
+          {homeTrust.map((item, index) => (
+            <li key={item} data-reveal style={delay(index * 70)} className="rule-item border-t border-white/15 pt-4 text-[15px] leading-snug text-[#b8c0d4]">
               {item}
             </li>
           ))}
@@ -252,10 +329,12 @@ export function InsightNote() {
   const post = getPost("introducing-msp-hub");
   if (!post) return null;
   return (
-    <section className="bg-[#f4f6fb] py-16 text-[#0b1020] lg:py-20">
+    <section className="bg-[#f4f6fb] py-16 text-[#0b1020] lg:py-20" data-surface="pearl">
       <Container className="grid gap-6 lg:grid-cols-[180px_minmax(0,1fr)] lg:items-baseline">
-        <p className="font-mono text-[11px] tracking-[0.12em] text-[#4b5569] uppercase">One insight</p>
-        <article>
+        <p data-reveal className="font-mono text-[11px] tracking-[0.12em] text-[#4b5569] uppercase">
+          One insight
+        </p>
+        <article data-reveal style={delay(80)}>
           <p className="font-mono text-[12px] tracking-[0.08em] text-[#4b5569] uppercase">
             <time dateTime={isoPostDate(post.date)}>{formatPostDate(post.date)}</time>
           </p>

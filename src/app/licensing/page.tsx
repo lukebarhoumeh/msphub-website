@@ -1,5 +1,5 @@
 import { ArrowRight, ExternalLink } from "lucide-react";
-import { EvidenceFigure } from "@/components/ink/evidence";
+import { EvidenceBezel, EvidenceCaption, EvidenceFigure } from "@/components/ink/evidence";
 import { Chapter, ChipRow, FactRows, InkLink, NextStep, RuleList, StatRail, inkTone, itemTitle, monoLabel } from "@/components/ink/interior";
 import { FaqSection } from "@/components/marketing/faq-section";
 import { PageHero } from "@/components/marketing/page-hero";
@@ -29,7 +29,20 @@ export const metadata = pageMetadata({
 export default function LicensingPage() {
   return (
     <>
-      <PageHero tone="light" eyebrow={licensingHub.eyebrow} title={licensingHub.title} lead={licensingHub.lead}>
+      <PageHero
+        tone="light"
+        eyebrow={licensingHub.eyebrow}
+        title={licensingHub.title}
+        lead={licensingHub.lead}
+        aside={
+          <figure className="m-0 flex flex-col items-center lg:items-end">
+            <EvidenceBezel capture={captures.customerProductsHome} tilt beam priority className="max-w-[460px]" />
+            <div className="w-full max-w-[460px] text-[#0b1020]">
+              <EvidenceCaption capture={captures.customerProductsHome} />
+            </div>
+          </figure>
+        }
+      >
         <ButtonLink href="/licensing/quote">
           Get a licensing quote
           <ArrowRight className="size-4" aria-hidden />
