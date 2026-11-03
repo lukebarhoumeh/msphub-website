@@ -13,7 +13,7 @@ import { hubxLockup } from "@/content/hubx";
 export const metadata: Metadata = {
   title: "Services — professional, managed, and development services for Microsoft estates",
   description:
-    "Three practices plus licensing. MSP Hub designs, migrates, runs, and builds on Microsoft estates. HubX is the portal beside the work.",
+    "Professional, managed, and development services for Microsoft estates, with licensing from the same team and every subscription visible in HubX.",
   alternates: { canonical: "/services" },
 };
 
@@ -30,7 +30,7 @@ export default function ServicesPage() {
         tone="light"
         eyebrow="Services"
         title="Three practices, plus licensing."
-        lead="Professional services, managed services, and development sit at the same level. Licensing is the path in. HubX is the portal beside the work, not a fourth practice and not the parent."
+        lead="Plan and deliver the change, run what comes next, and build what the estate still needs, from the team that also holds your licensing. Every project starts from your estate as it actually is, in HubX."
       >
         <ButtonLink href="#inquiry">Start a service inquiry</ButtonLink>
         <ButtonLink href="/licensing" variant="glass">
@@ -68,7 +68,7 @@ export default function ServicesPage() {
             <div>
               <p className="font-mono text-[11px] tracking-[0.12em] text-[#b8c0d4] uppercase">{hubxLockup}</p>
               <p className="mt-2 max-w-[62ch] text-[16px] leading-relaxed text-[#b8c0d4]">
-                Customer products, purchasing, renewals, invoices, and service activity in one portal. HubX does not contain the service practices.
+                Customer products, purchasing, renewals, invoices, and service activity in one portal, so every service engagement starts from what you actually run.
               </p>
             </div>
             <ButtonLink href="/hubx" variant="glass">

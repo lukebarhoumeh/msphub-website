@@ -57,6 +57,17 @@ export default function ContactPage({ searchParams }: PageProps<"/contact">) {
               <Eyebrow>General contact</Eyebrow>
               <Display className="mt-3.5">Send us a message.</Display>
               <Lead className="mt-4">We read every message and reply from a real inbox.</Lead>
+              <p className="mt-4 text-[15px] text-white/70">
+                Prefer to talk?{" "}
+                <Link href="/demo" className="font-medium text-white underline decoration-[#ffb05c] decoration-2 underline-offset-4">
+                  Book a 30-minute demo
+                </Link>{" "}
+                or call{" "}
+                <a href={site.salesPhoneHref} className="font-medium text-white underline decoration-[#ffb05c] decoration-2 underline-offset-4">
+                  {site.salesPhone}
+                </a>
+                .
+              </p>
 
               <dl className="mt-8 grid gap-5 text-[15px]">
                 <div>

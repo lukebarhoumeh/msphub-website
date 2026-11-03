@@ -30,7 +30,7 @@ export const site = {
   },
 } as const;
 
-export const platforms = ["Microsoft", "Azure", "AWS", "Google Cloud", "VMware"] as const;
+export const platforms = ["Microsoft 365", "Azure", "Copilot", "Dynamics 365"] as const;
 
 /** Company story (handoff §1.2 and §5.8, filled from the company deck where the two agree). */
 export const companyStory = {
@@ -38,7 +38,7 @@ export const companyStory = {
   lead: "MSP Hub started in 1999 as ReadyNetworks, an MSP that built its own licensing platform because the distributors' tools weren't good enough. In 2025 the company became MSP Hub; in 2026 the platform became HubX.",
   body: [
     "MSP Hub Technologies, LLC is a Microsoft CSP direct-bill partner (Tier-1 Direct) and a proprietary platform built on more than 25 years of Microsoft cloud delivery heritage.",
-    "Four sibling branches sit under MSP Hub: HubX, Professional Services, Managed Services, and Development & AI. HubX is the flagship platform, not the parent of the service branches. It is the New Commerce Experience platform for licensing, invoicing reconciliation, and lifecycle management. Professional Services and Managed Services span Microsoft Azure, AWS, and Google Cloud, and Development & AI builds the applications and automation beside them. Multi-vendor procurement through distribution still gives partners and customers one procurement spine and one invoice.",
+    "What you get is four things from one team. HubX, the platform, puts licensing, invoice reconciliation, and the subscription lifecycle in one portal. Professional Services plans and delivers the change across Microsoft 365 and Azure. Managed Services runs what comes next. Development & AI builds the applications and automation the estate still needs. Non-Microsoft procurement through distribution rounds it out, so partners and customers keep one procurement spine and one invoice.",
     "We serve MSPs and VARs who resell Microsoft and need a platform and a bench behind them, direct-bill CSPs who run HubX on their own Partner Center tenant, and businesses buying licensing and services directly, from small companies to large enterprises. Licensing is the entry point; the services make it work.",
   ],
 } as const;

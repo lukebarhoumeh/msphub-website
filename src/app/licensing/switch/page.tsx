@@ -10,6 +10,7 @@ import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container } from "@/components/ui/section";
 import { captures } from "@/content/evidence";
 import { homeProof } from "@/content/home";
+import { transferFacts } from "@/content/direct-bill";
 import { microsoftLearn, switchFaq, switchPage, switchSteps } from "@/content/licensing";
 import { pageMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/cn";
@@ -23,7 +24,7 @@ export const metadata = pageMetadata({
 export default function SwitchPage() {
   return (
     <>
-      <PageHero eyebrow={switchPage.eyebrow} title={switchPage.title} lead={switchPage.lead}>
+      <PageHero art="ai-inference-lattice" eyebrow={switchPage.eyebrow} title={switchPage.title} lead={switchPage.lead}>
         <ButtonLink href="#send-invoice">
           Send your invoice
           <ArrowRight className="size-4" aria-hidden />
@@ -95,6 +96,21 @@ export default function SwitchPage() {
           </Panel>
         </Container>
       </section>
+
+      <Chapter
+        tone="ink"
+        id="what-microsoft-says"
+        title="Your current MSP can’t run the transfer. We can."
+        lead="Only direct-bill partners and indirect providers can send or accept a partner-to-partner transfer. An MSP that buys through a distributor has to ask its provider. Here is what Microsoft publishes about how a transfer works, each point linked to its source."
+        headingWidth="max-w-[18ch]"
+      >
+        <RuleList
+          tone="ink"
+          columns={3}
+          titleSize="md"
+          items={transferFacts.map((fact) => ({ title: fact.q, body: fact.a, link: { label: "Microsoft Learn", href: fact.citation.href } }))}
+        />
+      </Chapter>
 
       <Chapter tone="pearl" size="md" title="Switching, answered.">
         <FaqSection items={switchFaq} tone="light" variant="rule" className="max-w-[860px]" />

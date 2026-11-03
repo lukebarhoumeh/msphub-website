@@ -163,7 +163,7 @@ export const programDetails: Record<PartnerProgramId, ProgramDetail> = {
       { title: "MSP Hub delivers, you see the pipeline", body: "Licensing and services are sold and delivered by MSP Hub; you receive weekly pipeline updates and your commission." },
     ],
     economics: {
-      body: "Commission terms are agreed in the partner agreement and are not published. No rates appear on this site.",
+      body: "Commission terms are agreed in the partner agreement.",
       confirm: "partnerTiers",
     },
     faq: [

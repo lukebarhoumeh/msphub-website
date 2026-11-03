@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { FaqSection } from "@/components/hubx/faq-section";
 import { FeatureGrid } from "@/components/hubx/feature-grid";
 import { HubAiConversation } from "@/components/hubx/hubai-conversation";
-import { ModuleExplorer } from "@/components/hubx/module-explorer";
+import { ModuleList } from "@/components/hubx/module-list";
 import { JsonLd } from "@/components/hubx/primitives";
 import { EvidenceBezel, EvidenceCaption, EvidenceFigure, EvidenceStage } from "@/components/ink/evidence";
 import { Chapter, ChipRow, DotList, InkLink, NextStep, RuleList, inkTone, monoLabel } from "@/components/ink/interior";
@@ -99,7 +99,7 @@ export default function HubXPage() {
         <EvidenceStage ids={hubxEvidence} tone="pearl" />
       </Chapter>
       <Chapter tone="pearl" pad="tight" id="modules" eyebrow={modules.eyebrow} title={modules.title} lead={modules.lead}>
-        <ModuleExplorer />
+        <ModuleList />
       </Chapter>
 
       {/* The twelve capabilities */}
@@ -201,7 +201,7 @@ export default function HubXPage() {
             </a>
           </span>
         </p>
-        <p className={cn(monoLabel, "mt-6", inkTone.ink.faint)}>Real HubX screens on this page are declared crops with demo data.</p>
+        <p className={cn(monoLabel, "mt-6", inkTone.ink.faint)}>Real HubX screens with demo data.</p>
       </NextStep>
 
       <JsonLd data={productJsonLd} />

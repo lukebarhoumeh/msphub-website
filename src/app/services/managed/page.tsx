@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowRight, Activity, Cloud, Database, Headset, Laptop, MonitorSmartphone, TicketCheck } from "lucide-react";
-import { CtaBand, Steps, SupportModel } from "@/components/marketing/blocks";
+import { RuleList } from "@/components/ink/interior";
+import { CtaBand, SupportModel } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PairsWithHubX } from "@/components/marketing/pairs-with-hubx";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -48,8 +49,8 @@ export default function ManagedServicesPage() {
 
       <Section className="pt-0 sm:pt-0 lg:pt-0">
         <Container>
-          <SectionHeading eyebrow="Wayfinding" title="Monitor, respond, report, optimize." lead="Editorial labels for operations. The only named delivery model is Align → Plan → Deliver → Validate & Transition, on professional services." />
-          <Steps steps={managed.howItWorks} />
+          <SectionHeading eyebrow="How it runs" title="Monitor, respond, report, optimize." />
+          <RuleList tone="ink" numbered columns={4} titleSize="md" items={managed.howItWorks} />
         </Container>
       </Section>
 
