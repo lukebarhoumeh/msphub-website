@@ -38,7 +38,7 @@ export const screens = {
     image: s01,
     theme: "light",
     short: "Overview",
-    alt: "HubX home: performance overview with customers, subscriptions, licenses, revenue and margin tiles",
+    alt: "HubX home overview with customer, subscription, license, revenue, and forecast summary tiles",
     caption: "Home: performance overview with KPI tiles, top customers, and top products",
     path: "/",
   },
