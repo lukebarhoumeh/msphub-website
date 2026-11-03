@@ -2,9 +2,9 @@
 
 import { useEffect, useId, useRef, useSyncExternalStore, type KeyboardEvent } from "react";
 import { HubxPathChip, PointList, ToneLink } from "@/components/hubx/primitives";
-import { BrowserFrame } from "@/components/marketing/browser-frame";
+import { EvidenceFigure } from "@/components/ink/evidence";
+import { captures, moduleEvidence, type CaptureId } from "@/content/evidence";
 import { hubxModules as modules, type ModuleSlug } from "@/content/hubx-modules";
-import { screens } from "@/content/screens";
 import { cn } from "@/lib/cn";
 
 type ModuleExplorerProps = {
@@ -73,7 +73,7 @@ export function ModuleExplorer({ className }: ModuleExplorerProps) {
         aria-label="HubX modules"
         aria-orientation="vertical"
         onKeyDown={onKeyDown}
-        className="scrollbar-none card-light flex gap-1 overflow-x-auto p-2 lg:flex-col lg:self-start"
+        className="grid content-start gap-1 self-start"
       >
         {modules.map((m) => {
           const selected = m.slug === active;
@@ -89,7 +89,7 @@ export function ModuleExplorer({ className }: ModuleExplorerProps) {
               tabIndex={selected ? 0 : -1}
               onClick={() => select(m.slug)}
               className={cn(
-                "relative flex h-11 shrink-0 items-center gap-2.5 rounded-[10px] px-3 text-left text-sm font-medium whitespace-nowrap transition-colors",
+                "relative flex min-h-11 items-center gap-2.5 rounded-[10px] px-3 text-left text-sm font-medium transition-colors",
                 selected ? "bg-canvas text-charcoal" : "text-charcoal/80 hover:bg-canvas/70 hover:text-charcoal",
               )}
             >
@@ -97,7 +97,7 @@ export function ModuleExplorer({ className }: ModuleExplorerProps) {
                 aria-hidden
                 className={cn("hidden h-5 w-0.5 rounded-full lg:block", selected ? "bg-brand-orange" : "bg-transparent")}
               />
-              <Icon className={cn("size-4 shrink-0", selected ? "text-brand-orange" : "text-charcoal/60")} strokeWidth={1.8} aria-hidden />
+              <Icon className="size-4 shrink-0 text-[#0b1020]" strokeWidth={1.8} aria-hidden />
               {m.name}
             </button>
           );
@@ -105,7 +105,7 @@ export function ModuleExplorer({ className }: ModuleExplorerProps) {
       </div>
 
       {modules.map((m) => {
-        const screen = screens[m.screens[0]];
+        const captureId: CaptureId | undefined = moduleEvidence[m.slug]?.[0];
         return (
           <div
             key={m.slug}
@@ -127,7 +127,7 @@ export function ModuleExplorer({ className }: ModuleExplorerProps) {
                   {m.href.startsWith("/hubx/features/") ? `Explore ${m.name}` : "Security and administration"}
                 </ToneLink>
               </div>
-              <BrowserFrame screen={screen} sizes="(min-width: 1024px) 520px, 100vw" viewport="scroll" />
+              {captureId ? <EvidenceFigure capture={captures[captureId]} tone="pearl" /> : null}
             </div>
           </div>
         );

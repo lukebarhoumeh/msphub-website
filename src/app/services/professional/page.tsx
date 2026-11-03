@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
+import { IllustrativeAsset } from "@/components/ink/illustrative-asset";
 import { CheckList, CtaBand, Steps } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PairsWithHubX } from "@/components/marketing/pairs-with-hubx";
 import { JsonLd } from "@/components/seo/json-ld";
 import { ButtonLink } from "@/components/ui/button";
-import { GlassCard } from "@/components/ui/card";
-import { Container, Glow, Section } from "@/components/ui/section";
+import { Container, Section } from "@/components/ui/section";
 import { serviceSchema } from "@/lib/schema";
 import { SectionHeading } from "@/components/ui/typography";
 import { professional } from "@/content/services";
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default function ProfessionalServicesPage() {
   return (
     <>
-      <PageHero eyebrow="Services · Professional services" title={professional.headline} lead={professional.lead}>
+      <PageHero tone="light" eyebrow="Services · Professional services" title={professional.headline} lead={professional.lead}>
         <ButtonLink href="/services#inquiry">
           Request a scoping call
           <ArrowRight className="size-4" aria-hidden />
@@ -31,15 +31,21 @@ export default function ProfessionalServicesPage() {
         </ButtonLink>
       </PageHero>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0" decor={<Glow tone="navy" className="top-0 right-[-300px] h-[700px] w-[900px]" />}>
+      <Section tone="light" className="pt-0">
         <Container>
-          <SectionHeading eyebrow="What we deliver" title="Four capability areas, one engagement model." />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <IllustrativeAsset name="lifecycle-glass-corridor" sizes="(min-width: 1024px) 70vw, 100vw" />
+        </Container>
+      </Section>
+
+      <Section tone="light" className="pt-0">
+        <Container>
+          <SectionHeading tone="light" eyebrow="What we deliver" title="Four capability areas, one engagement model." />
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {professional.columns.map((col) => (
-              <GlassCard key={col.title}>
-                <h3 className="text-lg font-semibold tracking-tight text-white">{col.title}</h3>
-                <CheckList items={col.items} className="mt-4" />
-              </GlassCard>
+              <article key={col.title} className="border-t border-[#0b1020]/12 pt-4">
+                <h3 className="text-lg font-semibold tracking-tight text-[#0b1020]">{col.title}</h3>
+                <CheckList items={col.items} tone="light" className="mt-4" />
+              </article>
             ))}
           </div>
         </Container>

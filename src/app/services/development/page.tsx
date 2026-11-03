@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { ArrowRight, Bot, Code2, GitBranch } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { IllustrativeAsset } from "@/components/ink/illustrative-asset";
 import { CheckList, CtaBand, Steps } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { PairsWithHubX } from "@/components/marketing/pairs-with-hubx";
 import { JsonLd } from "@/components/seo/json-ld";
 import { ButtonLink } from "@/components/ui/button";
-import { GlassCard, IconTile } from "@/components/ui/card";
+import { GlassCard } from "@/components/ui/card";
 import { NeedsConfirmBlock } from "@/components/ui/needs-confirm";
-import { Container, Glow, Section } from "@/components/ui/section";
+import { Container, Section } from "@/components/ui/section";
 import { serviceSchema } from "@/lib/schema";
 import { SectionHeading } from "@/components/ui/typography";
 import { development } from "@/content/services";
@@ -19,12 +20,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "/services/development" },
 };
 
-const trackIcons = [Code2, GitBranch, Bot];
-
 export default function DevelopmentServicesPage() {
   return (
     <>
-      <PageHero eyebrow="Services · Development as a service" title={development.headline} lead={development.lead}>
+      <PageHero tone="light" eyebrow="Services · Development & AI" title={development.headline} lead={development.lead}>
         <ButtonLink href="/services#inquiry">
           Start a project
           <ArrowRight className="size-4" aria-hidden />
@@ -34,16 +33,21 @@ export default function DevelopmentServicesPage() {
         </ButtonLink>
       </PageHero>
 
-      <Section className="pt-0 sm:pt-0 lg:pt-0" decor={<Glow tone="orange" className="top-0 right-[-250px] h-[700px] w-[700px] opacity-60" />}>
+      <Section tone="light" className="pt-0">
         <Container>
-          <SectionHeading eyebrow="Three tracks" title="Applications, DevOps, and AI, including AI development." />
-          <div className="grid gap-4 lg:grid-cols-3">
-            {development.tracks.map((t, i) => (
-              <GlassCard key={t.title}>
-                <IconTile icon={trackIcons[i]} className="mb-5" />
-                <h3 className="text-lg font-semibold tracking-tight text-white">{t.title}</h3>
-                <CheckList items={t.items} className="mt-4" />
-              </GlassCard>
+          <IllustrativeAsset name="ai-inference-lattice" sizes="(min-width: 1024px) 70vw, 100vw" />
+        </Container>
+      </Section>
+
+      <Section tone="light" className="pt-0">
+        <Container>
+          <SectionHeading tone="light" eyebrow="Three tracks" title="Applications, DevOps, and AI." />
+          <div className="grid gap-8 lg:grid-cols-3">
+            {development.tracks.map((t) => (
+              <article key={t.title} className="border-t border-[#0b1020]/12 pt-4">
+                <h3 className="text-lg font-semibold tracking-tight text-[#0b1020]">{t.title}</h3>
+                <CheckList items={t.items} tone="light" className="mt-4" />
+              </article>
             ))}
           </div>
         </Container>
@@ -51,7 +55,7 @@ export default function DevelopmentServicesPage() {
 
       <Section className="pt-0 sm:pt-0 lg:pt-0">
         <Container>
-          <SectionHeading eyebrow="Delivery method" title="Agile delivery with predictable milestones." />
+          <SectionHeading eyebrow="Wayfinding" title="Discover, build, ship, improve." lead="Editorial labels for the work. The named delivery model, Align → Plan → Deliver → Validate & Transition, belongs to professional services." />
           <Steps steps={development.method} />
         </Container>
       </Section>

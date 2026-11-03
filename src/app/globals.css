@@ -1,42 +1,40 @@
 @import "tailwindcss";
 
 /*
- * Design tokens (handoff §7.1).
- *
- * One orange site-wide (#F97316, the HubX kit value); charcoal for type on
- * light sections; the HubX light canvas for light sections; the dark ground
- * for hero, footer, and dark bands; MSP Hub brand navy for company/legal
- * contexts. The print orange (#E88B2C) is intentionally absent: two oranges
- * never share a page.
- * Usage: `bg-brand-orange`, `text-charcoal`, `bg-canvas`, `bg-ink`, `bg-navy`.
+ * Ink & Glass tokens. Ink is the page ground. Pearl is the explanatory canvas.
+ * Orange activates. It is never body text on pearl, and white type never sits
+ * directly on orange.
  */
 @theme {
   --color-brand-orange: #f97316;
-  --color-brand-charcoal: #424242;
+  --color-brand-charcoal: #0b1020;
   --color-brand-white: #ffffff;
-  --color-brand-canvas: #eeeeee;
+  --color-brand-canvas: #f4f6fb;
 
-  --color-orange-hover: #fb8a3c;
-  --color-orange-deep: #ea6a0f;
-  --color-charcoal: #424242;
-  --color-canvas: #eeeeee;
+  --color-orange-hover: #ffb05c;
+  --color-orange-deep: #e8600f;
+  --color-orange-light: #ffb05c;
+  --color-orange-dark: #e8600f;
+  --color-charcoal: #0b1020;
+  --color-canvas: #f4f6fb;
+  --color-pearl: #f4f6fb;
+  --color-paper: #ffffff;
   --color-navy: #1a2949;
-  --color-ink: #0a0d14;
-  --color-ink-2: #0d121c;
-  --color-navy-900: #0f1a33;
-  --color-navy-700: #132142;
-  --color-success: #22c55e;
-  --color-error: #f87171;
+  --color-ink: #0b1020;
+  --color-ink-2: #12192b;
+  --color-ink-raised: #12192b;
+  --color-sky: #38bdf8;
+  --color-navy-900: #0b1020;
+  --color-navy-700: #1a2949;
+  --color-success: #16a34a;
+  --color-error: #b91c1c;
 
-  /* 12 px cards, 16 px large panels, 999 px pills (handoff §7.1). */
   --radius-card: 12px;
-  --radius-panel: 16px;
-  --shadow-glass: 0 20px 60px rgba(0, 0, 0, 0.45);
-  --shadow-card-light: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.06);
+  --radius-panel: 18px;
+  --shadow-glass: 0 24px 64px rgba(0, 0, 0, 0.28);
+  --shadow-card-light: 0 1px 2px rgba(11, 16, 32, 0.04), 0 8px 24px rgba(11, 16, 32, 0.06);
 
-  /* Motion (handoff §7.3): entrance fades ≤ 300 ms, stagger ≤ 60 ms; no parallax. */
-  --animate-fade-up: fade-up 300ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
-  --animate-glow-drift: glow-drift 20s ease-in-out infinite alternate;
+  --animate-fade-up: fade-up 240ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
 
   @keyframes fade-up {
     from {
@@ -48,54 +46,40 @@
       transform: translateY(0);
     }
   }
-  @keyframes glow-drift {
-    from {
-      transform: translate3d(0, 0, 0) scale(1);
-    }
-    to {
-      transform: translate3d(4%, 6%, 0) scale(1.08);
-    }
-  }
 }
 
-/*
- * Font tokens. The faces are loaded with next/font in `src/app/fonts.ts`,
- * which sets `--font-body`, `--font-heading`, and `--font-code` on <html>.
- * Usage: `font-sans` (body, default), `font-display` (headlines), `font-mono`
- * (SKUs, ids, eyebrows).
- */
 @theme inline {
   --font-sans:
-    var(--font-body), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-    sans-serif;
-  --font-display: var(--font-heading), ui-serif, Georgia, "Times New Roman", serif;
+    var(--font-body), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display:
+    var(--font-heading), "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-code), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-/* Frosted glass surface for dark sections: 5% white fill, hairline border, inner top highlight. */
+:root {
+  --page-pad: 20px;
+  --focus-ring: #ffb05c;
+}
+
+@media (min-width: 480px) {
+  :root { --page-pad: 24px; }
+}
+@media (min-width: 768px) {
+  :root { --page-pad: 32px; }
+}
+@media (min-width: 1024px) {
+  :root { --page-pad: clamp(32px, 5vw, 64px); }
+}
+@media (min-width: 1440px) {
+  :root { --page-pad: 64px; }
+}
+
 @utility glass {
   position: relative;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-glass);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 1px;
-    border-radius: inherit;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.22),
-      transparent
-    );
-    pointer-events: none;
-  }
+  background: #12192b;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 18px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 
 @utility glass-soft {
@@ -103,56 +87,32 @@
 }
 
 @utility glass-lg {
-  border-radius: var(--radius-panel);
+  border-radius: 20px;
 }
 
-/* White card for light `canvas` sections (mirrors HubX's cards: subtle border, minimal shadow). */
 @utility card-light {
   position: relative;
   background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: var(--radius-card);
+  border: 1px solid rgba(11, 16, 32, 0.08);
+  border-radius: 12px;
   box-shadow: var(--shadow-card-light);
 }
 
-/* Hex-grid line pattern (deck + old-site motif; echoes the X mark's open diamond), masked to fade at the edges. */
 @utility bg-hex {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='84' height='48.5' viewBox='0 0 84 48.5'><g fill='none' stroke='%23ffffff' stroke-opacity='0.07' stroke-width='1'><polygon points='70,24.25 56,48.5 28,48.5 14,24.25 28,0 56,0'/><path d='M0 24.25H14M70 24.25H84'/></g></svg>");
-  background-size: 126px 72.75px;
-  -webkit-mask-image: radial-gradient(
-    ellipse 70% 60% at 60% 30%,
-    #000 20%,
-    transparent 75%
-  );
-  mask-image: radial-gradient(ellipse 70% 60% at 60% 30%, #000 20%, transparent 75%);
+  background-image: none;
 }
 
-/* Staggered entrance: `motion-safe:animate-fade-up` plus `stagger-N` (N × 60 ms). */
-@utility stagger-1 {
-  animation-delay: 60ms;
-}
-@utility stagger-2 {
-  animation-delay: 120ms;
-}
-@utility stagger-3 {
-  animation-delay: 180ms;
-}
-@utility stagger-4 {
-  animation-delay: 240ms;
-}
-@utility stagger-5 {
-  animation-delay: 300ms;
-}
+@utility stagger-1 { animation-delay: 40ms; }
+@utility stagger-2 { animation-delay: 80ms; }
+@utility stagger-3 { animation-delay: 120ms; }
+@utility stagger-4 { animation-delay: 160ms; }
+@utility stagger-5 { animation-delay: 200ms; }
 
-/* Horizontal tab strips scroll without a visible scrollbar (keyboard and swipe still work). */
 @utility scrollbar-none {
   scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  &::-webkit-scrollbar { display: none; }
 }
 
-/* Review marker for content Luke still has to confirm (hidden in production). */
 @utility needs-tag {
   display: inline-flex;
   align-items: center;
@@ -175,38 +135,154 @@
 html {
   color-scheme: dark;
   scroll-behavior: smooth;
+  scroll-padding-top: 96px;
 }
 
 body {
-  background-color: var(--color-ink);
-  color: #f5f7fa;
+  background-color: #0b1020;
+  color: #ffffff;
   font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
   overflow-x: hidden;
+}
+
+@media (min-width: 1024px) {
+  body { font-size: 17px; }
 }
 
 ::selection {
   background: rgba(249, 115, 22, 0.35);
+  color: #0b1020;
 }
 
-/* Visible focus everywhere (WCAG 2.2 AA): 2 px orange ring with offset. */
 :focus-visible {
-  outline: 2px solid var(--color-brand-orange);
-  outline-offset: 3px;
-  border-radius: 6px;
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+[data-surface="pearl"],
+[data-surface="orange"] {
+  color-scheme: light;
+}
+
+[data-surface="pearl"] {
+  --focus-ring: #f97316;
+}
+
+[data-surface="orange"] {
+  --focus-ring: #0b1020;
+}
+
+.header-glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
+  border-color: rgba(255, 255, 255, 0.13);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(18px) saturate(120%);
+  -webkit-backdrop-filter: blur(18px) saturate(120%);
+}
+
+.ink-gradient-text {
+  color: #ffb05c;
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .ink-gradient-text {
+    background-image: linear-gradient(135deg, #ffb05c 0%, #f97316 56%, #e8600f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+[data-surface="pearl"] .form-control {
+  background: #ffffff;
+  color: #0b1020;
+  border-color: rgba(11, 16, 32, 0.14);
+}
+
+[data-surface="pearl"] .form-control::placeholder {
+  color: #4b5569;
+}
+
+[data-surface="pearl"] .field-label,
+[data-surface="pearl"] .choice-tile,
+[data-surface="pearl"] .choice-tile span {
+  color: #0b1020;
+}
+
+[data-surface="pearl"] .choice-tile {
+  background: #ffffff;
+  border-color: rgba(11, 16, 32, 0.12);
+}
+
+[data-surface="pearl"] .btn-glass {
+  background: #ffffff;
+  color: #0b1020;
+  border-color: rgba(11, 16, 32, 0.14);
+}
+
+[data-surface="pearl"] .btn-ghost {
+  color: #0b1020;
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .glass {
+  .header-glass {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    background: rgba(16, 20, 30, 0.92);
+    background: #12192b;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+@media (prefers-reduced-motion: no-preference) {
+  .hero-art {
+    animation: hero-settle 240ms ease both;
   }
+
+  .sheen-once {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sheen-once::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%);
+    transform: translateX(-120%);
+    animation: sheen 300ms ease 600ms 1 both;
+    pointer-events: none;
+  }
+
+  .sheen-once:hover::after,
+  .sheen-once:focus-visible::after {
+    animation: sheen 300ms ease;
+  }
+
+  .outcome-line {
+    animation: ink-line 200ms ease both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
+}
+
+@keyframes hero-settle {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes sheen {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(120%); }
+}
+
+@keyframes ink-line {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   *,
   *::before,
   *::after {

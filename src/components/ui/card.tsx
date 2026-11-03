@@ -24,7 +24,7 @@ export function IconTile({ icon: Icon, className }: { icon: LucideIcon; classNam
   return (
     <div
       className={cn(
-        "grid size-11 place-items-center rounded-[10px] border border-brand-orange/30 bg-brand-orange/12 text-brand-orange",
+        "grid size-[46px] place-items-center rounded-[13px] bg-[#f97316] text-[#0b1020]",
         className,
       )}
     >

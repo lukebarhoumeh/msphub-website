@@ -33,7 +33,7 @@ export default function DemoPage() {
           <BookingsEmbed
             title="Pick a time"
             lead="Book a 30-minute HubX demo straight into the sales-engineering calendar."
-            fallbackNote="Prefer not to use the calendar? The request form below reaches the same team and we confirm a time within one business day."
+            fallbackNote="Prefer not to use the calendar? The request form below reaches the same team."
           />
           <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-14">
             <GlassCard>
@@ -53,7 +53,7 @@ export default function DemoPage() {
               <Display size="md" className="mb-2">
                 Request a demo
               </Display>
-              <Lead className="mb-7 text-base">Tell us who you are and when works. We confirm a time within one business day.</Lead>
+              <Lead className="mb-7 text-base">Tell us who you are and when works. We confirm a time by email.</Lead>
               <LeadForm kind="demo" />
             </div>
           </div>

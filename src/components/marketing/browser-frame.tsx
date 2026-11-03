@@ -47,6 +47,7 @@ export function BrowserFrame({
       src={screen.image}
       alt={screen.alt}
       placeholder="blur"
+      unoptimized
       priority={priority}
       loading={priority ? undefined : loading}
       fetchPriority={priority ? undefined : fetchPriority}

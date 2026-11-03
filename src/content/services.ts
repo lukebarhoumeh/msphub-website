@@ -2,7 +2,7 @@
 
 export const professional = {
   title: "Professional services",
-  headline: "Cloud expertise, delivered.",
+  headline: "Plan and deliver the change.",
   lead: "Microsoft 365, Azure, security and identity, and the data platform, delivered under a fixed-fee statement of work with a named project manager accountable end to end. Every project starts with a licensing review in HubX.",
   columns: [
     {
@@ -101,7 +101,7 @@ export const professional = {
 
 export const managed = {
   title: "Managed services",
-  headline: "Improved uptime, security, and strategic growth.",
+  headline: "Operate what comes next.",
   lead: "Monitoring, alerting, and incident management around the clock for the environments we manage across Microsoft 365, Azure, and databases, run to agreed SLAs with clear ownership and direct Microsoft escalation.",
   offerings: [
     {
@@ -134,15 +134,16 @@ export const managed = {
     },
   ],
   howItWorks: [
-    { title: "Monitor", body: "Telemetry across tenants, subscriptions, and databases feeds one operations view, around the clock for managed environments." },
-    { title: "Alert and triage", body: "Alerts are triaged by engineers, not just forwarded, with severity agreed in advance and tickets tracked in the HubX Service Desk." },
-    { title: "Resolve and escalate", body: "Clear ownership from first response to resolution, with direct escalation to Microsoft Premier support when needed." },
+    { title: "Monitor", body: "Around-the-clock monitoring for the managed environments across Microsoft 365, Azure, and databases." },
+    { title: "Respond", body: "Engineers own the incident. Tickets carry priority and SLA state in the HubX Service Desk, visible to the customer and the partner." },
+    { title: "Report", body: "Response and resolution are reported monthly against the SLAs agreed up front." },
+    { title: "Optimize", body: "Ongoing right-sizing of subscriptions, reservations, and savings plans by the cloud team, on estates MSP Hub runs." },
   ],
 };
 
 export const development = {
   title: "Development as a service",
-  headline: "Faster deployments. Improved collaboration. Scalability.",
+  headline: "Build the capability the estate still needs.",
   lead: "Application development, DevOps, and AI development as a managed engagement, from Copilot rollouts to purpose-built agents and automation.",
   tracks: [
     {
@@ -175,9 +176,10 @@ export const development = {
     },
   ],
   method: [
-    { title: "Agile delivery", body: "Three-week sprints with a demo at the end of every one." },
-    { title: "Milestone cycles", body: "Scope, build, and acceptance agreed per milestone, so budgets stay predictable." },
-    { title: "DEV, UAT, Prod", body: "Separate environments with automated promotion and rollback." },
+    { title: "Discover", body: "Name the capability the estate still needs, and agree the first milestone." },
+    { title: "Build", body: "Three-week sprints across DEV, UAT, and production, with scope and acceptance agreed per milestone." },
+    { title: "Ship", body: "Automated promotion and rollback. A demo closes every sprint." },
+    { title: "Improve", body: "The next milestone, including Copilot adoption, agents, and the automation already in production." },
   ],
   /** Platform engineering heritage; shown only once approved (handoff §2 #13). */
   products: [

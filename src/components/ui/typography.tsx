@@ -12,7 +12,7 @@ export function Eyebrow({ className, children, tone = "dark", ...rest }: Eyebrow
     <span
       className={cn(
         "inline-flex items-center gap-2.5 font-mono text-[12px] font-medium tracking-[0.14em] uppercase before:h-0.5 before:w-5 before:rounded before:bg-brand-orange",
-        tone === "dark" ? "text-brand-orange" : "text-brand-charcoal",
+        tone === "dark" ? "text-[#b8c0d4]" : "text-[#4b5569]",
         className,
       )}
       {...rest}
@@ -31,9 +31,9 @@ type DisplayProps = ComponentPropsWithoutRef<"h1"> & {
 };
 
 const displaySizes = {
-  xl: "text-[clamp(2.5rem,5.2vw,4.125rem)] leading-[1.04]",
-  lg: "text-[clamp(2rem,3.6vw,3rem)] leading-[1.08]",
-  md: "text-[clamp(1.5rem,2.2vw,1.875rem)] leading-[1.15]",
+  xl: "text-[clamp(2.375rem,4vw,3.75rem)] leading-[1.05] tracking-[-0.03em] font-extrabold",
+  lg: "text-[clamp(2.125rem,3.2vw,3.25rem)] leading-[1.06] tracking-[-0.025em] font-bold",
+  md: "text-[clamp(1.875rem,2.4vw,2.75rem)] leading-[1.1] tracking-[-0.02em] font-bold",
 } as const;
 
 /** Serif display heading. */
@@ -41,8 +41,8 @@ export function Display({ as: Tag = "h2", size = "lg", tone = "dark", className,
   return (
     <Tag
       className={cn(
-        "font-display font-semibold tracking-[-0.02em] text-balance",
-        tone === "dark" ? "text-white" : "text-brand-charcoal",
+        "font-display text-balance",
+        tone === "dark" ? "text-white" : "text-[#0b1020]",
         displaySizes[size],
         className,
       )}

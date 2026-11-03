@@ -2,7 +2,6 @@ import type { MDXProps } from "mdx/types";
 import type { JSX } from "react";
 import { z } from "zod";
 import IntroducingMspHub, { frontmatter as introducingMspHubMeta } from "./introducing-msp-hub.mdx";
-import ChannelProLiveChicago2025, { frontmatter as channelProMeta } from "./channelpro-live-chicago-2025.mdx";
 import UnlockingProductivity, { frontmatter as unlockingProductivityMeta } from "./unlocking-business-productivity-with-microsoft-365.mdx";
 
 /**
@@ -42,7 +41,6 @@ function definePost(slug: string, frontmatter: unknown, Content: (props: MDXProp
 export const posts: Post[] = [
   definePost("unlocking-business-productivity-with-microsoft-365", unlockingProductivityMeta, UnlockingProductivity),
   definePost("introducing-msp-hub", introducingMspHubMeta, IntroducingMspHub),
-  definePost("channelpro-live-chicago-2025", channelProMeta, ChannelProLiveChicago2025),
 ].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 
 export const postSlugs = posts.map((p) => p.slug);

@@ -17,12 +17,26 @@ export function HubxSubnav() {
   const pathname = usePathname();
   const isActive = (href: string) => (href === "/hubx" ? pathname === "/hubx" : pathname.startsWith(href));
   return (
-    <div className="z-40 border-b border-white/10 bg-ink/85 backdrop-blur-xl lg:sticky lg:top-[76px]">
-      <Container className="flex h-12 items-center gap-4">
+    <div className="z-20 border-b border-white/10 bg-[#0b1020] lg:sticky lg:top-[72px]">
+      <Container className="flex flex-col gap-1 py-2 lg:h-12 lg:flex-row lg:items-center lg:gap-4 lg:py-0">
+        <details className="group lg:hidden">
+          <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-sm font-semibold [&::-webkit-details-marker]:hidden">
+            HubX
+            <span className="font-mono text-[11px] tracking-[0.12em] text-[#b8c0d4] uppercase group-open:hidden">Show</span>
+            <span className="hidden font-mono text-[11px] tracking-[0.12em] text-[#b8c0d4] uppercase group-open:inline">Hide</span>
+          </summary>
+          <nav aria-label="HubX section" className="grid pb-2">
+            {hubxNav.map((item) => (
+              <Link key={item.href} href={item.href} aria-current={isActive(item.href) ? "page" : undefined} className="flex min-h-11 items-center text-[15px]">
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        </details>
         <p className="hidden shrink-0 font-mono text-[11px] tracking-[0.12em] text-white/60 uppercase md:block">{hubxLockup}</p>
         <nav
           aria-label="HubX section"
-          className="scrollbar-none -mx-1 flex min-w-0 flex-1 items-center gap-1 overflow-x-auto px-1 [mask-image:linear-gradient(to_right,#000_calc(100%-28px),transparent)] lg:[mask-image:none]"
+          className="hidden min-w-0 flex-1 items-center gap-1 lg:flex"
         >
           {hubxNav.map((item) => {
             const active = isActive(item.href);

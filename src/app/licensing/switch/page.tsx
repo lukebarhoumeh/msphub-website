@@ -109,7 +109,9 @@ export default function SwitchPage() {
                 {switchPage.privacyNote}
               </p>
               <p className="mt-4 text-sm text-white/70">
-                <NeedsConfirm id="quoteResponse" fallback="Response within one business day." />
+                <NeedsConfirm id="quoteResponse" fallback="The licensing desk replies during business hours.">
+                  Response within one business day.
+                </NeedsConfirm>
               </p>
             </div>
             <LeadForm kind="switch">

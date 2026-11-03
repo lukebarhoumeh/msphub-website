@@ -92,7 +92,7 @@ export const hubxSecurityFaq: readonly HubxFaqItem[] = [
     id: "certification",
     question: "Is MSP Hub certified?",
     answer:
-      "HubX is delivered by an ISO/IEC 27001:2022-certified organization. A HIPAA Business Associate Agreement and a Data Processing Agreement are available for healthcare clients.",
+      "A HIPAA Business Associate Agreement and a Data Processing Agreement are available for healthcare clients.",
     confirm: "isoEntity",
     reviewNote: "Confirm which entity holds the ISO/IEC 27001:2022 certificate before naming it.",
     schema: true,

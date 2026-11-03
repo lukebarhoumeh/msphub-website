@@ -48,7 +48,7 @@ export default function ManagedServicesPage() {
 
       <Section className="pt-0 sm:pt-0 lg:pt-0">
         <Container>
-          <SectionHeading eyebrow="How it works" title="Monitoring, alerting, incident management. Clear ownership." />
+          <SectionHeading eyebrow="Wayfinding" title="Monitor, respond, report, optimize." lead="Editorial labels for operations. The only named delivery model is Align → Plan → Deliver → Validate & Transition, on professional services." />
           <Steps steps={managed.howItWorks} />
         </Container>
       </Section>
@@ -74,7 +74,7 @@ export default function ManagedServicesPage() {
       </Section>
 
       <Section className="pt-0 sm:pt-0 lg:pt-0">
-        <PairsWithHubX body="Licenses and operations in one relationship. The tenants we run are the tenants you see in HubX, with renewals, costs, and support tickets in the same place." />
+        <PairsWithHubX body="Licenses and operations in one relationship. The tenants we run are the tenants you see in HubX, with renewals, invoices, and support tickets in the same place." />
       </Section>
 
       <Section className="pt-0 sm:pt-0 lg:pt-0">

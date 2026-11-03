@@ -19,7 +19,7 @@ import { site } from "@/content/site";
 export const metadata: Metadata = {
   title: "HubX security — SSO, roles, audit logs, and Microsoft access under the CSP program",
   description:
-    "How HubX handles access: single sign-on with Microsoft Entra ID, Google, or Okta, roles per organization and customer, audit logs everywhere, Microsoft tenant access through reseller relationships, GDAP, and the MCA, delivered by an ISO/IEC 27001:2022-certified organization.",
+    "How HubX handles access: single sign-on with Microsoft Entra ID, Google, or Okta, roles per organization and customer, audit logs everywhere, and Microsoft tenant access through reseller relationships, GDAP, and the MCA.",
   alternates: { canonical: "/hubx/security" },
 };
 
@@ -50,7 +50,7 @@ export default function HubxSecurityPage() {
               <div key={fact.label} className="glass p-5">
                 <dt className="font-mono text-[11px] tracking-[0.12em] text-white/60 uppercase">{fact.label}</dt>
                 <dd className="mt-2 font-semibold text-white">
-                  {"confirm" in fact ? <NeedsConfirm id={fact.confirm} fallback={fact.value} /> : fact.value}
+                  {"confirm" in fact ? <NeedsConfirm id={fact.confirm} fallback="On request">{fact.value}</NeedsConfirm> : fact.value}
                 </dd>
               </div>
             ))}

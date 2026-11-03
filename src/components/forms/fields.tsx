@@ -2,7 +2,7 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/cn";
 
 const control =
-  "w-full rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-[15px] text-white placeholder:text-white/50 transition focus:border-brand-orange/60 focus:bg-white/8 focus:outline-none aria-invalid:border-error/70";
+  "form-control w-full rounded-[12px] border border-white/12 bg-white/5 px-4 py-3 text-[15px] text-white placeholder:text-white/50 transition aria-invalid:border-error/70";
 
 type FieldProps = {
   label: string;
@@ -17,7 +17,7 @@ type FieldProps = {
 export function Field({ label, htmlFor, hint, error, optional, children, className }: FieldProps) {
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
-      <label htmlFor={htmlFor} className="text-sm font-medium text-white/85">
+      <label htmlFor={htmlFor} className="field-label text-sm font-medium text-white/85">
         {label}
         {optional ? <span className="ml-1.5 font-normal text-white/65">(optional)</span> : null}
       </label>
@@ -58,7 +58,7 @@ export function Choice({ label, description, className, type = "checkbox", ...re
   return (
     <label
       className={cn(
-        "flex cursor-pointer items-start gap-3 rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-[15px] text-white/85 transition has-[:checked]:border-brand-orange/60 has-[:checked]:bg-brand-orange/10 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-brand-orange",
+        "choice-tile flex min-h-11 cursor-pointer items-start gap-3 rounded-[12px] border border-white/12 bg-white/5 px-4 py-3 text-[15px] text-white/85 transition has-[:checked]:border-[#f97316] has-[:checked]:bg-[#f97316]/10",
         className,
       )}
     >

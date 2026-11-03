@@ -6,8 +6,7 @@ import { FeatureGrid } from "@/components/hubx/feature-grid";
 import { HubAiConversation } from "@/components/hubx/hubai-conversation";
 import { ModuleExplorer } from "@/components/hubx/module-explorer";
 import { JsonLd, ToneLink } from "@/components/hubx/primitives";
-import { ScreenshotCarousel } from "@/components/hubx/screenshot-carousel";
-import { BrowserFrame } from "@/components/marketing/browser-frame";
+import { EvidenceFigure, EvidenceStage } from "@/components/ink/evidence";
 import { CheckList, CtaBand, Steps, Testimonials, TextLink } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
@@ -18,8 +17,8 @@ import { Display, Eyebrow, SectionHeading } from "@/components/ui/typography";
 import { hubAiFeatures } from "@/content/hubai-demo";
 import { hubxAudiences, hubxIntegrations, hubxPage, hubxSteps, hubxTagline, licensingCatalog } from "@/content/hubx";
 import { hubxFaq } from "@/content/hubx-faq";
+import { captures, hubxEvidence } from "@/content/evidence";
 import { hubxModules } from "@/content/hubx-modules";
-import { screens } from "@/content/screens";
 import { site } from "@/content/site";
 import { siteUrl } from "@/lib/site";
 
@@ -52,7 +51,6 @@ export default function HubXPage() {
         eyebrow={hero.eyebrow}
         title={hero.title}
         lead={hero.lead}
-        below={<BrowserFrame screen={screens.dashboardsDark} priority viewport="crop" sizes="(min-width: 1280px) 1100px, 100vw" />}
       >
         <ButtonLink href={hero.primary.href}>
           {hero.primary.label}
@@ -101,7 +99,7 @@ export default function HubXPage() {
       <Section tone="light">
         <Container>
           <SectionHeading tone="light" eyebrow={tour.eyebrow} title={tour.title} lead={tour.lead} />
-          <ScreenshotCarousel screens={tour.screens.map((id) => screens[id])} labels={tour.labels} label="HubX product tour" />
+          <EvidenceStage ids={hubxEvidence} tone="pearl" />
         </Container>
         <Container className="mt-20 sm:mt-24" id="modules">
           <SectionHeading tone="light" eyebrow={modules.eyebrow} title={modules.title} lead={modules.lead} />
@@ -135,12 +133,7 @@ export default function HubXPage() {
           <SectionHeading tone="light" eyebrow={hubai.eyebrow} title={hubai.title} lead={hubai.lead} />
           <div className="grid items-start gap-8 lg:grid-cols-[1.05fr_1fr] lg:gap-10 [&>*]:min-w-0">
             <HubAiConversation tone="light" />
-            <ScreenshotCarousel
-              screens={hubai.screens.map((id) => screens[id])}
-              labels={hubai.labels}
-              label="HubAI in the product"
-              sizes="(min-width: 1024px) 560px, 100vw"
-            />
+            <EvidenceFigure capture={captures.hubaiHome} tone="pearl" />
           </div>
           <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {hubAiFeatures.map((f, i) => (
@@ -176,8 +169,10 @@ export default function HubXPage() {
             </FeatureCard>
             <FeatureCard icon={ShieldCheck} title="Security and compliance" footer={<TextLink href="/hubx/security">HubX security</TextLink>}>
               Single sign-on with your own identity provider, roles, and audit logs on every organization and customer.
-              Delivered by an ISO/IEC 27001:2022-certified organization, with Microsoft access handled through the CSP
-              program&apos;s own mechanisms. <NeedsConfirm id="isoEntity" fallback={null} />
+              Microsoft access is handled through the CSP program&apos;s own mechanisms.{" "}
+              <NeedsConfirm id="isoEntity" fallback={null}>
+                ISO/IEC 27001:2022 certification is not published until the certificate entity is confirmed.
+              </NeedsConfirm>
             </FeatureCard>
             <FeatureCard icon={Headset} title="Direct Microsoft escalation">
               As a CSP direct-bill partner, MSP Hub escalates to Microsoft Premier support directly. No distributor layer
@@ -206,7 +201,9 @@ export default function HubXPage() {
                 Talk to licensing
               </ButtonLink>
               <p className="text-xs text-white/60">
-                <NeedsConfirm id="quoteResponse" fallback="Response within one business day." />
+                <NeedsConfirm id="quoteResponse" fallback="The licensing desk replies during business hours.">
+                  Response within one business day.
+                </NeedsConfirm>
               </p>
             </div>
           </div>

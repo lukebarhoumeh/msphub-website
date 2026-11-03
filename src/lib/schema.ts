@@ -24,7 +24,6 @@ export function organizationSchema(): JsonLdObject {
     logo: `${siteUrl}/favicon/icon-512.png`,
     foundingDate: String(site.founded),
     email: site.salesEmail,
-    telephone: site.salesPhone,
     address: { "@type": "PostalAddress", streetAddress: site.hq.address, addressCountry: "US" },
     sameAs: Object.values(site.social),
     contactPoint: [
@@ -32,7 +31,6 @@ export function organizationSchema(): JsonLdObject {
         "@type": "ContactPoint",
         contactType: "sales",
         email: site.salesEmail,
-        telephone: site.salesPhone,
         availableLanguage: "English",
       },
     ],

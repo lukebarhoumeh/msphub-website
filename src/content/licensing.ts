@@ -147,11 +147,11 @@ export const licensingFaq: LicensingFaq[] = [
   },
   {
     q: "Is pricing direct outside North America?",
-    a: "MSP Hub\u2019s direct-bill status covers North America. MSP Hub UK Limited transacts Microsoft licensing as a CSP indirect reseller, and delivery teams in the UK and India support both.",
+    a: "MSP Hub’s direct-bill status covers North America. MSP Hub UK Limited transacts Microsoft licensing as a CSP indirect reseller.",
   },
   {
     q: "How quickly will I hear back on a quote?",
-    a: "Within one business day. The licensing desk works business hours, US Central and Eastern.",
+    a: "The licensing desk replies during business hours, US Central and Eastern.",
     confirm: "quoteResponse",
   },
 ];

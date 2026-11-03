@@ -20,7 +20,7 @@ export const thankYou: Record<ThankYouForm, ThankYouCopy> = {
   demo: {
     received: "Demo request received",
     title: "Thanks. Let's find a time.",
-    body: "We confirm a 30-minute HubX demo within one business day, with your tenant scenario and your licensing questions on the agenda.",
+    body: "We confirm a 30-minute HubX demo by email, with your tenant scenario and your licensing questions on the agenda.",
     next: [
       "A sales engineer replies with two or three time slots, or confirms the one you proposed",
       "You get a calendar invite with the meeting link",
@@ -49,7 +49,7 @@ export const thankYou: Record<ThankYouForm, ThankYouCopy> = {
   quote: {
     received: "Licensing quote request received",
     title: "Thanks. Your quote is in the queue.",
-    body: "A licensing specialist prices the estate and replies within one business day with pricing, the right plan mix, and any savings we can see.",
+    body: "A licensing specialist prices the estate and replies during business hours with pricing and the right plan mix.",
     next: [
       "If you attached an invoice, we match every line to the equivalent SKU, quantity, and term",
       "You get a quote and, where it applies, a transfer plan for the subscriptions you already own",
@@ -64,7 +64,7 @@ export const thankYou: Record<ThankYouForm, ThankYouCopy> = {
     received: "Message received",
     title: "Thanks. We're on it.",
     body: "Your message is with the team. We reply from a real inbox, not an auto-responder.",
-    next: ["The right team reads it: sales, licensing, support, or partnerships", "You get a reply by email, usually within one business day"],
+    next: ["The right team reads it: sales, licensing, support, or partnerships", "You get a reply by email during business hours"],
     links: [
       { label: "Back to home", href: "/" },
       { label: "About MSP Hub", href: "/about" },
