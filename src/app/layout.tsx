@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { bodyFont, headingFont, monoFont } from "./fonts";
 import { Analytics } from "@/components/analytics/analytics";
 import { ScrollProgress } from "@/components/ink/atmosphere";
+import { AmbientMotion } from "@/components/ink/ambient";
 import { PageCanvas } from "@/components/ink/canvas";
 import { HeaderThemeObserver, Spine } from "@/components/ink/flow";
 import { RevealObserver } from "@/components/ink/motion";
@@ -58,6 +59,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <JsonLd data={[organizationSchema(), webSiteSchema()]} />
         <RevealObserver />
         <HeaderThemeObserver />
+        <AmbientMotion />
         {/* Own boundary: the loader reads the pathname, which partially prerendered routes resolve at request time. */}
         <Suspense fallback={null}>
           <Analytics />
