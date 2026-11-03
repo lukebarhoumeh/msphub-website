@@ -509,6 +509,14 @@ body {
   to { transform: rotate(360deg); }
 }
 
+/* Ambient loops run only while the page is live (visible, focused, touched in the last 12 s);
+   `AmbientMotion` sets the attribute. A paused loop costs no frames. */
+html[data-ambient="paused"] .aurora-blob,
+html[data-ambient="paused"] .border-beam::before,
+html[data-ambient="paused"] .marquee-track {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] { opacity: 1; transform: none; transition: none; }
   .marquee-track { animation: none; }
