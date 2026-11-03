@@ -23,7 +23,7 @@ const [serif, sans, mono, logo] = await Promise.all([
   readFile(join(assets, "fonts", "source-serif-4-latin-600.ttf")),
   readFile(join(assets, "fonts", "inter-latin-500.ttf")),
   readFile(join(assets, "fonts", "jetbrains-mono-latin-500.ttf")),
-  readFile(join(assets, "msphub", "svg", "msphub-logo-horizontal-reversed.svg")),
+  readFile(join(assets, "msphub", "svg", "msphub-logo-white-2026.svg")),
 ]);
 const logoSrc = `data:image/svg+xml;base64,${logo.toString("base64")}`;
 
@@ -48,7 +48,7 @@ export function renderOgImage({ eyebrow, title, product }: Pick<OgCopy, "eyebrow
       >
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={logoSrc} alt="" height={56} width={Math.round(56 * 5.8388)} />
+          <img src={logoSrc} alt="" height={56} width={Math.round(56 * 7.189)} />
           <div style={{ display: "flex", alignItems: "center", gap: 12, fontFamily: "JetBrains Mono", fontSize: 22, color: "rgba(255,255,255,0.7)" }}>
             <div style={{ width: 10, height: 10, background: "#F97316", transform: "rotate(45deg)", borderRadius: 2 }} />
             msphub.com

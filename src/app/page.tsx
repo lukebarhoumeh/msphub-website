@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import {
   AudienceChapter,
+  CatalogTicker,
   DevelopmentChapter,
   EngineChapter,
   HubxEvidenceChapter,
@@ -24,6 +25,7 @@ export default function HomePage() {
   return (
     <>
       <InkHomeHero />
+      <CatalogTicker />
       <ProofRail />
       <OutcomeSequence />
       <EngineChapter />

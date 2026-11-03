@@ -124,7 +124,7 @@ export function Header() {
     >
       <Container className="flex h-full items-center justify-between gap-3">
         <Link href="/" aria-label="MSP Hub home" className="flex shrink-0 items-center py-3">
-          <MspHubLogo priority className="h-6 w-auto lg:h-7" />
+          <MspHubLogo priority className="h-5 w-auto sm:h-6 lg:h-7" />
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center lg:flex">
@@ -151,9 +151,11 @@ export function Header() {
           <Link href={site.hubxLoginUrl} rel="noopener" className="hidden h-11 items-center px-2 text-[15px] font-medium text-[#b8c0d4] underline-offset-4 hover:text-white hover:underline xl:inline-flex">
             Log in to HubX
           </Link>
-          <ButtonLink href="#talk-to-msphub" size="sm" className="hidden sm:inline-flex">
-            Talk to MSP Hub
-          </ButtonLink>
+          <span className="hidden sm:block">
+            <ButtonLink href="#talk-to-msphub" size="sm">
+              Talk to MSP Hub
+            </ButtonLink>
+          </span>
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}

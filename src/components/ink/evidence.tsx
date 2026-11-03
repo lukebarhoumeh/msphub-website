@@ -2,10 +2,12 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { X } from "lucide-react";
+import { BorderBeam } from "@/components/ink/atmosphere";
+import { Spotlight } from "@/components/ink/motion";
 import { capturedLabel, captures, truthLabel, type Capture, type CaptureId } from "@/content/evidence";
 import { cn } from "@/lib/cn";
 
-function CropImage({ capture, className }: { capture: Capture; className?: string }) {
+function CropImage({ capture, className, priority = false }: { capture: Capture; className?: string; priority?: boolean }) {
   return (
     // Real captures stay off the Next image optimizer so the crop is not recompressed.
     // eslint-disable-next-line @next/next/no-img-element
@@ -14,7 +16,8 @@ function CropImage({ capture, className }: { capture: Capture; className?: strin
       alt={capture.alt}
       width={capture.crop.width}
       height={capture.crop.height}
-      loading="lazy"
+      loading={priority ? "eager" : "lazy"}
+      fetchPriority={priority ? "high" : "auto"}
       decoding="async"
       className={cn("h-auto w-full max-w-[400px] rounded-[10px]", className)}
     />
@@ -31,16 +34,17 @@ export function EvidenceCaption({ capture, inViewer = false }: { capture: Captur
   );
 }
 
-export function EvidenceBezel({ capture }: { capture: Capture }) {
+export function EvidenceBezel({ capture, tilt = false, beam = false, priority = false, className }: { capture: Capture; tilt?: boolean; beam?: boolean; priority?: boolean; className?: string }) {
   return (
-    <div className="relative w-full max-w-[420px]">
+    <div className={cn("relative w-full max-w-[420px]", tilt && "tilt tilt-hero", className)}>
       <div
         aria-hidden
         className="pointer-events-none absolute -inset-8 -z-10 bg-[radial-gradient(circle,rgba(249,115,22,.34),transparent_68%)]"
       />
-      <div className="rounded-[18px] border border-white/14 bg-[#12192b] p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_24px_64px_rgba(0,0,0,.28)]">
-        <CropImage capture={capture} />
-      </div>
+      <Spotlight className="overflow-hidden rounded-[18px] border border-white/14 bg-[#12192b] p-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,.16),0_24px_64px_rgba(0,0,0,.28)]">
+        <CropImage capture={capture} priority={priority} />
+        {beam ? <BorderBeam duration={10} /> : null}
+      </Spotlight>
     </div>
   );
 }
