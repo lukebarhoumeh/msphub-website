@@ -19,7 +19,7 @@ export const partnerPrograms: PartnerProgram[] = [
   {
     id: "reseller",
     name: "Reseller partner",
-    who: "MSPs and VARs selling Microsoft",
+    who: "MSPs and VARs, with or without Microsoft revenue today",
     gets: [
       "Tier-1 direct pricing on the full catalog",
       "Every customer in HubX",
@@ -80,16 +80,27 @@ export type ProgramDetail = {
   eyebrow: string;
   title: string;
   lead: string;
-  /** Who the program is for, in the partner's own terms. */
-  forWhom: { title: string; body: string }[];
+  /** The program's own voice: chapter titles, the secondary call to action, and the closing lead. */
+  voice: {
+    forWhomTitle: string;
+    stepsTitle: string;
+    secondary: { label: string; href: string };
+    nextLead: string;
+  };
+  /** Who the program is for, in the partner's own terms. An `id` makes the row a deep link (`/partners/reseller#vars`). */
+  forWhom: { id?: string; title: string; body: string }[];
   /** What the program includes, grouped for the detail page. */
-  includes: { title: string; body: string }[];
+  includes: { title: string; body: string; link?: { label: string; href: string } }[];
+  /** Agent program only: the work an agent can bring, each linked to the page that explains it. */
+  bring?: { title: string; body: string; href: string; linkLabel: string }[];
   /** Program-specific onboarding or working steps. */
   steps: { title: string; body: string }[];
   /** Commercial statement; never a number. */
   economics: { body: string; confirm?: ConfirmId };
   faq: { q: string; a: string; confirm?: ConfirmId }[];
   cta: { label: string; href: string };
+  /** "On this page" links in the hero; each href is a chapter id on the program page. */
+  anchors?: readonly { label: string; href: string }[];
 };
 
 export const programDetails: Record<PartnerProgramId, ProgramDetail> = {
@@ -98,10 +109,16 @@ export const programDetails: Record<PartnerProgramId, ProgramDetail> = {
     eyebrow: "Reseller partner · MSPs and VARs",
     title: "Resell Microsoft at Tier-1 direct pricing without building a licensing desk.",
     lead: "MSP Hub is a Microsoft CSP direct-bill partner. You sell through MSP Hub's direct tenant, MSP Hub bills you, you bill your customers, and HubX runs the rest: every customer tenant, order, renewal, invoice, and margin in one console, with a services bench behind you.",
+    voice: {
+      forWhomTitle: "Built for the way you already sell.",
+      stepsTitle: "From application to the first billing run.",
+      secondary: { label: "Schedule a HubX demo", href: "/demo" },
+      nextLead: "Tell us about your business and your customers. The partner team replies with next steps and a call.",
+    },
     forWhom: [
-      { title: "MSPs with Microsoft customers", body: "You manage tenants today and want direct pricing, one console, and a bench for the projects you do not staff." },
-      { title: "VARs adding recurring revenue", body: "You sell hardware and projects and want licensing margin without a licensing operation." },
-      { title: "MSPs leaving a distributor", body: "Your customers' subscriptions move to MSP Hub by partner-to-partner transfer; nothing is re-bought and terms carry over." },
+      { id: "msps", title: "MSPs with Microsoft customers", body: "You manage tenants today and want direct pricing, one console, and a bench for the projects you do not staff." },
+      { id: "vars", title: "VARs adding recurring revenue", body: "You sell hardware and projects and want licensing margin without a licensing operation." },
+      { id: "leaving-a-distributor", title: "MSPs leaving a distributor", body: "Your customers' subscriptions move to MSP Hub by partner-to-partner transfer; nothing is re-bought and terms carry over." },
     ],
     includes: [
       { title: "Tier-1 direct pricing on 7,600+ SKUs", body: "The full catalog at direct pricing, filtered per customer to what they are qualified to buy: commercial, nonprofit, or education." },
@@ -109,7 +126,11 @@ export const programDetails: Record<PartnerProgramId, ProgramDetail> = {
       { title: "Margin on every invoice", body: "Partner cost, customer price, and gross margin per customer on the statement, plus what changed since last period." },
       { title: "Transfers and GDAP run in HubX", body: "Partner-to-partner transfers are run by MSP Hub's deal desk and tracked in-app alongside Granular Delegated Admin Privileges coverage and expiries." },
       { title: "Customer types and named discounts", body: "Group customers by type, apply named discount groups, and give customers their own portal access." },
-      { title: "A services bench behind you", body: "Migrations, Azure projects, security work, and managed operations delivered under your relationship by MSP Hub's engineers." },
+      {
+        title: "A services bench behind you",
+        body: "Migrations, Azure projects, security work, and managed operations delivered under your relationship by MSP Hub's engineers.",
+        link: { label: "See the services bench", href: "/services" },
+      },
     ],
     steps: [
       { title: "Set up your organization", body: "Partner organization, users and roles, and single sign-on with your own identity provider." },
@@ -139,27 +160,76 @@ export const programDetails: Record<PartnerProgramId, ProgramDetail> = {
       },
     ],
     cta: { label: "Apply as a reseller partner", href: "/partners/apply?program=reseller" },
+    anchors: [
+      { label: "For whom", href: "#for-whom" },
+      { label: "What you get", href: "#includes" },
+      { label: "In HubX", href: "#in-hubx" },
+      { label: "Steps", href: "#steps" },
+      { label: "Questions", href: "#faq" },
+    ],
   },
   agent: {
     id: "agent",
     eyebrow: "Agent and referral partner · advisors and consultants",
     title: "Bring the opportunity. MSP Hub sells and delivers.",
     lead: "For technology advisors, agents sourced through technology services distributors, and consultants: register the opportunity, MSP Hub sells and delivers licensing and services, and you earn an evergreen commission with weekly visibility into the pipeline you brought in.",
+    voice: {
+      forWhomTitle: "Built for the way you already advise.",
+      stepsTitle: "From application to your first registered opportunity.",
+      secondary: { label: "Talk to the partner team", href: "/contact?topic=partnership#contact-form" },
+      nextLead: "Tell us about your practice and the clients you advise.",
+    },
     forWhom: [
-      { title: "Technology advisors and agents", body: "You advise clients on telecom, cloud, and IT and want a Microsoft licensing and services partner that will not compete with you." },
-      { title: "Consultants and fractional IT leaders", body: "You see the licensing and migration needs first and want a single team to hand them to." },
-      { title: "Referral relationships", body: "You introduce; MSP Hub scopes, sells, and delivers, and reports back weekly." },
+      { id: "advisors", title: "Technology advisors and agents", body: "You advise clients on telecom, cloud, and IT and want a Microsoft licensing and services partner that will not compete with you." },
+      { id: "consultants", title: "Consultants and fractional IT leaders", body: "You see the licensing and migration needs first and want a single team to hand them to." },
+      { id: "referrals", title: "Referral relationships", body: "You introduce; MSP Hub scopes, sells, and delivers, and reports back weekly." },
     ],
     includes: [
-      { title: "Deal registration by form", body: "Register an opportunity with the partner team by form; it goes straight into MSP Hub's CRM." },
+      {
+        title: "Deal registration with the partner team",
+        body: "Register an opportunity through the contact form (topic: Partnership); it goes straight into MSP Hub's CRM against your partner record.",
+      },
       { title: "MSP Hub sells and delivers", body: "Licensing, migrations, security, Azure, and managed operations from one team, with MSP Hub engineers on the scoping calls." },
       { title: "Evergreen commission", body: "Evergreen commission on the licensing and services you bring in." },
       { title: "Weekly pipeline visibility", body: "A weekly view of every opportunity you registered and where it stands." },
-      { title: "Collateral you can send", body: "Company deck, services deck, and the “Why MSP Hub” brief, ready for your client conversations." },
+      { title: "Collateral from the partner team", body: "Company deck, services deck, and the “Why MSP Hub” brief, sent by the partner team after onboarding." },
+    ],
+    /** One sentence each, lifted from the licensing and services pages they link to; nothing here is new. */
+    bring: [
+      {
+        title: "Switches from another CSP partner",
+        body: "Subscriptions move to MSP Hub by partner-to-partner transfer: nothing is re-bought, terms carry over, and the deal desk returns a line-by-line comparison from the current invoice.",
+        href: "/licensing/switch",
+        linkLabel: "Switch to MSP Hub",
+      },
+      {
+        title: "Enterprise Agreement transitions",
+        body: "For mid-market and enterprise organizations leaving an LSP-run Enterprise Agreement: flexibility, support, and services from one team.",
+        href: "/licensing/ea-to-csp",
+        linkLabel: "Read the EA to CSP guide",
+      },
+      {
+        title: "Migrations, security, and Azure",
+        body: "Microsoft 365, Azure, security and identity, and the data platform, delivered under a fixed-fee statement of work with a named project manager accountable end to end.",
+        href: "/services/professional",
+        linkLabel: "Professional services",
+      },
+      {
+        title: "Managed operations",
+        body: "Monitoring, alerting, and incident management around the clock for the environments MSP Hub manages, run to agreed SLAs with direct Microsoft escalation.",
+        href: "/services/managed",
+        linkLabel: "Managed services",
+      },
+      {
+        title: "Applications and AI",
+        body: "Application development, DevOps, and AI development as a managed engagement, from Copilot rollouts to purpose-built agents and automation.",
+        href: "/services/development",
+        linkLabel: "Development & AI",
+      },
     ],
     steps: [
       { title: "Apply", body: "Tell us about your practice and the clients you advise." },
-      { title: "Register opportunities", body: "Submit each opportunity through the partner team's form; MSP Hub scopes it with the client." },
+      { title: "Register opportunities", body: "Send each opportunity to the partner team through the contact form (topic: Partnership); MSP Hub scopes it with the client." },
       { title: "MSP Hub delivers, you see the pipeline", body: "Licensing and services are sold and delivered by MSP Hub; you receive weekly pipeline updates and your commission." },
     ],
     economics: {
@@ -169,7 +239,7 @@ export const programDetails: Record<PartnerProgramId, ProgramDetail> = {
     faq: [
       {
         q: "How do I register a deal?",
-        a: "Through the partner team's form once you are onboarded. Each registration goes into MSP Hub's CRM against your partner record.",
+        a: "Through the contact form with the topic “Partnership” once you are onboarded. Each registration goes into MSP Hub's CRM against your partner record.",
       },
       {
         q: "What can I bring?",
@@ -181,16 +251,29 @@ export const programDetails: Record<PartnerProgramId, ProgramDetail> = {
       },
     ],
     cta: { label: "Apply as an agent", href: "/partners/apply?program=agent" },
+    anchors: [
+      { label: "For whom", href: "#for-whom" },
+      { label: "What you get", href: "#includes" },
+      { label: "What you can bring", href: "#bring" },
+      { label: "Steps", href: "#steps" },
+      { label: "Questions", href: "#faq" },
+    ],
   },
   platform: {
     id: "platform",
     eyebrow: "Platform partner · direct-bill CSPs",
     title: "Run HubX on your own Partner Center tenant.",
     lead: "Direct-bill CSPs license HubX as a platform: quoting, provisioning, billing reconciliation, dashboards, and HubAI on top of your own Microsoft Partner Center, with partner-branded customer invoicing and margin reporting per customer.",
+    voice: {
+      forWhomTitle: "Built for the tenant you already run.",
+      stepsTitle: "From Partner Center connection to the first billing run.",
+      secondary: { label: "Schedule a platform demo", href: "/demo" },
+      nextLead: "Tell us about your tenant and your billing books.",
+    },
     forWhom: [
-      { title: "Direct-bill CSPs", body: "You hold your own Partner Center tenant and want the portal without building it." },
-      { title: "CSPs with many billing books", body: "Billing subscriptions in HubX act as separate books with their own remittance details and reporting." },
-      { title: "CSPs replacing spreadsheets", body: "Reconcile Microsoft's invoice to customer invoices and margin inside the platform, not in a workbook." },
+      { id: "direct-bill-csps", title: "Direct-bill CSPs", body: "You hold your own Partner Center tenant and want the portal without building it." },
+      { id: "billing-books", title: "CSPs with many billing books", body: "Billing subscriptions in HubX act as separate books with their own remittance details and reporting." },
+      { id: "spreadsheets", title: "CSPs replacing spreadsheets", body: "Reconcile Microsoft's invoice to customer invoices and margin inside the platform, not in a workbook." },
     ],
     includes: [
       { title: "Native Partner Center integration", body: "Provisioning, Granular Delegated Admin Privileges, partner-to-partner transfers, and Microsoft Customer Agreement status through Partner Center APIs." },
@@ -230,6 +313,13 @@ export const programDetails: Record<PartnerProgramId, ProgramDetail> = {
       },
     ],
     cta: { label: "Apply as a platform partner", href: "/partners/apply?program=platform" },
+    anchors: [
+      { label: "For whom", href: "#for-whom" },
+      { label: "What you get", href: "#includes" },
+      { label: "In HubX", href: "#in-hubx" },
+      { label: "Steps", href: "#steps" },
+      { label: "Questions", href: "#faq" },
+    ],
   },
 };
 

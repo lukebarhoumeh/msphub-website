@@ -1,10 +1,12 @@
-import { ArrowRight, ExternalLink } from "lucide-react";
-import { Chapter, DotList, InkLink, NextStep, RuleList, inkTone, monoLabel } from "@/components/ink/interior";
+import { ArrowRight, ExternalLink, Lock } from "lucide-react";
+import { LeadForm } from "@/components/forms/lead-form";
+import { Chapter, DotList, InkLink, Panel, RuleList, inkTone, monoLabel } from "@/components/ink/interior";
+import { InvoiceUpload } from "@/components/licensing/invoice-upload";
 import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
-import { NeedsConfirmBlock, showTodos } from "@/components/ui/needs-confirm";
+import { NeedsConfirm, NeedsConfirmBlock, showTodos } from "@/components/ui/needs-confirm";
 import { Container } from "@/components/ui/section";
-import { eaToCsp } from "@/content/licensing";
+import { eaToCsp, switchPage } from "@/content/licensing";
 import { pageMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/cn";
 
@@ -17,9 +19,9 @@ export const metadata = pageMetadata({
 export default function EaToCspPage() {
   return (
     <>
-      <PageHero art="lifecycle-glass-corridor" eyebrow={eaToCsp.eyebrow} title={eaToCsp.title} lead={eaToCsp.lead}>
-        <ButtonLink href="/licensing/switch#send-invoice">
-          Send your EA estate for a comparison
+      <PageHero art="lifecycle-glass-corridor" eyebrow={eaToCsp.eyebrow} title={eaToCsp.title} lead={eaToCsp.lead} anchors={eaToCsp.anchors}>
+        <ButtonLink href="#send-estate">
+          Send your EA estate
           <ArrowRight className="size-4" aria-hidden />
         </ButtonLink>
         <ButtonLink href="/contact?topic=sales#contact-form" variant="glass">
@@ -39,19 +41,20 @@ export default function EaToCspPage() {
         </section>
       ) : null}
 
-      <Chapter tone="ink" pad="flush-top" size="md" title="What changes when you leave an LSP-run agreement." headingWidth="max-w-[24ch]">
+      <Chapter tone="ink" id="reasons" pad="flush-top" size="md" title="What changes when you leave an LSP-run agreement." headingWidth="max-w-[24ch]">
         <RuleList tone="ink" numbered columns={4} titleSize="md" items={eaToCsp.reasons} />
       </Chapter>
 
       <Chapter
         tone="pearl"
+        id="steps"
         title="Reviewed, timed, provisioned, run."
         lead="Your Microsoft 365 tenant, users, and data stay where they are. What changes is who you buy from, how you are billed, and who picks up the phone."
       >
         <RuleList tone="pearl" numbered columns={5} titleSize="md" items={eaToCsp.steps} />
       </Chapter>
 
-      <Chapter tone="ink" title="The comparison is the decision." headingWidth="max-w-[16ch]">
+      <Chapter tone="ink" id="comparison" title="The comparison is the decision." headingWidth="max-w-[16ch]">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-7">
             <p className={cn(monoLabel, inkTone.ink.faint)}>{eaToCsp.compare.title}</p>
@@ -59,7 +62,7 @@ export default function EaToCspPage() {
               Send your agreement or your current invoice and the deal desk returns every line against its CSP equivalent, with the terms and the support
               path spelled out.
             </p>
-            <DotList tone="ink" className="mt-6" items={eaToCsp.compare.items} />
+            <DotList tone="ink" marker="neutral" className="mt-6" items={eaToCsp.compare.items} />
           </div>
           <div className="border-t border-white/15 pt-5 lg:col-span-5">
             <p className={cn(monoLabel, inkTone.ink.faint)}>From Microsoft Learn</p>
@@ -80,16 +83,31 @@ export default function EaToCspPage() {
         </div>
       </Chapter>
 
-      <NextStep
-        tone="pearl"
-        title="Send your EA estate. Get the comparison."
-        lead="Upload your agreement or your current invoice and the deal desk returns a line-by-line comparison and a transition plan timed to your dates."
-        primary={{ label: "Send your invoice", href: "/licensing/switch#send-invoice" }}
-        secondary={[
-          { label: "Get a licensing quote", href: "/licensing/quote" },
-          { label: "Talk to licensing", href: "/contact?topic=sales#contact-form" },
-        ]}
-      />
+      {/* The estate comparison is requested here, on the switch kind (provider preset to an EA), instead of a hop to /licensing/switch. */}
+      <section id="send-estate" data-surface="ink" className="relative scroll-mt-24 overflow-x-clip pb-[clamp(64px,7vw,104px)] text-white">
+        <Container>
+          <Panel tone="ink" className="grid gap-10 sm:p-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:p-14">
+            <div>
+              <h2 className="font-display text-[30px] leading-[1.1] font-bold tracking-[-0.02em] lg:text-[40px]">Send your EA estate. Get the comparison.</h2>
+              <p className={cn("mt-4 max-w-[46ch] text-[17px] leading-[1.6]", inkTone.ink.muted)}>
+                Upload your agreement or your current invoice and the deal desk returns a line-by-line comparison and a transition plan timed to your dates.
+              </p>
+              <p className={cn("mt-6 flex items-start gap-2.5 text-sm", inkTone.ink.muted)}>
+                <Lock className="mt-0.5 size-4 shrink-0" aria-hidden />
+                {switchPage.privacyNote}
+              </p>
+              <p className={cn("mt-4 text-sm", inkTone.ink.muted)}>
+                <NeedsConfirm id="quoteResponse" fallback="The licensing desk replies during business hours.">
+                  Response within one business day.
+                </NeedsConfirm>
+              </p>
+            </div>
+            <LeadForm kind="switch" defaultValues={{ currentProvider: "ea-lsp" }}>
+              <InvoiceUpload kind="switch" />
+            </LeadForm>
+          </Panel>
+        </Container>
+      </section>
     </>
   );
 }

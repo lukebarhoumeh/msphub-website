@@ -48,7 +48,7 @@ export default function HubxSecurityPage() {
             tone="ink"
             items={securityFacts.map((fact) => ({
               id: fact.label,
-              value: "confirm" in fact ? <NeedsConfirm id={fact.confirm} fallback="On request">{fact.value}</NeedsConfirm> : fact.value,
+              value: fact.value,
               label: fact.label,
             }))}
           />

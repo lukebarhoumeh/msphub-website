@@ -19,25 +19,6 @@ export function surface(tone: InkTone) {
   return tone === "ink" ? glass : paper;
 }
 
-/** Audience router card: who, one line, one route. The card is the link. */
-export function AudienceCard({ label, body, href, cta, tone = "ink", className }: { label: string; body: string; href: string; cta: string; tone?: InkTone; className?: string }) {
-  const t = inkTone[tone];
-  return (
-    <article className={cn(surface(tone), "flex min-h-[220px] flex-col p-6", className)}>
-      <h3 className="font-display text-[22px] leading-[1.15] font-bold tracking-[-0.015em]">
-        <Link href={href} className="after:absolute after:inset-0 after:rounded-[inherit] focus-visible:outline-none">
-          {label}
-        </Link>
-      </h3>
-      <p className={cn("mt-3 text-[15.5px] leading-[1.6]", t.muted)}>{body}</p>
-      <span aria-hidden className={cn("mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-semibold", t.text)}>
-        {cta}
-        <ArrowRight className="size-3.5 text-[#f97316]" />
-      </span>
-    </article>
-  );
-}
-
 /** Anonymised deal-desk case: industry, scale, starting point, what moved. Never a name. */
 export function CaseCard({ item, tone = "pearl", className }: { item: CaseStudy; tone?: InkTone; className?: string }) {
   const t = inkTone[tone];
@@ -96,10 +77,29 @@ export function InsightCard({ post, tone = "ink", className }: { post: Post; ton
 }
 
 /** A small engine tile for the bento. The tile is the link. */
-export function EngineTile({ id, name, meta, summary, href, className, wide = false }: { id: EngineId; name: string; meta?: string; summary: string; href: string; className?: string; wide?: boolean }) {
+export function EngineTile({
+  id,
+  name,
+  meta,
+  summary,
+  href,
+  className,
+  wide = false,
+  accent = true,
+}: {
+  id: EngineId;
+  name: string;
+  meta?: string;
+  summary: string;
+  href: string;
+  className?: string;
+  wide?: boolean;
+  /** `false`: the symbol's dot and the arrow stay ink until hover or focus, for rows of tiles that would spend the orange budget. */
+  accent?: boolean;
+}) {
   return (
-    <article className={cn(paper, "flex flex-col p-6", wide && "lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center lg:gap-6", className)}>
-      <EngineSymbol engine={id} />
+    <article className={cn(paper, "group flex flex-col p-6", wide && "lg:grid lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center lg:gap-6", className)}>
+      <EngineSymbol engine={id} accent={accent} />
       <div className={cn(wide && "lg:contents")}>
         <h3 className={cn("mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1 font-display text-[22px] leading-[1.15] font-bold tracking-[-0.015em]", wide && "lg:mt-0 lg:col-start-2")}>
           <Link href={href} className="after:absolute after:inset-0 after:rounded-[inherit] focus-visible:outline-none">
@@ -111,7 +111,7 @@ export function EngineTile({ id, name, meta, summary, href, className, wide = fa
       </div>
       <span aria-hidden className={cn("mt-auto inline-flex items-center gap-1.5 pt-5 text-sm font-semibold text-[#0b1020]", wide && "lg:col-start-3 lg:row-span-2 lg:row-start-1 lg:mt-0 lg:pt-0")}>
         {name}
-        <ArrowRight className="size-3.5 text-[#f97316]" />
+        <ArrowRight className={cn("size-3.5", accent ? "text-[#f97316]" : "text-[#0b1020]/50 group-focus-within:text-[#f97316] group-hover:text-[#f97316]")} />
       </span>
     </article>
   );

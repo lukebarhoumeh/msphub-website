@@ -142,7 +142,8 @@ function EvidenceViewer({
   );
 }
 
-export function EvidenceFigure({ capture, tone = "ink" }: { capture: Capture; tone?: "ink" | "pearl" }) {
+/** `accent={false}` gives "View full screen" a neutral underline where the viewport's orange is already spent. */
+export function EvidenceFigure({ capture, tone = "ink", accent = true }: { capture: Capture; tone?: "ink" | "pearl"; accent?: boolean }) {
   const [open, setOpen] = useState(false);
   const pearl = tone === "pearl";
   return (
@@ -155,7 +156,7 @@ export function EvidenceFigure({ capture, tone = "ink" }: { capture: Capture; to
         onClick={() => setOpen(true)}
         className={cn(
           "mt-3 inline-flex h-11 items-center text-sm font-semibold underline decoration-2 underline-offset-[5px]",
-          pearl ? "decoration-[#f97316]" : "decoration-[#ffb05c]",
+          accent ? (pearl ? "decoration-[#f97316]" : "decoration-[#ffb05c]") : pearl ? "decoration-[#0b1020]/25" : "decoration-white/30",
         )}
       >
         View full screen

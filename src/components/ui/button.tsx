@@ -36,9 +36,10 @@ type ButtonLinkProps = CommonProps & { href: string } & Omit<ComponentPropsWitho
 type ButtonButtonProps = CommonProps & Omit<ComponentPropsWithoutRef<"button">, "className" | "children">;
 
 export function ButtonLink({ variant = "primary", size = "md", className, children, href, ...rest }: ButtonLinkProps) {
-  const external = /^https?:\/\//.test(href) || href.startsWith("mailto:");
+  // Native for other sites, mail, and same-page anchors: a client-side Link to "#id" scrolls but never moves focus.
+  const native = /^https?:\/\//.test(href) || href.startsWith("mailto:") || href.startsWith("#");
   const classes = cn(base, variants[variant], sizes[size], variant !== "primary" && "after:hidden", className);
-  if (external) {
+  if (native) {
     return (
       <a href={href} className={classes} {...(href.startsWith("http") ? { rel: "noopener" } : {})} {...(rest as ComponentPropsWithoutRef<"a">)}>
         {children}

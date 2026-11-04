@@ -36,10 +36,9 @@ export const credentials: Credential[] = [
   {
     id: "iso-27001",
     name: "ISO/IEC 27001:2022",
-    qualifier: "Certified delivery organization",
+    qualifier: "Certified information security management system",
     issuer: "iso",
     active: true,
-    confirm: "isoEntity",
   },
   {
     id: "channelpro-2025",

@@ -18,7 +18,8 @@ async function ApplyForm({ searchParams }: { searchParams: PageProps<"/partners/
   const params = await searchParams;
   const requested = typeof params.program === "string" ? params.program : undefined;
   const program = requested && (programIds as readonly string[]).includes(requested) ? (requested as PartnerProgramId) : undefined;
-  return <LeadForm kind="partner" defaultValues={program ? { program } : undefined} />;
+  // Keyed on the program so a changed "?program=" (a header link from another program page) remounts the form.
+  return <LeadForm key={program ?? "none"} kind="partner" defaultValues={program ? { program } : undefined} />;
 }
 
 export default function PartnerApplyPage({ searchParams }: PageProps<"/partners/apply">) {

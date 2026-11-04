@@ -55,8 +55,8 @@ export function ToneLink({ href, children, tone = "dark", className }: { href: s
 }
 
 /** The HubX X mark at small sizes (brand kit: below 24 px use the mark, never the full logo). */
-export function HubXMark({ className = "size-4" }: { className?: string }) {
-  return <Image src="/brand/svg/hubx-mark-orange.svg" alt="" width={244} height={244} className={className} aria-hidden />;
+export function HubXMark({ className = "size-4", variant = "orange" }: { className?: string; variant?: "orange" | "white" }) {
+  return <Image src={variant === "white" ? "/brand/svg/hubx-mark-white.svg" : "/brand/svg/hubx-mark-orange.svg"} alt="" width={244} height={244} className={className} aria-hidden />;
 }
 
 /** The product's "Early Access" affordance, mirrored on the website. */

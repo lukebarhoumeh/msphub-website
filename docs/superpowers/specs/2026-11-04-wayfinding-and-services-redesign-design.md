@@ -208,3 +208,33 @@ WP1, WP2, WP3 can run in parallel; WP4–WP8 in parallel after their dependencie
 9. **Home section 7 cards.** Replaced by the band under the proof strip (one router per page).
 10. **"Partners" top-level item.** Removed from the header; reachable from the Who we serve footer rows, Company and the site footer.
 11. **Sub-nav active marker.** Orange dot becomes white on `/hubx` and `/services` to protect the orange budget.
+
+## Build notes (2026-11-04)
+
+Deviations from the spec made during the build, with the reason for each:
+
+1. **Quick Find shipped in this PR.** WP9 passed its gates (lazy chunk, nothing on first paint, combobox and listbox semantics), so it did not move to a later PR. The native `close` event is ignored while the dialog is open, because the queued event can land after a fast reopen.
+2. **Hero eyebrows lost their orange rule site-wide.** The rule made a fourth orange element in every services hero. Eyebrows are now mono wayfinding text everywhere, matching the chapter eyebrows.
+3. **The header pill has a short label on phones** ("Apply", "Start inquiry", "Contact us"). The full label does not fit beside the logo and the menu button at 360–375 px.
+4. **Reduced motion moved from JavaScript to CSS** in `Pinned`, `Parallax`, and `Spine`. `useReducedMotion` reads `null` on the server, so branching on it rendered different markup on the server and the client for exactly the visitors who asked for less motion.
+5. **`.hero-line` now sets `display: block` on spans only.** The rule is unlayered, so it beat every Tailwind display utility on the same element. That turned hero button rows from flex into block, which is why hero buttons touched on every page. It also stopped `max-lg:hidden` from hiding desktop-only asides.
+6. **Backdrop filters go through custom properties.** Lightning CSS emitted only `-webkit-backdrop-filter` for literal values, which Chromium and Firefox ignore, so the header glass and the palette backdrop had never blurred. The header blur is 12 px (DESIGN.md `backdrop-blur-md`), not 18 px.
+7. **`/licensing` reads "Six ways in."** because the motions list now has six entries.
+8. **`/licensing/switch` puts "Moving a whole book?" after the send-invoice panel**, matching the hero anchor order and keeping the comparison next to its form.
+9. **The development hero object is server-rendered, shown from lg, at 90 % zoom.** It carries no image bytes, so there is nothing to defer, and rendering it on the server avoids a layout shift when it mounts. The zoom keeps the object near 460 px tall so chapter 01 starts above the fold at 1440 × 900.
+10. **Hero facts render as one mono line below md, not a scrolling chip row.** A scroll region with nothing focusable inside cannot be scrolled from the keyboard (axe `scrollable-region-focusable`). The anchor row still scrolls, because its links keep it keyboard-reachable.
+11. **`PageHero` gained `asideBelowLg`.** With `false`, desktop-only asides (frames inside `WideOnly`) drop below lg along with their 48 px gap.
+12. **Pinned figures use `--pinned-top`.** Pages with a section sub-nav raise it to 9.25rem from lg, so the sticky figure clears the header and the sub-nav.
+13. **Footer contact icons are neutral.** The orange company close sits directly above the footer and already carries the accent.
+14. **Retired:** `AudienceTabs`, `AudienceCard`, and `homeAudiences`. `audienceLinks` in `content/nav.ts` is the one audience source.
+15. **The company close is a named region** (`aria-labelledby`). It sits outside `<main>`, and axe flagged it as content outside any landmark.
+16. **Pinned step titles on the services pages are plain headings.** Linked to `#inquiry`, they put four orange underlines beside the active node and four links with one destination (review). The inquiry stays one click away in the header, the sub-nav, and the hero.
+17. **The Practices chapter dropped its per-practice "Request a scoping call" links**, for the same reason: three orange underlines in one row, all to `#inquiry`.
+18. **Neutral variants for viewports whose orange is spent:** `InkLink underline="neutral"`, `RuleList linkUnderline`, `EvidenceFigure accent={false}`, `EngineTile accent={false}` (the symbol dot and the arrow turn orange on hover only), the white HubX mark in the compact HubAI teaser, and a neutral stroke on the chapter 01 numeral that hangs in a services hero.
+19. **Same-page anchor calls to action are native links** (`ButtonLink`, `InkLink`, the sub-nav action), so focus follows the jump; a client-side `Link` to `#id` scrolls without moving focus.
+20. **ISO/IEC 27001:2022 is published.** Luke confirmed the certification on 2026-11-04 and holds the paperwork; the `isoEntity` confirmation is retired. The HubX FAQ and the security page say the certificate is available on request.
+21. **Quick Find draws groups in the order of their best match, and Enter opens the highlighted row.** Before the fix the two orders could differ.
+22. **The header pill hides below 360 px**, where the bar cannot hold the logo, the pill, and the toggle; the sheet carries the same action.
+23. **The mobile sheet makes the page behind it inert**, so Tab from the toggle lands in the sheet; Escape returns focus to the toggle.
+24. **Services pinned figures read their data as props** from the server pages, so no content module ships in their client bundles, and they raise `--pinned-top` themselves (a `main:has()` rule matched the hidden sub-nav that the router keeps in `<main>`).
+25. **Open decision §12 #1 now also covers the dashboards crop**, which the homepage outcomes already show; `offHubxApproved` lists it.

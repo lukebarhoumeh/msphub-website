@@ -49,7 +49,7 @@ export const learn = {
 
 /** The annual direct-bill bar, as Microsoft publishes it. */
 export const directBillBar = {
-  eyebrow: "Why direct",
+  eyebrow: "Why direct · what Microsoft requires of MSP Hub, every year",
   title: "Direct-bill is not a label. It’s an annual bar.",
   lead: "Microsoft reassesses every direct-bill partner each year, in the month the partner first onboarded. Miss the bar and the partner must transition to indirect reseller status, buying through a distributor like everyone else.",
   requirements: [

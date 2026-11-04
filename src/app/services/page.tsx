@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Suspense, type ReactNode } from "react";
 import { LeadForm } from "@/components/forms/lead-form";
-import { HubXLogo } from "@/components/brand/hubx-logo";
+import { AudienceBand } from "@/components/ink/audience-band";
+import { SpineMark } from "@/components/ink/canvas";
+import { EngineTile } from "@/components/ink/cards";
+import { InkLink, chapterTitle, chapterTitleSm, inkTone, itemTitle, reveal, type InkTone } from "@/components/ink/interior";
 import { SupportModel } from "@/components/marketing/blocks";
 import { PageHero } from "@/components/marketing/page-hero";
+import { ServiceInquiry, type ServiceBranch } from "@/components/services/service-inquiry";
 import { ButtonLink } from "@/components/ui/button";
-import { Container, Section } from "@/components/ui/section";
-import { Display, Lead } from "@/components/ui/typography";
-import { serviceBranches } from "@/content/branches";
-import { hubxLockup } from "@/content/hubx";
+import { Container } from "@/components/ui/section";
+import { branchOptions } from "@/content/forms";
+import { homeEngines } from "@/content/home";
+import { servicesIndex } from "@/content/services";
+import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = {
   title: "Services — professional, managed, and development services for Microsoft estates",
@@ -23,14 +28,70 @@ const licensing = {
   description: "Microsoft 365, Azure, Copilot, Dynamics 365, and the rest of the catalog, bought direct from a CSP direct-bill partner. Existing subscriptions transfer. Terms carry over.",
 };
 
-export default function ServicesPage() {
+const anchors = [
+  { label: "Services", href: "#engines" },
+  { label: "Who we serve", href: "#audiences" },
+  { label: "Support", href: "#support" },
+  { label: "Start", href: "#inquiry" },
+] as const;
+
+function isServiceBranch(value: string): value is ServiceBranch {
+  return branchOptions.some((option) => option.value === value);
+}
+
+/** Reads `?branch=` at request time; isolated so the rest of the page prerenders (the `/contact` `?topic=` pattern). */
+async function ServicesInquiryForm({ searchParams }: { searchParams: PageProps<"/services">["searchParams"] }) {
+  const params = await searchParams;
+  const requested = typeof params.branch === "string" ? params.branch : undefined;
+  const branch = requested && isServiceBranch(requested) ? requested : undefined;
+  return <LeadForm kind="service" defaultValues={branch ? { branches: [branch] } : undefined} />;
+}
+
+type IndexChapterProps = {
+  /** Spine numeral. */
+  n: string;
+  id: string;
+  tone: InkTone;
+  title: string;
+  size?: "lg" | "md";
+  headingWidth?: string;
+  pad?: "normal" | "flush-top";
+  children: ReactNode;
+};
+
+/**
+ * `Chapter` plus a spine numeral. `.spine-mark` is positioned from the
+ * viewport edge, so the numeral must be the section's own child, and
+ * `Chapter` renders everything inside its container; this mirrors its
+ * markup one level up.
+ */
+function IndexChapter({ n, id, tone, title, size = "lg", headingWidth = "max-w-[22ch]", pad = "normal", children }: IndexChapterProps) {
+  const t = inkTone[tone];
+  return (
+    <section id={id} data-surface={tone} className={cn("relative scroll-mt-24 overflow-x-clip", t.ground, pad === "normal" ? "py-[clamp(64px,7vw,104px)]" : "pt-0 pb-[clamp(48px,5vw,72px)]")}>
+      <SpineMark n={n} />
+      <Container className="relative">
+        <h2 data-reveal style={reveal(60)} className={cn(size === "lg" ? chapterTitle : chapterTitleSm, headingWidth, "text-balance")}>
+          {title}
+        </h2>
+        <div className="mt-10 lg:mt-12">{children}</div>
+      </Container>
+    </section>
+  );
+}
+
+export default function ServicesPage({ searchParams }: PageProps<"/services">) {
+  const hubx = homeEngines[0];
+  const practices = homeEngines.slice(1);
   return (
     <>
       <PageHero
-        tone="light"
+        tone="dark"
+        art="four-engine-refraction"
         eyebrow="Services"
         title="Three practices, plus licensing."
         lead="Plan and deliver the change, run what comes next, and build what the estate still needs, from the team that also holds your licensing. Every project starts from your estate as it actually is, in HubX."
+        anchors={anchors}
       >
         <ButtonLink href="#inquiry">Start a service inquiry</ButtonLink>
         <ButtonLink href="/licensing" variant="glass">
@@ -38,66 +99,45 @@ export default function ServicesPage() {
         </ButtonLink>
       </PageHero>
 
-      <Section tone="light" className="pt-0">
-        <Container>
-          <div className="grid border-t border-[#0b1020]/10 md:grid-cols-3">
-            {serviceBranches.map((branch) => (
-              <article key={branch.slug} className="flex flex-col gap-4 border-[#0b1020]/10 px-0 py-8 md:px-6 md:not-first:border-l">
-                <h2 className="font-display text-2xl font-bold tracking-[-0.015em]">{branch.name}</h2>
-                <p className="text-[16px] leading-[1.65] text-[#4b5569]">{branch.description}</p>
-                <Link href={branch.href} className="mt-auto inline-flex h-11 items-center font-semibold underline decoration-[#f97316] decoration-2 underline-offset-[5px]">
-                  {branch.linkLabel}
-                </Link>
-              </article>
+      <IndexChapter n="01" id="engines" tone="pearl" pad="flush-top" title="Four engines. One accountable partner." headingWidth="max-w-[18ch]">
+        <div className="grid gap-4">
+          <div data-reveal="scale" style={reveal(80)}>
+            <EngineTile {...hubx} wide />
+          </div>
+          <div className="grid gap-4 lg:grid-cols-3">
+            {practices.map((engine, index) => (
+              <div key={engine.id} data-reveal style={reveal(160 + index * 70)}>
+                <EngineTile {...engine} className="h-full" accent={false} />
+              </div>
             ))}
           </div>
-          <article className="border-t border-[#0b1020]/10 py-8">
-            <h2 className="font-display text-2xl font-bold tracking-[-0.015em]">{licensing.name}</h2>
-            <p className="mt-3 max-w-[68ch] text-[16px] leading-[1.65] text-[#4b5569]">{licensing.description}</p>
-            <Link href={licensing.href} className="mt-4 inline-flex h-11 items-center font-semibold underline decoration-[#f97316] decoration-2 underline-offset-[5px]">
-              Explore licensing
-            </Link>
-          </article>
-        </Container>
-      </Section>
+        </div>
+        <div data-reveal className={cn("mt-10 grid gap-x-8 gap-y-3 border-t pt-6 lg:grid-cols-[180px_minmax(0,1fr)_auto] lg:items-center", inkTone.pearl.rule)}>
+          <h3 className={itemTitle}>{licensing.name}</h3>
+          <p className={cn("max-w-[68ch] text-[16px] leading-[1.65]", inkTone.pearl.muted)}>{licensing.description}</p>
+          <InkLink href={licensing.href} tone="pearl" underline="neutral">
+            Explore licensing
+          </InkLink>
+        </div>
+      </IndexChapter>
 
-      <Section>
-        <Container>
-          <div className="grid items-center gap-8 border-t border-white/15 pt-8 lg:grid-cols-[auto_1fr_auto]">
-            <HubXLogo className="h-8 w-auto" />
-            <div>
-              <p className="font-mono text-[11px] tracking-[0.12em] text-[#b8c0d4] uppercase">{hubxLockup}</p>
-              <p className="mt-2 max-w-[62ch] text-[16px] leading-relaxed text-[#b8c0d4]">
-                Customer products, purchasing, renewals, invoices, and service activity in one portal, so every service engagement starts from what you actually run.
-              </p>
-            </div>
-            <ButtonLink href="/hubx" variant="glass">
-              Explore HubX
-            </ButtonLink>
-          </div>
-        </Container>
-      </Section>
+      <IndexChapter n="02" id="audiences" tone="ink" title="Which of these are you?" headingWidth="max-w-[14ch]">
+        <AudienceBand variant="rows" tone="ink" eyebrow={null} />
+      </IndexChapter>
 
-      <Section tone="light">
-        <Container>
-          <h2 className="font-display text-[30px] font-bold tracking-[-0.02em] lg:text-[40px]">Business hours for licensing and billing. Around the clock for managed environments.</h2>
-          <SupportModel tone="light" className="mt-8" />
-        </Container>
-      </Section>
+      <IndexChapter n="03" id="support" tone="pearl" size="md" title="Business hours for licensing and billing. Around the clock for managed environments." headingWidth="max-w-[26ch]">
+        <SupportModel tone="light" variant="rule" />
+      </IndexChapter>
 
-      <Section id="inquiry" tone="light" className="scroll-mt-24 pt-0">
-        <Container className="grid max-w-[800px] gap-8 lg:grid-cols-[1fr_1.2fr]">
-          <div>
-            <Display tone="light" size="md">Tell us what you are trying to get done.</Display>
-            <Lead tone="light" className="mt-4">
-              Pick the practices involved. A solutions engineer replies with questions and a proposed scoping call.
-            </Lead>
-          </div>
-          <div data-surface="pearl" className="rounded-[12px] border border-[#0b1020]/10 bg-white p-6 sm:p-8">
-            <LeadForm kind="service" surface="pearl" />
-          </div>
-        </Container>
-      </Section>
+      <ServiceInquiry
+        title={servicesIndex.inquiry.title}
+        lead={servicesIndex.inquiry.lead}
+        form={
+          <Suspense fallback={<LeadForm kind="service" />}>
+            <ServicesInquiryForm searchParams={searchParams} />
+          </Suspense>
+        }
+      />
     </>
   );
 }

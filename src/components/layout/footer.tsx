@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { CalendarDays, Mail, MapPin, Phone } from "lucide-react";
+import { CalendarDays, Clock, Mail, MapPin, Phone } from "lucide-react";
 import { HubXLogo } from "@/components/brand/hubx-logo";
 import { MspHubLogo } from "@/components/brand/msp-hub-logo";
 import { FacebookIcon, InstagramIcon, LinkedInIcon, XIcon, YouTubeIcon } from "@/components/layout/social-icons";
+import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container } from "@/components/ui/section";
 import { footerColumns, legalLinks } from "@/content/nav";
 import { site } from "@/content/site";
@@ -17,14 +18,20 @@ const socials = [
 ];
 
 const linkClass = "inline-block py-0.5 text-[14.5px] text-white/70 transition hover:text-white";
+/** Contact icons stay neutral: the orange company close sits directly above the footer and already carries the accent. */
+const iconClass = "mt-1 size-4 shrink-0 text-white/45";
 
-/** Site footer per the handoff §4: Company · Services · HubX · Licensing, socials, legal entity, address, phone, legal links. */
+/**
+ * Site footer per the handoff §4 plus the audience column (spec §2.6):
+ * Company · Services · HubX · Licensing · Who we serve, socials, legal
+ * entity, address, phone, support hours, legal links.
+ */
 export function Footer() {
   const bookings = env.bookingsUrl();
   return (
     <footer className="border-t border-white/10 bg-ink-2 pt-16 pb-8">
       <Container>
-        <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_repeat(4,1fr)]">
+        <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[1.4fr_repeat(5,1fr)]">
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" aria-label="MSP Hub home" className="inline-flex">
               <MspHubLogo className="h-7 w-auto" />
@@ -39,19 +46,28 @@ export function Footer() {
             </p>
             <ul className="mt-6 grid gap-2.5 text-[14.5px] text-white/70">
               <li className="flex items-start gap-2.5">
-                <Mail className="mt-1 size-4 shrink-0 text-[#f97316]" aria-hidden />
+                <Mail className={iconClass} aria-hidden />
                 <a href={`mailto:${site.salesEmail}`} className="hover:text-white">
                   {site.salesEmail}
                 </a>
               </li>
               <li className="flex items-start gap-2.5">
-                <Phone className="mt-1 size-4 shrink-0 text-[#f97316]" aria-hidden />
+                <Phone className={iconClass} aria-hidden />
                 <a href={site.salesPhoneHref} className="hover:text-white">
                   {site.salesPhone}
                 </a>
               </li>
               <li className="flex items-start gap-2.5">
-                <CalendarDays className="mt-1 size-4 shrink-0 text-[#f97316]" aria-hidden />
+                <Clock className={iconClass} aria-hidden />
+                <span>
+                  Licensing and billing:{" "}
+                  <NeedsConfirm id="supportHours" fallback={site.supportHours}>
+                    {site.supportHoursProposed}
+                  </NeedsConfirm>
+                </span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <CalendarDays className={iconClass} aria-hidden />
                 {bookings ? (
                   <a href={bookings} target="_blank" rel="noopener noreferrer" className="hover:text-white">
                     Book a 30-minute demo
@@ -63,7 +79,7 @@ export function Footer() {
                 )}
               </li>
               <li className="flex items-start gap-2.5">
-                <MapPin className="mt-1 size-4 shrink-0 text-[#f97316]" aria-hidden />
+                <MapPin className={iconClass} aria-hidden />
                 <address className="not-italic">{site.hq.address}</address>
               </li>
             </ul>

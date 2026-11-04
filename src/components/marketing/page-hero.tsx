@@ -2,6 +2,7 @@ import { DotField } from "@/components/ink/atmosphere";
 import { DeferredArt } from "@/components/ink/deferred-art";
 import { Parallax } from "@/components/ink/flow";
 import { IllustrativeAsset, type ArtName } from "@/components/ink/illustrative-asset";
+import { ChipRow } from "@/components/ink/interior";
 import { Container, Section, type SectionTone } from "@/components/ui/section";
 import { Display, Eyebrow, Lead } from "@/components/ui/typography";
 import { cn } from "@/lib/cn";
@@ -18,16 +19,29 @@ type PageHeroProps = {
   aside?: React.ReactNode;
   /** Variant C: an ink-glass render as a masked, parallaxed background behind the copy (ink heroes only). */
   art?: ArtName;
+  /** Mono chips under the buttons: the three facts a buyer checks first. */
+  facts?: readonly string[];
+  /** "On this page" links to the chapters below (every chapter needs an id). */
+  anchors?: readonly { label: string; href: string }[];
+  /**
+   * `false` when the aside is desktop-only (a frame inside `WideOnly`): below lg the aside column, and its
+   * 48 px gap under the copy, are dropped instead of leaving empty space.
+   */
+  asideBelowLg?: boolean;
   className?: string;
   tone?: SectionTone;
 };
+
+/** Below md: a single row of links that scrolls sideways and bleeds to the screen edges (links keep it keyboard-scrollable). */
+const phoneRow =
+  "max-md:-mx-[var(--page-pad)] max-md:-my-1.5 max-md:flex-nowrap max-md:overflow-x-auto max-md:px-[var(--page-pad)] max-md:py-1.5 max-md:[scrollbar-width:none] max-md:[&::-webkit-scrollbar]:hidden max-md:[&>li]:shrink-0";
 
 /**
  * Interior hero in three variants (brief §5): A, split copy + device
  * (`aside`); B, copy over the canvas (default); C, copy over a masked
  * full-bleed render (`art`). Pearl heroes get a soft haze and dot field.
  */
-export function PageHero({ eyebrow, title, lead, children, align = "left", below, aside, art, className, tone = "dark" }: PageHeroProps) {
+export function PageHero({ eyebrow, title, lead, children, align = "left", below, aside, art, facts, anchors, asideBelowLg = true, className, tone = "dark" }: PageHeroProps) {
   const center = align === "center";
   const light = tone === "light";
   return (
@@ -56,7 +70,7 @@ export function PageHero({ eyebrow, title, lead, children, align = "left", below
         <div className={cn("max-w-[820px]", center && "mx-auto", !!aside && "lg:col-span-7", !!art && "lg:max-w-[720px]")}>
           {eyebrow ? (
             <div className="hero-line" style={{ "--i": 0 } as React.CSSProperties}>
-              <Eyebrow tone={light ? "light" : "dark"} className={cn(center && "before:hidden")}>
+              <Eyebrow tone={light ? "light" : "dark"} className="before:hidden">
                 {eyebrow}
               </Eyebrow>
             </div>
@@ -78,9 +92,31 @@ export function PageHero({ eyebrow, title, lead, children, align = "left", below
               {children}
             </div>
           ) : null}
+          {facts?.length ? (
+            <div className="hero-line mt-7" style={{ "--i": 4 } as React.CSSProperties}>
+              <ChipRow tone={light ? "pearl" : "ink"} mono items={facts} label="At a glance" className={cn("max-md:hidden", center && "justify-center")} />
+              <p className={cn("font-mono text-[11px] leading-[1.8] tracking-[0.12em] uppercase md:hidden", light ? "text-[#4b5569]" : "text-[#b8c0d4]")}>
+                {facts.join(" · ")}
+              </p>
+            </div>
+          ) : null}
+          {anchors?.length ? (
+            <nav aria-label="On this page" className="hero-line mt-6" style={{ "--i": 5 } as React.CSSProperties}>
+              <ul className={cn("flex flex-wrap items-center gap-x-5 gap-y-1 text-[14px] font-medium", phoneRow, center && "justify-center", light ? "text-[#4b5569]" : "text-[#b8c0d4]")}>
+                <li className={cn("font-mono text-[11px] tracking-[0.12em] uppercase", light ? "text-[#4b5569]" : "text-[#8e98ae]")}>On this page</li>
+                {anchors.map((anchor) => (
+                  <li key={anchor.href}>
+                    <a href={anchor.href} className={cn("link-draw inline-flex min-h-9 items-center whitespace-nowrap", light ? "[--ul:rgba(11,16,32,.22)] hover:text-[#0b1020]" : "[--ul:rgba(255,255,255,.28)] hover:text-white")}>
+                      {anchor.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ) : null}
         </div>
         {aside ? (
-          <div className="hero-line mt-12 lg:col-span-5 lg:mt-0" style={{ "--i": 2 } as React.CSSProperties}>
+          <div className={cn("hero-line mt-12 lg:col-span-5 lg:mt-0", !asideBelowLg && "max-lg:hidden")} style={{ "--i": 2 } as React.CSSProperties}>
             {aside}
           </div>
         ) : null}

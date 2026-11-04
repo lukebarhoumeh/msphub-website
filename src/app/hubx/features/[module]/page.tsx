@@ -87,7 +87,6 @@ export default async function HubxFeaturePage({ params }: PageProps<"/hubx/featu
         </div>
         {mod.slug === "customers" ? (
           <div className="mt-12 border-t border-[#0b1020]/10 pt-8">
-            <p className={cn(monoLabel, inkTone.pearl.faint)}>Illustrative — not product UI</p>
             <h3 className="mt-3 font-display text-2xl font-bold">GDAP and partner-to-partner transfer</h3>
             <ol className="mt-4 grid gap-3 sm:grid-cols-2">
               {[
@@ -106,7 +105,6 @@ export default async function HubxFeaturePage({ params }: PageProps<"/hubx/featu
         ) : null}
         {mod.slug === "quotations" ? (
           <div className="mt-12 border-t border-[#0b1020]/10 pt-8">
-            <p className={cn(monoLabel, inkTone.pearl.faint)}>Illustrative — not product UI</p>
             <h3 className="mt-3 font-display text-2xl font-bold">Quote, approve, cart, order</h3>
             <ol className="mt-4 grid gap-3 sm:grid-cols-4">
               {["Quote", "Approve", "Cart", "Order"].map((step, index) => (

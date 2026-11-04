@@ -78,12 +78,12 @@ export const securityPillars: readonly SecurityPillar[] = [
     icon: ShieldCheck,
     title: "Compliance",
     summary:
-      "Healthcare clients can sign a HIPAA Business Associate Agreement and a Data Processing Agreement with MSP Hub.",
+      "MSP Hub is ISO/IEC 27001:2022 certified, and healthcare clients can sign a HIPAA Business Associate Agreement and a Data Processing Agreement with MSP Hub.",
     points: [
+      "ISO/IEC 27001:2022 certified; the certificate is available on request.",
       "HIPAA Business Associate Agreement and Data Processing Agreement available on request.",
       "Licensing and billing support in business hours with Microsoft Premier escalation; 24/7 monitoring and incident management for environments under MSP Hub managed services.",
     ],
-    confirm: "isoEntity",
   },
 ] as const;
 
@@ -112,5 +112,5 @@ export const securityFacts = [
   { label: "Identity providers", value: "Entra ID · Google · Okta" },
   { label: "Protocol", value: "OpenID Connect" },
   { label: "Audit scope", value: "Organization + customer" },
-  { label: "Certification", value: "ISO/IEC 27001:2022", confirm: "isoEntity" as const },
+  { label: "Certification", value: "ISO/IEC 27001:2022" },
 ] as const;
