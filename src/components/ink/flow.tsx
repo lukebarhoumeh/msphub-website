@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "motion/react";
+import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { cn } from "@/lib/cn";
 
 /**
@@ -9,7 +9,11 @@ import { cn } from "@/lib/cn";
  * things live here: the spine that draws down the left gutter as the page is
  * read, parallax for renders and device frames, and the header theme switch.
  * All of it is transform-only, none of it gates content, and every piece
- * falls back to a static layout under prefers-reduced-motion.
+ * falls back to a static layout under prefers-reduced-motion. That fallback
+ * lives in CSS (`.spine`, `.parallax` in globals.css), not in a
+ * `useReducedMotion` branch: the hook reads `null` on the server, so a
+ * branch renders different markup on the server and the client and the page
+ * fails to hydrate cleanly for exactly the visitors who asked for less motion.
  */
 
 /* ------------------------------------------------------------------ */
@@ -18,15 +22,13 @@ import { cn } from "@/lib/cn";
 
 /** A 1 px orange line in the left gutter (lg+) whose length is the page's scroll progress, eased with a spring. */
 export function Spine() {
-  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll();
   const scaleY = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
-  if (reduce) return null;
   return (
     <motion.div
       aria-hidden
       style={{ scaleY }}
-      className="spine pointer-events-none fixed top-0 z-30 hidden h-screen w-px origin-top bg-[linear-gradient(180deg,#f97316_0%,rgba(249,115,22,.55)_55%,rgba(249,115,22,0)_100%)] lg:block"
+      className="spine pointer-events-none fixed top-0 z-30 hidden h-screen w-px origin-top bg-[linear-gradient(180deg,#f97316_0%,rgba(249,115,22,.55)_55%,rgba(249,115,22,0)_100%)] motion-safe:lg:block"
     />
   );
 }
@@ -45,11 +47,10 @@ type ParallaxProps = {
 /** Moves its children a little slower than the page. Used on renders (±40) and device frames (±24). */
 export function Parallax({ children, range = 40, className }: ParallaxProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], [range / 2, -range / 2]);
   return (
-    <motion.div ref={ref} style={reduce ? undefined : { y }} className={cn("will-change-transform", className)}>
+    <motion.div ref={ref} style={{ y }} className={cn("parallax will-change-transform", className)}>
       {children}
     </motion.div>
   );

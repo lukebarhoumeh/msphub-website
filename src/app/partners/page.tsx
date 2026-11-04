@@ -70,7 +70,10 @@ export default function PartnersPage() {
             title: program.name,
             children: (
               <>
-                <DotList tone="ink" items={program.gets} />
+                <DotList tone="ink" marker="neutral" items={program.gets} />
+                {program.id === "reseller" ? (
+                  <p className={cn("mt-4 max-w-[44ch] text-[15px] leading-[1.6]", inkTone.ink.muted)}>{partnerEconomics}</p>
+                ) : null}
                 <div className="mt-6 flex flex-wrap gap-3">
                   <ButtonLink href={program.href} variant="glass" size="sm">
                     About the program
@@ -83,14 +86,13 @@ export default function PartnersPage() {
             ),
           }))}
         />
-        <p className={cn("mt-10 max-w-[70ch] text-[16px] leading-[1.6]", inkTone.ink.muted)}>{partnerEconomics}</p>
       </Chapter>
 
       <Chapter tone="pearl" title="Apply, onboard, transact." lead="The same path for every program. Deal registration is a form to the partner team.">
         <RuleList tone="pearl" numbered columns={3} items={partnerSteps} />
         <div className="mt-12 grid gap-6 border-t border-[#0b1020]/15 pt-6 lg:grid-cols-[180px_minmax(0,1fr)]">
           <p className={cn(monoLabel, inkTone.pearl.faint)}>Enablement</p>
-          <DotList tone="pearl" columns={2} items={partnerEnablement} />
+          <DotList tone="pearl" columns={2} marker="neutral" items={partnerEnablement} />
         </div>
       </Chapter>
 

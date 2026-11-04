@@ -1,5 +1,6 @@
 import { ArrowRight, ExternalLink, Lock } from "lucide-react";
 import { LeadForm } from "@/components/forms/lead-form";
+import { CaseCard } from "@/components/ink/cards";
 import { EvidenceFigure } from "@/components/ink/evidence";
 import { Chapter, DotList, InkLink, NextStep, Panel, RuleList, StatRail, inkTone, monoLabel } from "@/components/ink/interior";
 import { InvoiceUpload } from "@/components/licensing/invoice-upload";
@@ -8,6 +9,7 @@ import { PageHero } from "@/components/marketing/page-hero";
 import { ButtonLink } from "@/components/ui/button";
 import { NeedsConfirm } from "@/components/ui/needs-confirm";
 import { Container } from "@/components/ui/section";
+import { cases } from "@/content/cases";
 import { captures } from "@/content/evidence";
 import { homeProof } from "@/content/home";
 import { transferFacts } from "@/content/direct-bill";
@@ -24,7 +26,7 @@ export const metadata = pageMetadata({
 export default function SwitchPage() {
   return (
     <>
-      <PageHero art="ai-inference-lattice" eyebrow={switchPage.eyebrow} title={switchPage.title} lead={switchPage.lead}>
+      <PageHero art="ai-inference-lattice" eyebrow={switchPage.eyebrow} title={switchPage.title} lead={switchPage.lead} anchors={switchPage.anchors}>
         <ButtonLink href="#send-invoice">
           Send your invoice
           <ArrowRight className="size-4" aria-hidden />
@@ -34,8 +36,8 @@ export default function SwitchPage() {
         </ButtonLink>
       </PageHero>
 
-      <Chapter tone="ink" pad="flush-top" size="md" title="Three places people buy Microsoft today. One transfer." headingWidth="max-w-[24ch]">
-        <RuleList tone="ink" columns={3} titleSize="md" items={switchPage.movingFrom} />
+      <Chapter tone="ink" id="moving-from" pad="flush-top" size="md" title="Where people buy Microsoft today, and how each one moves." headingWidth="max-w-[30ch]">
+        <RuleList tone="ink" columns={4} titleSize="md" items={switchPage.movingFrom} />
       </Chapter>
 
       <Chapter
@@ -55,14 +57,14 @@ export default function SwitchPage() {
         </p>
       </Chapter>
 
-      <Chapter tone="ink" title="A comparison you can hand to finance." headingWidth="max-w-[16ch]">
+      <Chapter tone="ink" id="comparison" title="A comparison you can hand to finance." headingWidth="max-w-[16ch]">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-12">
           <div className="lg:col-span-5">
             <p className={cn(monoLabel, inkTone.ink.faint)}>{switchPage.comparison.title}</p>
             <p className={cn("mt-4 max-w-[46ch] text-[17px] leading-[1.6]", inkTone.ink.muted)}>
               The deal desk works from your actual invoice, not a list price sheet, and returns the comparison and the transfer plan together.
             </p>
-            <DotList tone="ink" className="mt-6" items={switchPage.comparison.items} />
+            <DotList tone="ink" marker="neutral" className="mt-6" items={switchPage.comparison.items} />
           </div>
           <div className="lg:col-span-7">
             <EvidenceFigure capture={captures.customerProductsHubx} tone="ink" />
@@ -97,6 +99,24 @@ export default function SwitchPage() {
         </Container>
       </section>
 
+      <Chapter tone="ink" id="moving-a-book" eyebrow={switchPage.book.eyebrow} title={switchPage.book.title} headingWidth="max-w-[18ch]">
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-12">
+          <div>
+            <p className={cn("max-w-[52ch] text-[17px] leading-[1.6] lg:text-[19px]", inkTone.ink.muted)}>{switchPage.book.lead}</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <ButtonLink href="/partners/apply?program=reseller">
+                Apply as a reseller partner
+                <ArrowRight className="size-4" aria-hidden />
+              </ButtonLink>
+              <ButtonLink href="/partners/reseller" variant="glass">
+                Reseller program
+              </ButtonLink>
+            </div>
+          </div>
+          <CaseCard item={cases[1]} tone="ink" />
+        </div>
+      </Chapter>
+
       <Chapter
         tone="ink"
         id="what-microsoft-says"
@@ -112,7 +132,7 @@ export default function SwitchPage() {
         />
       </Chapter>
 
-      <Chapter tone="pearl" size="md" title="Switching, answered.">
+      <Chapter tone="pearl" id="faq" size="md" title="Switching, answered.">
         <FaqSection items={switchFaq} tone="light" variant="rule" className="max-w-[860px]" />
       </Chapter>
 

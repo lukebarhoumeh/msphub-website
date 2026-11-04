@@ -13,13 +13,13 @@ export function RouteDConversion() {
   if (pathname.startsWith("/thank-you")) return null;
 
   return (
-    <section id="talk-to-msphub" data-surface="orange" className="relative scroll-mt-24 overflow-hidden bg-[linear-gradient(135deg,#ffb05c_0%,#f97316_56%,#e8600f_100%)] text-[#0b1020]">
+    <section id="talk-to-msphub" aria-labelledby="talk-to-msphub-title" data-surface="orange" className="relative scroll-mt-24 overflow-hidden bg-[linear-gradient(135deg,#ffb05c_0%,#f97316_56%,#e8600f_100%)] text-[#0b1020]">
       <DotField tone="pearl" className="opacity-60 [mask-image:radial-gradient(ellipse_60%_80%_at_90%_50%,#000_10%,transparent_80%)]" />
       <Grain />
       <Container className="relative py-16 lg:py-24">
         <div className="grid items-end gap-8 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-8">
-            <h2 data-reveal className="font-display text-[clamp(40px,5vw,72px)] leading-[1] font-extrabold tracking-[-0.03em] text-balance">
+            <h2 id="talk-to-msphub-title" data-reveal className="font-display text-[clamp(40px,5vw,72px)] leading-[1] font-extrabold tracking-[-0.03em] text-balance">
               {routeD.title}
             </h2>
             <p data-reveal style={{ "--reveal-delay": "80ms" } as React.CSSProperties} className="mt-5 max-w-[46ch] text-[17px] leading-[1.6] lg:text-[19px]">

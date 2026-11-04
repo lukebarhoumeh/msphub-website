@@ -51,6 +51,14 @@ export const licensingHub = {
     body: "A CSP direct-bill partner buys from Microsoft and bills, supports, and provisions customers itself. There is no distributor layer in the price or in the escalation path. Microsoft requires direct-bill partners to run billing, support, and managed services and to integrate with Partner Center by API.",
     citation: microsoftLearn.partnerRelationships,
   },
+  /** "On this page" links in the hero; each href is a chapter id on /licensing. */
+  anchors: [
+    { label: "Ways in", href: "#ways-in" },
+    { label: "Catalog", href: "#catalog" },
+    { label: "Why direct", href: "#why-direct" },
+    { label: "In HubX", href: "#in-hubx" },
+    { label: "Questions", href: "#faq" },
+  ],
 };
 
 export type CatalogFamily = { name: string; items: string[] };
@@ -114,6 +122,12 @@ export const licensingMotions: Motion[] = [
     href: "/licensing/beyond-microsoft",
     linkLabel: "See the ecosystem",
   },
+  {
+    title: "Resell through MSP Hub",
+    body: "For MSPs and VARs: Tier-1 direct pricing on the full catalog, partner-branded customer invoices, and every customer tenant in HubX, with MSP Hub’s services bench behind you.",
+    href: "/partners/reseller",
+    linkLabel: "Reseller program",
+  },
 ];
 
 /** Billing convention (handoff §1.2). */
@@ -131,7 +145,7 @@ export const licensingFaq: LicensingFaq[] = [
   },
   {
     q: "Do my existing subscriptions transfer?",
-    a: "Yes. Existing subscriptions move to MSP Hub by partner-to-partner transfer. Terms and renewal dates carry over and nothing is re-bought. You accept the reseller relationship from a link, then the transfer completes inside the open transfer window.",
+    a: "For subscriptions bought through another CSP partner or from Microsoft directly, yes: they move by partner-to-partner transfer, terms and renewal dates carry over, and nothing is re-bought. You accept the reseller relationship from a link, then the transfer completes inside the open transfer window. Enterprise Agreement estates are different: we map them to CSP and provision around your agreement dates (see the EA to CSP guide).",
   },
   {
     q: "How does billing work?",
@@ -160,6 +174,9 @@ export const licensingFaq: LicensingFaq[] = [
 /* Switch                                                               */
 /* ------------------------------------------------------------------ */
 
+/** Where an estate is bought today; a row links out when its path is a different page. */
+export type SwitchOrigin = { title: string; body: string; link?: Citation };
+
 export const switchPage = {
   eyebrow: "Switch to MSP Hub · partner-to-partner transfer",
   title: "Already buying Microsoft somewhere else? Send us your current invoice.",
@@ -168,6 +185,26 @@ export const switchPage = {
     { title: "A distributor-transacted MSP", body: "Your MSP buys through a distributor and resells to you. The same subscriptions move to MSP Hub\u2019s direct tenant." },
     { title: "Another CSP partner", body: "Partner-to-partner transfers move license-based subscriptions and Azure plans between CSP partners." },
     { title: "Microsoft direct", body: "Subscriptions bought from Microsoft move to CSP with the same tenant, users, and data in place." },
+    {
+      title: "An Enterprise Agreement via an LSP",
+      body: "Enterprise Agreements are transacted by a Licensing Solution Provider, so the path is different: we map your estate to CSP subscriptions and plan the move around your agreement dates.",
+      link: { label: "Read the EA to CSP guide", href: "/licensing/ea-to-csp" },
+    },
+  ] satisfies SwitchOrigin[],
+  /** The MSP and VAR door on /licensing/switch: a whole book of customers, not one estate. */
+  book: {
+    eyebrow: "MSPs and VARs",
+    title: "Moving a whole book of customers?",
+    lead: "Customer subscriptions move to MSP Hub’s direct tenant customer by customer, in batches under Microsoft’s per-request limit, with your current partner approving each one. Nothing is re-bought and terms carry over.",
+  },
+  /** "On this page" links in the hero; each href is a section id on /licensing/switch. */
+  anchors: [
+    { label: "Where from", href: "#moving-from" },
+    { label: "How it works", href: "#how-it-works" },
+    { label: "What comes back", href: "#comparison" },
+    { label: "Send your invoice", href: "#send-invoice" },
+    { label: "Moving a book", href: "#moving-a-book" },
+    { label: "Questions", href: "#faq" },
   ],
   comparison: {
     title: "What comes back",
@@ -263,6 +300,13 @@ export const eaToCsp = {
     ],
   },
   citations: [microsoftLearn.cspOverview, microsoftLearn.partnerRelationships, microsoftLearn.transfers],
+  /** "On this page" links in the hero; each href is a section id on /licensing/ea-to-csp. */
+  anchors: [
+    { label: "What changes", href: "#reasons" },
+    { label: "Steps", href: "#steps" },
+    { label: "Comparison", href: "#comparison" },
+    { label: "Send your estate", href: "#send-estate" },
+  ],
   /** The Microsoft Learn–cited customer guide is a pending asset; this page carries interim copy until it arrives. */
   confirm: "eaCspGuide" as const satisfies ConfirmId,
 };

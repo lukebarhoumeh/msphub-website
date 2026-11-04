@@ -6,7 +6,8 @@
  *
  * Homepage boxes are the approved ones: Product List, Product Listing, Hub AI.
  * Module crops that have no approved box are the top 900px of the source,
- * declared here, and only used on HubX routes.
+ * declared here, and stay on HubX routes except those listed in
+ * `offHubxApproved`.
  */
 
 export const capturedLabel = "Captured November 2026";
@@ -124,10 +125,19 @@ export const captures = {
 
 export type CaptureId = keyof typeof captures;
 
+/**
+ * Crops approved for marketing routes outside /hubx (spec §12 #1, Nov 4 2026):
+ * the three homepage boxes plus the customer-products, home-widgets, and
+ * customer-list crops used by the services, program, and licensing pages,
+ * and the dashboards crop in the homepage outcomes.
+ * Anything else stays on HubX routes until approved.
+ */
+export const offHubxApproved: readonly CaptureId[] = ["customerProductsHome", "catalogHome", "hubaiHome", "customerProductsHubx", "homeWidgets", "customersList", "dashboards"];
+
 /** Homepage evidence, in story order. Crops open on Product List, Product Listing, and Hub AI. */
 export const homeEvidence: CaptureId[] = ["customerProductsHome", "catalogHome", "hubaiHome"];
 
-/** /hubx evidence. The wider customer-products crop is only used on HubX routes. */
+/** /hubx evidence. */
 export const hubxEvidence: CaptureId[] = [
   "customerProductsHubx",
   "catalogHome",

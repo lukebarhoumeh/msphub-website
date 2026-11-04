@@ -92,9 +92,7 @@ export const hubxSecurityFaq: readonly HubxFaqItem[] = [
     id: "certification",
     question: "Is MSP Hub certified?",
     answer:
-      "MSP Hub holds Microsoft CSP direct-bill authorization, which Microsoft reassesses every year against its mandatory partner security requirements: multifactor authentication for every admin, a named security contact, and alert response within 24 hours. A HIPAA Business Associate Agreement and a Data Processing Agreement are available for healthcare clients.",
-    confirm: "isoEntity",
-    reviewNote: "Add the ISO/IEC 27001:2022 certification and its scope here once the certificate entity is confirmed.",
+      "Yes. MSP Hub is ISO/IEC 27001:2022 certified, and the certificate is available on request. MSP Hub also holds Microsoft CSP direct-bill authorization, which Microsoft reassesses every year against its mandatory partner security requirements: multifactor authentication for every admin, a named security contact, and alert response within 24 hours. A HIPAA Business Associate Agreement and a Data Processing Agreement are available for healthcare clients.",
     schema: true,
   },
   {

@@ -11,6 +11,7 @@ import { RouteDConversion } from "@/components/ink/route-d";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { IntegrationStatusStrip } from "@/components/layout/integration-status";
+import { QuickFindMount } from "@/components/layout/quick-find-mount";
 import { JsonLd } from "@/components/seo/json-ld";
 import { site } from "@/content/site";
 import { organizationSchema, webSiteSchema } from "@/lib/schema";
@@ -60,6 +61,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <RevealObserver />
         <HeaderThemeObserver />
         <AmbientMotion />
+        <QuickFindMount />
         {/* Own boundary: the loader reads the pathname, which partially prerendered routes resolve at request time. */}
         <Suspense fallback={null}>
           <Analytics />

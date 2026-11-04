@@ -18,11 +18,6 @@ export const confirmations = {
     label: "Services headcount",
     detail: "“100+ staff on the services team” is unverified; hidden in production until confirmed.",
   },
-  isoEntity: {
-    kind: "confirm",
-    label: "ISO/IEC 27001:2022 certificate holder",
-    detail: "Confirm which entity holds the certificate before naming it alongside the badge.",
-  },
   badgesHeld: {
     kind: "asset",
     label: "Microsoft Solutions Partner designation artwork",
@@ -173,6 +168,11 @@ export const confirmations = {
     kind: "asset",
     label: "WordPress export for Insights",
     detail: "Posts are rebuilt from facts in the handoff, not the original msphub.com text; replace with the originals when the export lands.",
+  },
+  managedPricingModel: {
+    kind: "decision",
+    label: "Managed services commercial model",
+    detail: "One line on how managed services are priced (model only, never a rate); hidden in production until supplied.",
   },
 } as const satisfies Record<string, Confirmation>;
 

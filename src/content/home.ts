@@ -1,10 +1,10 @@
 /** Homepage copy for the continuous-canvas sequence. Facts follow the approved spec and the private handoff. */
 
 export const homeHero = {
-  eyebrow: "Microsoft CSP direct-bill partner · Services · Development",
+  eyebrow: "Microsoft CSP direct-bill partner · Tier-1 Direct · Services · Development",
   title: ["Your single", "technology", "partner for", "everything", "Microsoft."],
   lead: "Licensing, cloud, security, AI, and managed operations, bought and run through one partner and one team. MSP Hub delivers the services; HubX, our portal, puts your Microsoft estate in one place.",
-  primary: { label: "Talk to MSP Hub", href: "#talk-to-msphub" },
+  primary: { label: "Talk to MSP Hub", href: "/contact#contact-form" },
   secondary: { label: "Send us your invoice", href: "/licensing/switch" },
   platforms: "Microsoft 365 · Azure · Copilot · Dynamics",
 } as const;
@@ -77,36 +77,7 @@ export const homeEngines: {
   },
 ];
 
-export const homeAudiences = [
-  {
-    id: "msp",
-    label: "MSPs & VARs",
-    body: "Resell Microsoft through MSP Hub’s direct tenant, with the services bench behind the portal.",
-    href: "/partners/reseller",
-    cta: "Reseller program",
-  },
-  {
-    id: "business",
-    label: "Businesses",
-    body: "Buy and run Microsoft licensing directly, with migration and managed services from the same team.",
-    href: "/for/businesses",
-    cta: "For businesses",
-  },
-  {
-    id: "csp",
-    label: "Direct-bill CSPs",
-    body: "Run HubX on your own Partner Center tenant.",
-    href: "/partners/platform",
-    cta: "Platform program",
-  },
-  {
-    id: "advisor",
-    label: "Advisors & agents",
-    body: "Bring the opportunity. MSP Hub sells and delivers.",
-    href: "/partners/agents",
-    cta: "Agent program",
-  },
-] as const;
+/* The audience router lives in `content/nav.ts` (`audienceLinks`): one source for the header, the home band, the services router, the footer, and /contact. */
 
 /** The switch offer, the sharpest offer on the site. */
 export const homeSwitch = {

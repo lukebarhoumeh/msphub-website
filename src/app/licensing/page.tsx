@@ -34,6 +34,7 @@ export default function LicensingPage() {
         eyebrow={licensingHub.eyebrow}
         title={licensingHub.title}
         lead={licensingHub.lead}
+        anchors={licensingHub.anchors}
         aside={
           <figure className="m-0 flex flex-col items-center lg:items-end">
             <EvidenceBezel capture={captures.customerProductsHome} tilt beam priority className="max-w-[460px]" />
@@ -52,7 +53,7 @@ export default function LicensingPage() {
         </ButtonLink>
       </PageHero>
 
-      <Chapter tone="pearl" pad="flush-top" title="Five ways in. One licensing desk." headingWidth="max-w-[18ch]">
+      <Chapter tone="pearl" id="ways-in" pad="flush-top" title="Six ways in. One licensing desk." headingWidth="max-w-[18ch]">
         <RuleList
           tone="pearl"
           numbered
@@ -119,7 +120,7 @@ export default function LicensingPage() {
         </div>
       </Chapter>
 
-      <Chapter tone="pearl" title="No distributor in the price. None in the escalation path." headingWidth="max-w-[20ch]">
+      <Chapter tone="pearl" id="why-direct" title="No distributor in the price. None in the escalation path." headingWidth="max-w-[20ch]">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-6">
             <p className={cn(monoLabel, inkTone.pearl.faint)}>{licensingHub.whyDirect.title}</p>
@@ -138,6 +139,7 @@ export default function LicensingPage() {
 
       <Chapter
         tone="ink"
+        id="in-hubx"
         title="Every subscription, term, and renewal per SKU."
         lead="Licensing bought through MSP Hub is managed in HubX, powered by MSP Hub: status, quantity, term and billing frequency, purchase and expiration dates, auto-renew, and the invoices behind them."
         headingWidth="max-w-[18ch]"
@@ -165,7 +167,7 @@ export default function LicensingPage() {
         </div>
       </Chapter>
 
-      <Chapter tone="pearl" size="md" title="Licensing, answered.">
+      <Chapter tone="pearl" id="faq" size="md" title="Licensing, answered.">
         <FaqSection items={licensingFaq} tone="light" variant="rule" className="max-w-[860px]" />
       </Chapter>
 

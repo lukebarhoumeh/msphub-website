@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import {
-  AudienceRow,
+  AudienceBandSection,
   CatalogTicker,
   EnginesBento,
   InkHomeHero,
@@ -24,12 +24,12 @@ export default function HomePage() {
     <>
       <InkHomeHero />
       <ProofStrip />
+      <AudienceBandSection />
       <CatalogTicker />
       <WhyDirect />
       <OutcomesPinned />
       <EnginesBento />
       <SwitchOffer />
-      <AudienceRow />
       <ProofChapter />
       <InsightsRow />
     </>

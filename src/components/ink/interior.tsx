@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { BorderBeam } from "@/components/ink/atmosphere";
+import { SpineMark } from "@/components/ink/canvas";
 import { Ticker } from "@/components/ink/motion";
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/section";
@@ -64,6 +65,8 @@ type ChapterProps = Omit<ComponentPropsWithoutRef<"section">, "title"> & {
   /** Optional element placed to the right of the heading from lg up (a button, a link). */
   aside?: ReactNode;
   containerClassName?: string;
+  /** Chapter numeral on the page spine (lg+), e.g. "01". Decorative; the heading carries the meaning. */
+  spine?: string;
 };
 
 /** A page chapter: ground, container, display heading, lede, then content. */
@@ -78,6 +81,7 @@ export function Chapter({
   aside,
   className,
   containerClassName,
+  spine,
   children,
   ...rest
 }: ChapterProps) {
@@ -86,6 +90,7 @@ export function Chapter({
     pad === "normal" ? "py-[clamp(64px,7vw,104px)]" : pad === "tight" ? "pt-0 pb-[clamp(64px,7vw,104px)]" : "pt-0 pb-[clamp(48px,5vw,72px)]";
   return (
     <section data-surface={tone} className={cn("relative scroll-mt-24 overflow-x-clip", t.ground, padding, className)} {...rest}>
+      {spine ? <SpineMark n={spine} /> : null}
       <Container className={cn("relative", containerClassName)}>
         {title || eyebrow || lead ? (
           <div className={cn(!!aside && "lg:flex lg:items-end lg:justify-between lg:gap-10")}>
@@ -119,12 +124,22 @@ export function Chapter({
 export function InkLink({
   href,
   tone = "pearl",
+  underline = "accent",
   className,
   children,
   ...rest
-}: { href: string; tone?: InkTone; className?: string; children: ReactNode } & Omit<ComponentPropsWithoutRef<typeof Link>, "href" | "className" | "children">) {
-  const classes = cn("link-draw inline-flex min-h-11 items-center font-semibold", tone === "ink" ? "[--ul:#ffb05c]" : "[--ul:#f97316]", className);
-  if (/^https?:\/\//.test(href) || href.startsWith("mailto:")) {
+}: {
+  href: string;
+  tone?: InkTone;
+  /** `neutral` where the viewport's orange is already spent: the underline stays as the link cue, without the accent. */
+  underline?: "accent" | "neutral";
+  className?: string;
+  children: ReactNode;
+} & Omit<ComponentPropsWithoutRef<typeof Link>, "href" | "className" | "children">) {
+  const ul = underline === "neutral" ? (tone === "ink" ? "[--ul:rgba(255,255,255,.28)]" : "[--ul:rgba(11,16,32,.22)]") : tone === "ink" ? "[--ul:#ffb05c]" : "[--ul:#f97316]";
+  const classes = cn("link-draw inline-flex min-h-11 items-center font-semibold", ul, className);
+  // Same-page anchors stay native so focus follows the jump.
+  if (/^https?:\/\//.test(href) || href.startsWith("mailto:") || href.startsWith("#")) {
     return (
       <a href={href} className={classes} rel={href.startsWith("http") ? "noopener noreferrer" : undefined}>
         {children}
@@ -158,6 +173,8 @@ type RuleListProps = {
   as?: "ol" | "ul";
   /** Title scale. */
   titleSize?: "lg" | "md";
+  /** Underline of the items' links (see `InkLink`). */
+  linkUnderline?: "accent" | "neutral";
   className?: string;
 };
 
@@ -170,7 +187,7 @@ const ruleColumns = {
 } as const;
 
 /** Items separated by a top rule: the home page's outcome, process, and trust lists. */
-export function RuleList({ items, tone = "pearl", columns = 3, numbered = false, as, titleSize = "lg", className }: RuleListProps) {
+export function RuleList({ items, tone = "pearl", columns = 3, numbered = false, as, titleSize = "lg", linkUnderline = "accent", className }: RuleListProps) {
   const t = inkTone[tone];
   const Tag = as ?? (numbered ? "ol" : "ul");
   return (
@@ -190,7 +207,7 @@ export function RuleList({ items, tone = "pearl", columns = 3, numbered = false,
             {item.body ? <p className={cn("mt-3 max-w-[44ch] text-[16px] leading-[1.65] lg:text-[17px]", t.muted)}>{item.body}</p> : null}
             {item.children ? <div className="mt-4">{item.children}</div> : null}
             {item.link ? (
-              <InkLink href={item.link.href} tone={tone} className="mt-auto pt-3">
+              <InkLink href={item.link.href} tone={tone} underline={linkUnderline} className="mt-auto pt-3">
                 {item.link.label}
               </InkLink>
             ) : null}
@@ -207,12 +224,15 @@ export function DotList({
   tone = "pearl",
   columns = 1,
   size = "md",
+  marker = "orange",
   className,
 }: {
   items: readonly ReactNode[];
   tone?: InkTone;
   columns?: 1 | 2 | 3;
   size?: "md" | "sm";
+  /** `neutral` for dense lists (capability columns) so a page never spends its orange budget on bullets. */
+  marker?: "orange" | "neutral";
   className?: string;
 }) {
   const t = inkTone[tone];
@@ -220,7 +240,7 @@ export function DotList({
     <ul className={cn("grid gap-2.5", columns === 2 && "sm:grid-cols-2", columns === 3 && "sm:grid-cols-2 lg:grid-cols-3", className)}>
       {items.map((item, index) => (
         <li key={typeof item === "string" ? item : index} className={cn("flex gap-3 leading-snug", size === "md" ? "text-[15px] lg:text-[16px]" : "text-[14.5px]", t.text)}>
-          <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-[#f97316]" />
+          <span aria-hidden className={cn("mt-2 size-1.5 shrink-0 rounded-full", marker === "orange" ? "bg-[#f97316]" : "bg-current opacity-35")} />
           <span>{item}</span>
         </li>
       ))}

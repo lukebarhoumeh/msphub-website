@@ -48,7 +48,7 @@ export default function QuotePage() {
                 </NeedsConfirm>
               </p>
             </div>
-            <Panel tone="ink" className="sm:p-10">
+            <Panel tone="ink" id="quote-form" className="scroll-mt-24 sm:p-10">
               <h2 className="font-display text-[30px] leading-[1.1] font-bold tracking-[-0.02em]">Request a quote</h2>
               <p className={cn("mt-3 mb-7 text-[16px] leading-[1.6]", inkTone.ink.muted)}>Approximate numbers are fine; we refine them with you.</p>
               <LeadForm kind="quote">

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
-import { homeAudiences } from "@/content/home";
+import { ArrowRight } from "lucide-react";
+import { audienceLinks } from "@/content/nav";
 import { LeadForm } from "@/components/forms/lead-form";
 import { PageHero } from "@/components/marketing/page-hero";
 import { NeedsConfirm } from "@/components/ui/needs-confirm";
@@ -23,7 +24,8 @@ async function ContactForm({ searchParams }: { searchParams: PageProps<"/contact
   const params = await searchParams;
   const requested = typeof params.topic === "string" ? params.topic : undefined;
   const topic = requested && validTopics.has(requested) ? requested : undefined;
-  return <LeadForm kind="contact" defaultValues={topic ? { topic } : undefined} />;
+  // Keyed on the topic: react-hook-form reads defaultValues once, so a same-page "?topic=" link must remount the form.
+  return <LeadForm key={topic ?? "general"} kind="contact" defaultValues={topic ? { topic } : undefined} />;
 }
 
 export default function ContactPage({ searchParams }: PageProps<"/contact">) {
@@ -38,11 +40,22 @@ export default function ContactPage({ searchParams }: PageProps<"/contact">) {
 
       <Section tone="light" className="pt-0">
         <Container>
-          <ul className="grid gap-3 sm:grid-cols-2">
-            {[...homeAudiences.map((a) => ({ label: a.label, href: a.href })), { label: "Not sure yet? Send a message", href: "#contact-form" }].map((route) => (
-              <li key={route.href}>
-                <Link href={route.href} className="flex min-h-12 items-center border-t border-[#0b1020]/12 pt-3 text-lg font-semibold underline decoration-[#f97316] decoration-2 underline-offset-[5px]">
-                  {route.label}
+          {/* Who you are → the first thing to do. Each row goes straight to that audience's action, not back to its program page. */}
+          <ul aria-label="Start with who you are" className="grid border-b border-[#0b1020]/12">
+            {[
+              ...audienceLinks.map((a) => ({ key: a.id, label: a.label, meta: a.meta, action: a.action.label, href: a.action.href })),
+              { key: "message", label: "Not sure yet?", meta: "Anything", action: "Send a message", href: "#contact-form" },
+            ].map((route) => (
+              <li key={route.key} className="border-t border-[#0b1020]/12">
+                <Link href={route.href} className="band-link grid min-h-14 items-center gap-x-6 gap-y-0.5 py-3 sm:grid-cols-[200px_minmax(0,1fr)_auto]">
+                  <span className="font-display text-[19px] leading-[1.2] font-bold tracking-[-0.01em] text-[#0b1020]">{route.label}</span>
+                  <span className="text-[15px] text-[#4b5569]">
+                    <span className="mr-2 font-mono text-[11px] tracking-[0.12em] uppercase">{route.meta}</span>{" "}
+                    {route.action}
+                  </span>
+                  <span aria-hidden className="band-arrow hidden text-[#0b1020] sm:inline-flex">
+                    <ArrowRight className="size-4" />
+                  </span>
                 </Link>
               </li>
             ))}

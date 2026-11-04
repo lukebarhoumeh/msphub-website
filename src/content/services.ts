@@ -87,6 +87,33 @@ export const professional = {
     { title: "Deliver", body: "Pilot, waves, and validation, run by a named project manager accountable end to end." },
     { title: "Validate & Transition", body: "Evidence-based acceptance review, documentation your team can operate from, and an optional handoff into MSP Hub managed services." },
   ],
+  /** Mono chips under the hero copy: the three facts a buyer checks first (spec §9). */
+  heroFacts: ["Fixed-fee statement of work", "Named project manager", "Licensing review in HubX first"],
+  /** How we engage, as fact rows under the capability columns. */
+  scoping: [
+    { label: "Commercial model", value: "Fixed-fee statement of work for projects; block-time for ongoing advisory." },
+    { label: "Accountability", value: "A named project manager, accountable end to end." },
+    { label: "Starting point", value: "Every project starts with a licensing review in HubX." },
+  ],
+  /** What each stage of the delivery model hands over; drives the pinned delivery figure. Index matches `engagement`. */
+  deliverables: [
+    ["Scope, risks, and success criteria", "Licensing review in HubX", "Fixed-fee statement of work"],
+    ["Architecture and target state", "Migration plan and cutover runbook", "Milestone visibility for your team"],
+    ["Pilot, then waves", "Validation at each wave", "A named project manager, end to end"],
+    ["Evidence-based acceptance review", "Documentation your team can operate from", "Optional handoff to MSP Hub managed services"],
+  ],
+  /** "On this page" links in the hero. */
+  anchors: [
+    { label: "Capabilities", href: "#capabilities" },
+    { label: "Practices", href: "#practices" },
+    { label: "How we deliver", href: "#delivery" },
+    { label: "HubX", href: "#hubx" },
+    { label: "Start", href: "#inquiry" },
+  ],
+  inquiry: {
+    title: "Request a scoping call.",
+    lead: "Tell us about the estate and the deadline. We come back with questions, a proposed approach, and a fixed-scope assessment where it fits.",
+  },
   commitments: [
     "Fixed-fee statement of work for projects; block-time for ongoing advisory",
     "A named project manager, accountable end to end",
@@ -127,6 +154,24 @@ export const managed = {
       body: "Issues escalate to Microsoft Premier support directly, as a CSP direct-bill partner.",
     },
   ],
+  heroFacts: ["24/7 monitoring for managed environments", "Agreed SLAs, reported monthly", "Direct Microsoft escalation"],
+  /** Fact rows beside "How it runs". */
+  facts: [
+    { label: "Monitoring", value: "Around the clock for environments under MSP Hub managed services." },
+    { label: "Reporting", value: "Response and resolution reported monthly against the SLAs agreed up front." },
+    { label: "Escalation", value: "Direct to Microsoft Premier support, as a CSP direct-bill partner." },
+  ],
+  anchors: [
+    { label: "What we run", href: "#what-we-run" },
+    { label: "How it runs", href: "#how-it-runs" },
+    { label: "Support", href: "#support" },
+    { label: "HubX", href: "#hubx" },
+    { label: "Start", href: "#inquiry" },
+  ],
+  inquiry: {
+    title: "Hand over the day-to-day.",
+    lead: "Tell us what you run today and what keeps paging your team. We propose scope, SLAs, and a transition plan.",
+  },
   howItWorks: [
     { title: "Monitor", body: "Around-the-clock monitoring for the managed environments across Microsoft 365, Azure, and databases." },
     { title: "Respond", body: "Engineers own the incident. Tickets carry priority and SLA state in the HubX Service Desk, visible to the customer and the partner." },
@@ -169,6 +214,34 @@ export const development = {
       ],
     },
   ],
+  heroFacts: ["Three-week sprints", "DEV, UAT, and production", "A demo closes every sprint"],
+  /** Labels for the sprint-loop figure; every label traces to a sentence in `method`. */
+  loop: {
+    lanes: ["DEV", "UAT", "PROD"],
+    labels: {
+      promote: "Automated promotion",
+      rollback: "Rollback",
+      demo: "A demo closes every sprint",
+      next: "Next milestone",
+      sprint: "Three-week sprints",
+      improve: "Copilot adoption, agents, automation",
+    },
+  },
+  anchors: [
+    { label: "Tracks", href: "#tracks" },
+    { label: "How a project runs", href: "#method" },
+    { label: "HubAI", href: "#hubai" },
+    { label: "Start", href: "#inquiry" },
+  ],
+  inquiry: {
+    title: "Start a project.",
+    lead: "Share the problem, the systems involved, and the deadline. We reply with a proposed first milestone.",
+  },
+  hubai: {
+    eyebrow: "HubAI",
+    title: "HubAI: the AI already in HubX.",
+    link: "More about HubAI",
+  },
   method: [
     { title: "Discover", body: "Name the capability the estate still needs, and agree the first milestone." },
     { title: "Build", body: "Three-week sprints across DEV, UAT, and production, with scope and acceptance agreed per milestone." },
@@ -181,4 +254,19 @@ export const development = {
     { name: "Wave", body: "Warehouse management system with real-time integration to order and logistics systems." },
     { name: "AppLauncher", body: "Desktop launcher with auto-install and encrypted parameters for vendors and distributed teams." },
   ],
+};
+
+/** The services index inquiry (the three practice pages carry their own `inquiry`). */
+export const servicesIndex = {
+  inquiry: {
+    title: "Tell us what you are trying to get done.",
+    lead: "Pick the practices involved. We come back with questions and a proposed scoping call.",
+  },
+};
+
+/** The line under every inquiry panel. */
+export const serviceInquiryNote = {
+  reply: "A solutions engineer replies during business hours.",
+  talk: "Prefer to talk?",
+  call: "Call",
 };

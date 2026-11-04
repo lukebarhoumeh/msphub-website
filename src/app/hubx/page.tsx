@@ -147,10 +147,7 @@ export default function HubXPage() {
               body: (
                 <>
                   Single sign-on with your own identity provider, roles, and audit logs on every organization and customer. Microsoft access is handled
-                  through the CSP program&apos;s own mechanisms.{" "}
-                  <NeedsConfirm id="isoEntity" fallback={null}>
-                    ISO/IEC 27001:2022 certification is not published until the certificate entity is confirmed.
-                  </NeedsConfirm>
+                  through the CSP program&apos;s own mechanisms. MSP Hub is ISO/IEC 27001:2022 certified.
                 </>
               ),
               link: { label: "HubX security", href: "/hubx/security" },

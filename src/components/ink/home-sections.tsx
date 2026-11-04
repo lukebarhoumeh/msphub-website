@@ -2,8 +2,9 @@ import Link from "next/link";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { HubXMark } from "@/components/hubx/primitives";
 import { BorderBeam, Marquee } from "@/components/ink/atmosphere";
+import { AudienceBand } from "@/components/ink/audience-band";
 import { SpineMark } from "@/components/ink/canvas";
-import { AudienceCard, CaseCard, EngineTile, InsightCard } from "@/components/ink/cards";
+import { CaseCard, EngineTile, InsightCard } from "@/components/ink/cards";
 import { DeviceFrame } from "@/components/ink/device-frame";
 import { CaptureImage } from "@/components/ink/evidence";
 import { Parallax } from "@/components/ink/flow";
@@ -17,7 +18,7 @@ import { Container } from "@/components/ui/section";
 import { cases } from "@/content/cases";
 import { directBillBar, learn, pathDiagram } from "@/content/direct-bill";
 import { captures, truthLabel } from "@/content/evidence";
-import { homeAudiences, homeChecks, homeEngines, homeHero, homeOutcomes, homeProof, homeSwitch } from "@/content/home";
+import { homeChecks, homeEngines, homeHero, homeOutcomes, homeProof, homeSwitch } from "@/content/home";
 import { licensingCatalog } from "@/content/hubx";
 import { posts } from "@/content/insights";
 import { switchSteps } from "@/content/licensing";
@@ -108,6 +109,22 @@ export function ProofStrip() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* 3. Who we serve: five doors in one band, right under the proof rail  */
+/* ------------------------------------------------------------------ */
+
+export function AudienceBandSection() {
+  return (
+    <section id="who-we-serve" aria-label="Who we serve" className="relative scroll-mt-24 overflow-x-clip pb-10 text-white">
+      <Container>
+        <div data-reveal style={delay(80)}>
+          <AudienceBand variant="band" tone="ink" />
+        </div>
+      </Container>
+    </section>
+  );
+}
+
 /** A quiet ticker of the Microsoft families sold through HubX, straight from the licensing content. */
 export function CatalogTicker() {
   return (
@@ -131,7 +148,7 @@ export function CatalogTicker() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 3. Why direct: the annual bar, and where the money and ticket go     */
+/* 4. Why direct: the annual bar, and where the money and ticket go     */
 /* ------------------------------------------------------------------ */
 
 function PathRow({ label, nodes, highlight }: { label: string; nodes: readonly string[]; highlight?: boolean }) {
@@ -204,7 +221,7 @@ export function WhyDirect() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 4. Three outcomes: the pinned sequence (paper #1 begins)             */
+/* 5. Three outcomes: the pinned sequence (paper #1 begins)             */
 /* ------------------------------------------------------------------ */
 
 export function OutcomesPinned() {
@@ -230,7 +247,7 @@ export function OutcomesPinned() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 5. Four engines: bento, all visible                                   */
+/* 6. Four engines: bento, all visible                                   */
 /* ------------------------------------------------------------------ */
 
 export function EnginesBento() {
@@ -279,7 +296,7 @@ export function EnginesBento() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 6. Switch offer: the deal desk as a product (paper exits via bleed)   */
+/* 7. Switch offer: the deal desk as a product (paper exits via bleed)   */
 /* ------------------------------------------------------------------ */
 
 function ComparisonSample() {
@@ -376,30 +393,6 @@ export function SwitchOffer() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 7. Who we serve: four cards, four routes                              */
-/* ------------------------------------------------------------------ */
-
-export function AudienceRow() {
-  return (
-    <section id="who-we-serve" className="relative scroll-mt-24 overflow-x-clip pb-[clamp(72px,8vw,120px)] text-white">
-      <SpineMark n="05" />
-      <Container>
-        <h2 data-reveal className={cn(h2, "max-w-[14ch]")}>
-          Who we serve
-        </h2>
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {homeAudiences.map((audience, index) => (
-            <li key={audience.id} data-reveal style={delay(80 + index * 60)}>
-              <AudienceCard tone="ink" label={audience.label} body={audience.body} href={audience.href} cta={audience.cta} className="h-full" />
-            </li>
-          ))}
-        </ul>
-      </Container>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
 /* 8. Proof: anonymised work, and things you can check (paper #2)        */
 /* ------------------------------------------------------------------ */
 
@@ -407,7 +400,7 @@ export function ProofChapter() {
   const checks = [learn.directBillRequirements, learn.transfers, learn.transfersLicenseBased, learn.cancellation];
   return (
     <section id="proof" data-surface="pearl" className="relative scroll-mt-24 overflow-x-clip py-[clamp(64px,7vw,104px)] text-[#0b1020]">
-      <SpineMark n="06" />
+      <SpineMark n="05" />
       <Container>
         <h2 data-reveal className={cn(h2, "max-w-[18ch]")}>
           Work the deal desk has done.
